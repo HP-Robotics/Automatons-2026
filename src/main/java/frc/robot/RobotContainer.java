@@ -36,7 +36,16 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    private final SendableChooser<Command> autoChooser;
+
     public RobotContainer() {
+        // Build an auto chooser. This will use Commands.none() as the default option.
+        autoChooser = AutoBuilder.buildAutoChooser();
+
+        // Another option that allows you to specify the default auto by its name
+        // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+        SmartDashboard.putData("Auto Chooser", autoChooser);
         configureBindings();
     }
 
@@ -78,21 +87,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        // Simple drive forward auton
-        final var idle = new SwerveRequest.Idle();
-        return Commands.sequence(
-            // Reset our field centric heading to match the robot
-            // facing away from our alliance station wall (0 deg).
-            drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
-            // Then slowly drive forward (away from us) for 5 seconds.
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(0.5)
-                    .withVelocityY(0)
-                    .withRotationalRate(0)
-            )
-            .withTimeout(5.0),
-            // Finally idle for the rest of auton
-            drivetrain.applyRequest(() -> idle)
-        );
+
+        return autoChooser.getSelected();
     }
 }
