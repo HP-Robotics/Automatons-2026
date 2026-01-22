@@ -10,6 +10,8 @@ import java.util.Optional;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -29,13 +31,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.ControllerConstants;
@@ -128,9 +130,19 @@ public class RobotContainer {
 		// 1000, 45, 90, 2.7, 0, 1, 0, 10);
 	}
 
-	private void configureBindings() {
-		// Note that X is defined as forward according to WPILib convention,
-		// and Y is defined as to the left according to WPILib convention.
+    private void configureBindings() {
+        // Note that X is defined as forward according to WPILib convention,
+        // and Y is defined as to the left according to WPILib convention.
+
+        // Idle while the robot is disabled. This ensures the configured
+        // neutral mode is applied to the drive motors while disabled.
+        final var idle = new SwerveRequest.Idle();
+        RobotModeTriggers.disabled().whileTrue(
+                m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+
+        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        // joystick.b().whileTrue(drivetrain.applyRequest(
+        //         () -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
 
 		if (SubsystemConstants.useDrive) {
 			m_drivetrain.setDefaultCommand(
@@ -172,7 +184,6 @@ public class RobotContainer {
 		// Idle while the robot is disabled. This ensures the configured
 		// neutral mode is applied to the drive motors while disabled.
 		if (SubsystemConstants.useDrive) {
-			final var idle = new SwerveRequest.Idle();
 			RobotModeTriggers.disabled().whileTrue(
 					m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
