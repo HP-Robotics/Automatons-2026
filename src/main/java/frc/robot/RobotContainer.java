@@ -92,6 +92,7 @@ public class RobotContainer {
 	public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
 	public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Robot");
+	private final SendableChooser<Command> autoChooser;
 	StructPublisher<Pose2d> m_posePublisher = m_table.getStructTopic("targetPose", Pose2d.struct).publish();
 	StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
 			.publish();
@@ -122,7 +123,13 @@ public class RobotContainer {
 	public double m_dynamicTurretAngle;
 
 	public RobotContainer() {
-		configureBindings();
+		autoChooser = AutoBuilder.buildAutoChooser();
+
+        // Another option that allows you to specify the default auto by its name
+        // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        configureBindings();
 		SmartDashboard.putData("field", m_field);
 		// m_velocityInterpolator.draw("/media/sda1/draws/xVelcoty.png",
 		// 1000,
@@ -331,20 +338,8 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		// Simple drive forward auton
-		final var idle = new SwerveRequest.Idle();
-		return Commands.sequence(
-				// Reset our field centric heading to match the robot
-				// facing away from our alliance station wall (0 deg).
-				m_drivetrain.runOnce(() -> m_drivetrain.seedFieldCentric(Rotation2d.kZero)),
-				// Then slowly drive forward (away from us) for 5 seconds.
-				m_drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
-						.withVelocityY(0)
-						.withRotationalRate(0))
-						.withTimeout(5.0),
-				// Finally idle for the rest of auton
-				m_drivetrain.applyRequest(() -> idle));
-	}
+        return autoChooser.getSelected();
+    }
 
 	public void periodic() {
 		if (!SubsystemConstants.useDrive) {
