@@ -5,9 +5,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-    TalonFX motor = new TalonFX(0);
+    TalonFX m_intakeMotor = new TalonFX(0); // TODO: make a constant for device ID
 
     public IntakeSubsystem() {
 
@@ -18,11 +19,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake(double speed) {
-        motor.set(speed);
+        m_intakeMotor.set(speed);
     }
 
     public void stopIntake() {
-        motor.set(0);
+        m_intakeMotor.set(0);
     }
 
     public void extendIntake() {
@@ -33,10 +34,10 @@ public class IntakeSubsystem extends SubsystemBase {
         // TODO: actaully write this function
     }
 
-    public Command intake() {
+    public Command Intake() {
         return new StartEndCommand(
                 () -> {
-                    this.runIntake(1);
+                    this.runIntake(IntakeConstants.speed);
                     this.extendIntake();
                 },
                 () -> {

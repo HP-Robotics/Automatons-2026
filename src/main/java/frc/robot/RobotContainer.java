@@ -54,7 +54,9 @@ public class RobotContainer {
             )
         );
         if (SubsystemConstants.useIntake) {
-            joystick.b().whileTrue(m_intake.intake());
+            joystick.b().whileTrue(m_intakeSubsystem.Intake());
+            // TODO: make this a trigger instead
+
         }
 
         // Idle while the robot is disabled. This ensures the configured
