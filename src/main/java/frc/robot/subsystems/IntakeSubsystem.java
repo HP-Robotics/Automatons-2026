@@ -6,9 +6,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.MotorIDConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-    TalonFX m_intakeMotor = new TalonFX(0); // TODO: make a constant for device ID
+    TalonFX m_intakeMotor = new TalonFX(MotorIDConstants.intakeMotor);
 
     public IntakeSubsystem() {
 

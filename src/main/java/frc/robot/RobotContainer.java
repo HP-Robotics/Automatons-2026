@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -57,8 +58,7 @@ public class RobotContainer {
                                                                                     // negative X (left)
                 ));
         if (SubsystemConstants.useIntake) {
-            joystick.b().whileTrue(m_intakeSubsystem.Intake());
-            // TODO: make this a trigger instead
+            ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
 
         }
 
