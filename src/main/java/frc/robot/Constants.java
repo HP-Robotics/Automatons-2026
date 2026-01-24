@@ -20,5 +20,17 @@ public final class Constants {
     public static class MotorIDConstants {
         public static final int intakeMotor = 0;
         // TODO:find this ID
+        public static final int shooterMotor1 = 1;
+        public static final int shooterMotor2 = 2;
+        // TODO: actually find the IDs of the shooter motors
     }
+
+    public static class ShooterConstants {
+        public static final double shootingSpeed = 1;
+        // TODO:find a value for a fixed speed mode
+        public static final double idleSpeed = 0.1;
+        // TODO: pick this
+
+    }
+
 }
