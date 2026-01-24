@@ -24,21 +24,21 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(100).withKI(0).withKD(0.5)
-        .withKS(0.1).withKV(2.49).withKA(0)
-        .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+        .withKP(3.3006).withKI(0).withKD(0.5)
+        .withKS(0.072999).withKV(2.4852).withKA(0.061308) // sysID for link floor and light bot
+        .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign); // TODO: tune
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains = new Slot0Configs()
-        .withKP(0.1).withKI(0).withKD(0)
-        .withKS(0).withKV(0.124);
+        .withKP(0.1616).withKI(0).withKD(0)
+        .withKS(0.11496).withKV(0.11496); // sysID for link floor and light bot
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
     private static final ClosedLoopOutputType kSteerClosedLoopOutput = ClosedLoopOutputType.Voltage;
     // The closed-loop output type to use for the drive motors;
     // This affects the PID/FF gains for the drive motors
-    private static final ClosedLoopOutputType kDriveClosedLoopOutput = ClosedLoopOutputType.Voltage;
+    private static final ClosedLoopOutputType kDriveClosedLoopOutput = ClosedLoopOutputType.Voltage; // TODO: switch to FOC
 
     // The type of motor used for the drive motor
     private static final DriveMotorArrangement kDriveMotorType = DriveMotorArrangement.TalonFX_Integrated;
@@ -51,7 +51,7 @@ public class TunerConstants {
 
     // The stator current at which the wheels start to slip;
     // This needs to be tuned to your individual robot
-    private static final Current kSlipCurrent = Amps.of(120);
+    private static final Current kSlipCurrent = Amps.of(120); // TODO: tune
 
     // Initial configs for the drive and steer motors and the azimuth encoder; these cannot be null.
     // Some configs will be overwritten; check the `with*InitialConfigs()` API documentation.
@@ -74,11 +74,11 @@ public class TunerConstants {
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.39);
+    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.39); // TODO: tune
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
-    private static final double kCoupleRatio = 4.5;
+    private static final double kCoupleRatio = 4.5; // TODO: what the heck is this and is it right?
 
     private static final double kDriveGearRatio = 7.03125;
     private static final double kSteerGearRatio = 26.09090909090909;
@@ -283,4 +283,4 @@ public class TunerConstants {
             );
         }
     }
-}
+}
