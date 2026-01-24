@@ -27,17 +27,17 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.set(speed);
     }
 
-    public void stopWheel() {
+    public void stopMotor() {
         setSpeed(0);
 
     }
 
-    public void idleShooter() {
+    public void idleMotor() {
         setSpeed(ShooterConstants.idleSpeed);
 
     }
 
-    public void networktablesSpeed() {
+    public void networkTablesSpeed() {
         double speed = table.getEntry("shooterSpeed").getDouble(ShooterConstants.idleSpeed);
         setSpeed(speed);
     }
@@ -49,34 +49,28 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.set(speed);
     }
 
-    public Command fixedShot() {
+    public Command fixedShooter() {
         return new StartEndCommand(() -> {
             setSpeed(ShooterConstants.shootingSpeed);
-
         },
-                this::idleShooter,
+                this::idleMotor,
                 this);
-
     }
 
     public Command stopShooter() {
-
-        return new InstantCommand(this::stopWheel, this);
+        return new InstantCommand(this::stopMotor, this);
     }
 
-    public Command idle() {
-
-        return new StartEndCommand(this::idleShooter,
-                this::stopWheel, this);
+    public Command idleShooter() {
+        return new StartEndCommand(this::idleMotor, this::stopMotor, this);
     }
 
-    public Command adjustableSpeed() {
-        return new RunCommand(this::networktablesSpeed, this).finallyDo(this::stopWheel);
+    public Command adjustableShooter() {
+        return new RunCommand(this::networkTablesSpeed, this).finallyDo(this::stopMotor);
     }
 
-    public Command magicShot() {
-        return new StartEndCommand(this::magicSpeed,
-                this::idleShooter, this);
+    public Command magicShooter() {
+        return new StartEndCommand(this::magicSpeed, this::idleMotor, this);
     }
 
 }

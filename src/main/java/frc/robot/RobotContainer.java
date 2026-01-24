@@ -64,10 +64,10 @@ public class RobotContainer {
         }
 
         if (SubsystemConstants.useShooter) {
-            ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShot());
+            ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
             ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
-            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableSpeed());
-            ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShot());
+            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
+            ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 
         // Idle while the robot is disabled. This ensures the configured
