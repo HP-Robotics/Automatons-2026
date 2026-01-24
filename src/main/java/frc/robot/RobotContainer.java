@@ -20,6 +20,7 @@ import frc.robot.Constants.SubsystemConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -40,6 +41,7 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final IntakeSubsystem m_intakeSubsystem = (SubsystemConstants.useIntake) ? new IntakeSubsystem() : null;
+    public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
 
     public RobotContainer() {
         configureBindings();
@@ -59,7 +61,13 @@ public class RobotContainer {
                 ));
         if (SubsystemConstants.useIntake) {
             ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
+        }
 
+        if (SubsystemConstants.useShooter) {
+            ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShot());
+            ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
+            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableSpeed());
+            ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShot());
         }
 
         // Idle while the robot is disabled. This ensures the configured
