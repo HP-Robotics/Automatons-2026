@@ -9,13 +9,20 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -91,6 +98,21 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+    }
+
+    public void staticShot() {
+        Pose2d pose = drivetrain.getState().Pose;
+        double distance = pose.getTranslation().getDistance(FieldConstants.hub);
+        // Get the hub as a Pose2d (vector representing where it is on the field) -->
+        // find the hub in robot relative coordinates --> get the angle with the x axis
+        // (robot-facing direction)
+        Rotation2d angleToHub = new Pose2d(FieldConstants.hub, new Rotation2d()).relativeTo(pose).getTranslation()
+                .getAngle();
+
+        Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
+        // turret.pointin(angleToHub); TODO: make this function
+        // hood.setAngle(staticShot.get(1,0));
+        m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
     }
 
     public Command getAutonomousCommand() {

@@ -1,5 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.math.InterpolatingMatrixTreeMap;
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -38,6 +46,19 @@ public final class Constants {
         public static final double idleSpeed = 0.1;
         // TODO: pick this
 
+        public static final InterpolatingMatrixTreeMap distanceToStaticShot = fillTreeMap();
+
+        public static InterpolatingMatrixTreeMap fillTreeMap() {
+            // TreeMap.put(double) use this function to add to tree map
+            InterpolatingMatrixTreeMap output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
+            // output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
+            return output;
+        }
+
+    }
+
+    public static class FieldConstants {
+        public static final Translation2d hub = new Translation2d(1.0, 0.0); // TODO: get real coordinates
     }
 
 }
