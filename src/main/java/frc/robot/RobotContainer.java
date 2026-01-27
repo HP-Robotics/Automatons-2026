@@ -14,12 +14,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.SubsystemConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.DraftClimber;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -37,6 +40,7 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final DraftClimber m_draftClimber = (SubsystemConstants.useClimber) ? new DraftClimber() : null;
 
     public RobotContainer() {
         configureBindings();
@@ -75,6 +79,11 @@ public class RobotContainer {
         joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+        if (SubsystemConstants.useClimber) {
+            ControllerConstants.climberUpTrigger.whileTrue(m_draftClimber.climberUp());
+            ControllerConstants.climberUpTrigger.whileTrue(m_draftClimber.climberDown());
+        }
 
         // Reset the field-centric heading on left bumper press.
         joystick.button(8).onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
