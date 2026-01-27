@@ -24,7 +24,7 @@ public class TunerConstants {
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains = new Slot0Configs()
-        .withKP(6).withKI(0.001).withKD(0.5) // kp was 3.3006
+        .withKP(100).withKI(0).withKD(0) // kp was 3.3006
         .withKS(0.072999).withKV(2.4852).withKA(0.061308) // sysID for link floor and light bot
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign); // TODO: tune
     // When using closed-loop control, the drive motor uses the control
@@ -32,6 +32,7 @@ public class TunerConstants {
     private static final Slot0Configs driveGains = new Slot0Configs()
         .withKP(0.1616).withKI(0).withKD(0)
         .withKS(0.11496).withKV(0.11496); // sysID for link floor and light bot
+    // 0.0036958 is angular kA, 0.0016714 is linear kA, .5555 is track width
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
