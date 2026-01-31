@@ -30,8 +30,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -144,7 +146,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     this));
 
     /* The SysId routine to test */
-    private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
+    private Optional<SysIdRoutine> m_sysIdRoutineToApply = getSelectedSysIdRoutine();
     // private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineSteer;
     // private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineRotation;
 
@@ -257,7 +259,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return Command to run
      */
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return m_sysIdRoutineToApply.quasistatic(direction);
+        if (m_sysIdRoutineToApply.isPresent()) {
+            return m_sysIdRoutineToApply.get().quasistatic(direction);
+        } else {
+            return new InstantCommand();
+        }
     }
 
     /**
@@ -268,7 +274,27 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * @return Command to run
      */
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-        return m_sysIdRoutineToApply.dynamic(direction);
+        if (m_sysIdRoutineToApply.isPresent()) {
+            return m_sysIdRoutineToApply.get().dynamic(direction);
+        } else {
+            return new InstantCommand();
+        }
+    }
+
+    private Optional<SysIdRoutine> getSelectedSysIdRoutine() {
+        switch (DriveConstants.sysIdRoutine) {
+            case TRANSLATE:
+                return Optional.of(m_sysIdRoutineTranslation);
+
+            case ROTATE:
+                return Optional.of(m_sysIdRoutineRotation);
+
+            case STEER:
+                return Optional.of(m_sysIdRoutineSteer);
+
+            default:
+                return Optional.empty();
+        }
     }
 
     @Override

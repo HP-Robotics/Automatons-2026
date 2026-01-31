@@ -74,7 +74,14 @@ public final class Constants {
     }
 
     public static class DriveConstants {
+        public enum SelectedSysIdRoutine {
+            NONE,
+            TRANSLATE,
+            ROTATE,
+            STEER
+        }
         public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+        public static final SelectedSysIdRoutine sysIdRoutine = SelectedSysIdRoutine.STEER;
     }
 
     public static class ControllerConstants {
