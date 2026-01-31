@@ -81,6 +81,7 @@ public final class Constants {
             STEER
         }
         public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+        public static final double moduleMaxRotationPerSecond = 4.8;
         public static final SelectedSysIdRoutine sysIdRoutine = SelectedSysIdRoutine.STEER;
     }
 

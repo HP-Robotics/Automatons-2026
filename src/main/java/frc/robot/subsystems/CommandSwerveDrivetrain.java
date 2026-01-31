@@ -74,9 +74,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         setpointGenerator = new SwerveSetpointGenerator(
                 ppConfig, // The robot configuration. This is the same config used for generating
                           // trajectories and running path following commands.
-                Units.rotationsToRadians(10.0) // The max rotation velocity of a swerve module in radians per second.
-                                               // This should probably be stored in your Constants file
-        );
+                Units.rotationsToRadians(DriveConstants.moduleMaxRotationPerSecond));
 
         // Initialize the previous setpoint to the robot's current speeds & module
         // states
