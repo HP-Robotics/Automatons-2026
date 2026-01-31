@@ -1,11 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.InterpolatingMatrixTreeMap;
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -55,11 +51,11 @@ public final class Constants {
         public static final double idleSpeed = 0.1;
         // TODO: pick this
 
-        public static final InterpolatingMatrixTreeMap distanceToStaticShot = fillTreeMap();
+        public static final InterpolatingMatrixTreeMap<Double, N2, N1> distanceToStaticShot = fillTreeMap();
 
-        public static InterpolatingMatrixTreeMap fillTreeMap() {
+        public static InterpolatingMatrixTreeMap<Double, N2, N1> fillTreeMap() {
             // TreeMap.put(double) use this function to add to tree map
-            InterpolatingMatrixTreeMap output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
+            InterpolatingMatrixTreeMap<Double, N2, N1> output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
             // output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
             return output;
         }
@@ -69,10 +65,12 @@ public final class Constants {
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0; // TODO: find the real position
-        public static final double limitPosition = 0.0; // TODO: find real value
+        public static final double bottomLimitPosition = 0.0; // TODO: find real value
+        public static final double topLimitPosition = 0.0;
         public static final double errorTolerance = 0.0; // find real value
         public static final double encoderCPR = 1.0; // TODO: clarify value
         public static final double gearRatio = 10.4167;
+        public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
     }
 
     public static class FieldConstants {
