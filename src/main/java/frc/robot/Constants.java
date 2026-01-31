@@ -18,12 +18,15 @@ public class Constants {
     }
 
     public static class climberConstants{
+        public static final double climberTopPosition =0;
+        public static final double climberBottomPosition =0;
 
     }
 
     public static class ControllerConstants {
         public static final CommandJoystick m_driveJoystick = new CommandJoystick(0);
-        public static final Trigger climberUpTrigger = m_driveJoystick.button(0); // TODO: pick a button number
-        public static final Trigger ClimberDownTrigger = m_driveJoystick.button(0); // TODO: pick a button number
+        public static final Trigger climbTrigger = m_driveJoystick.button(0);// TODO: pick a button number
+        public static final Trigger climbUpTrigger = m_driveJoystick.button(0); // TODO: pick a button number
+        public static final Trigger climbDownTrigger = m_driveJoystick.button(0); // TODO: pick a button number
     }
 }

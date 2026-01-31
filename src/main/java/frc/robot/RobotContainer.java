@@ -81,8 +81,9 @@ public class RobotContainer {
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         if (SubsystemConstants.useClimber) {
-            ControllerConstants.climberUpTrigger.whileTrue(m_draftClimber.climberUp());
-            ControllerConstants.climberUpTrigger.whileTrue(m_draftClimber.climberDown());
+            ControllerConstants.climbTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbUpTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbDownTrigger.whileTrue(m_draftClimber.Climb());
         }
 
         // Reset the field-centric heading on left bumper press.
