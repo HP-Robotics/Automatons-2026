@@ -13,8 +13,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public final class Constants {
     public static class SubsystemConstants {
-        public static final boolean useIntake = true;
-        public static final boolean useShooter = true;
+        public static final boolean useDrive = false;
+        public static final boolean useIntake = false;
+        public static final boolean useShooter = false;
+        public static final boolean useTurret = true;
+    }
+
+    public static class PortConstants {
+        public static final int turretLimitPort = 9;
     }
 
     public static class IntakeConstants {
@@ -28,6 +34,8 @@ public final class Constants {
         public static final Trigger stopShooterTrigger = m_driveJoystick.button(2);
         public static final Trigger magicShooterTrigger = m_driveJoystick.button(3);
         public static final Trigger adjustableShooterTrigger = m_driveJoystick.button(4);
+        public static final Trigger runTurretTrigger = m_driveJoystick.button(5);
+        public static final Trigger calibrateTurretTrigger = m_driveJoystick.button(6);
         // TODO: pick a button number for all of these
 
     }
@@ -38,6 +46,7 @@ public final class Constants {
         public static final int shooterMotor1 = 1;
         public static final int shooterMotor2 = 2;
         // TODO: actually find the IDs of the shooter motors
+        public static final int turretMotor = 10;
     }
 
     public static class ShooterConstants {
@@ -55,6 +64,15 @@ public final class Constants {
             return output;
         }
 
+    }
+
+    public static class TurretConstants {
+        public static final double turretSpeed = 0.042; // safe speed for now
+        public static final double calibrationPosition = 0.0; // TODO: find the real position
+        public static final double limitPosition = 0.0; // TODO: find real value
+        public static final double errorTolerance = 0.0; // find real value
+        public static final double encoderCPR = 1.0; // TODO: clarify value
+        public static final double gearRatio = 10.4167;
     }
 
     public static class FieldConstants {
