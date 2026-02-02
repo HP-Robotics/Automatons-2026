@@ -217,7 +217,7 @@
     "SwerveModuleType": 7,
     "SwerveModuleConfiguration": {
       "ModuleBrand": 7,
-      "DriveRatio": 7.03125,
+      "DriveRatio": 5.2734375,
       "SteerRatio": 26.09090909090909,
       "CouplingRatio": 4.5,
       "CustomName": "R1"

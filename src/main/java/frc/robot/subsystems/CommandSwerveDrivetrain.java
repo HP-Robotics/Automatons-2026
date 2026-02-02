@@ -13,6 +13,7 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
+import com.ctre.phoenix6.swerve.SwerveRequest.ApplyRobotSpeeds;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
@@ -37,7 +38,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -413,13 +413,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 // 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
                 .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     }
-    
+
     public Pose2d getPose() {
         return this.getState().Pose;
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {
-        return this.getRobotRelativeSpeeds();
+        return this.getState().Speeds;
     }
 
     public void configureAutoBuilder() {
@@ -432,7 +432,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
                     this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     (speeds, feedforwards) -> setControl(
-                            m_pathApplyRobotSpeeds.withSpeeds(ChassisSpeeds.discretize(speeds, 0.020))
+                            ((ApplyRobotSpeeds) applySetpointGenerator(speeds))
                                     .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
                     // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
