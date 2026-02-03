@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
@@ -21,9 +22,13 @@ public class DraftClimber extends SubsystemBase {
     StatusSignal<ReverseLimitValue> m_bottomLimit = m_climberMotor.getReverseLimit();
     double m_offset = 0;
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("DraftClimber");
+    Slot0Configs m_climberConfig = new Slot0Configs();
 
     public DraftClimber() {
-
+        m_climberConfig.kP = climberConstants.kP;
+        m_climberConfig.kI = climberConstants.kI;
+        m_climberConfig.kD = climberConstants.kD;
+        m_climberConfig.kG = climberConstants.kG;
     }
 
     public void periodic() {
@@ -52,7 +57,6 @@ public class DraftClimber extends SubsystemBase {
                 () -> {
                     this.climberDown();
                 }, this);
-
     }
 
     public Command ClimbUp() {
@@ -62,14 +66,12 @@ public class DraftClimber extends SubsystemBase {
                 }, this);
     }
 
-     public Command ClimbDown() {
+    public Command ClimbDown() {
         return new InstantCommand(
                 () -> {
                     this.climberDown();
                 }, this);
     }
-
-    
 
     // TODO:find which way is up
 

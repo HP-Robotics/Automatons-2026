@@ -11,6 +11,10 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 
 public class Constants {
+    public static class SubsystemConstants {
+        public static final boolean useClimber = true;
+    }
+
     public static class DriveConstants {
         public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     }
@@ -24,17 +28,21 @@ public class Constants {
         public static final double imuAssist = 0.005;
     }
 
-    public static class SubsystemConstants {
-        public static final boolean useClimber = true;
-    }
-
     public static class MotorIDConstants {
         public static final int climberMotor = 0; // TODO: find id
+        public static final int hoodMotor = 0; // TODO: find id
     }
 
     public static class ClimberConstants {
         public static final double climberTopPosition = 0;
         public static final double climberBottomPosition = 0;
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kA = 0;
+        public static final double kG = 0;
 
     }
 
