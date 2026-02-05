@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
@@ -29,10 +32,18 @@ public class TurretSubsystem extends SubsystemBase {
   double m_offset = 0;
   StatusSignal<ReverseLimitValue> m_limit = m_turretMotor.getReverseLimit(); // TODO: is it reversed?
   DigitalInput m_limitInput = new DigitalInput(PortConstants.turretLimitPort);
+  Slot0Configs m_turretConfig = new Slot0Configs();
+  MotorOutputConfigs m_turretOutputConfig = new MotorOutputConfigs();
 
   /** Creates a new TurretSubsystem. */
   public TurretSubsystem() {
     m_targetPosition = TurretConstants.calibrationPosition;
+    m_table.putValue("targetPosition", NetworkTableValue.makeDouble(m_targetPosition));
+    m_turretConfig.kP = TurretConstants.kP;
+    m_turretConfig.kI = TurretConstants.kI;
+    m_turretConfig.kD = TurretConstants.kD;
+    m_turretOutputConfig.PeakForwardDutyCycle = TurretConstants.maxForwardDutyCycle;
+    m_turretOutputConfig.PeakReverseDutyCycle = TurretConstants.maxReverseDutyCycle;
   }
 
   public void runTurret() {
@@ -45,11 +56,18 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void setTargetPosition(double position) {
     m_targetPosition = position;
+    while (m_targetPosition >= TurretConstants.topLimitPosition) {
+      m_targetPosition -= 360;
+    }
+    while (m_targetPosition <= TurretConstants.bottomLimitPosition) {
+      m_targetPosition += 360;
+    }
+    m_targetPosition = flipToNewTarget(); // will get targetPosition from aiming math
   }
 
   public void getFromNetworkTables() {
     this.turretSpeed = m_table.getEntry("turretSpeed").getDouble(TurretConstants.turretSpeed);
-    this.m_targetPosition = m_table.getEntry("turretTargetPosition").getDouble(m_targetPosition);
+    setTargetPosition(m_table.getEntry("targetPosition").getDouble(m_targetPosition));
   }
 
   public boolean atPosition() {
@@ -62,24 +80,30 @@ public class TurretSubsystem extends SubsystemBase {
     return !m_limitInput.get(); // flipped because this limit switch returns false when hit
   }
 
-  public boolean flip() { // calculate if we're in the overlap, if we're nearer the top or bottom limit,
-                          // and which version of target position we're closest to --> flip
-    if (m_targetPosition % 360 > TurretConstants.bottomLimitPosition
-        || m_targetPosition % 360 < TurretConstants.topLimitPosition) {
-      return false; // TODO: might need to invert motor if turret is oriented the
-                    // opposite way
+  public double flipToNewTarget() { // calculate if we're in the overlap, if we're nearer the top or bottom limit,
+    // and which version of target position we're closest to --> flip
+    if (m_targetPosition - 360 < TurretConstants.bottomLimitPosition
+        && m_targetPosition + 360 > TurretConstants.topLimitPosition) {
+      return m_targetPosition; // TODO: might need to invert motor if turret is oriented the
+      // opposite way
     }
     double fullRotationDegrees = (Math.abs(m_targetPosition - TurretConstants.bottomLimitPosition) < Math
         .abs(m_targetPosition - TurretConstants.topLimitPosition)) ? 360 : -360;
-    return (Math.abs(m_targetPosition - m_turretMotor.getPosition().getValueAsDouble()) > Math
-        .abs((m_targetPosition + fullRotationDegrees) - m_turretMotor.getPosition().getValueAsDouble())
-        && ((m_targetPosition + fullRotationDegrees) < (m_offset + TurretConstants.distanceToLimitThreshold)));
+    m_table.putValue("fullRotationDegrees", NetworkTableValue.makeDouble(fullRotationDegrees));
+    if (Math.abs(m_targetPosition - motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble())) > Math
+        .abs((m_targetPosition + fullRotationDegrees)
+            - motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble()))
+    // && ((m_targetPosition + fullRotationDegrees) < (m_offset +
+    // TurretConstants.distanceToLimitThreshold))
+    ) {
+      return m_targetPosition + fullRotationDegrees;
+    }
+    return m_targetPosition;
   }
 
   public Command RotateTurret() {
-    m_targetPosition = flip() ? m_targetPosition + 360 : m_targetPosition; // will get targetPosition from aiming math
     return new RunCommand(() -> {
-      var target = new PositionVoltage(0).withPosition(degreesToMotorTicks(m_targetPosition));
+      var target = new PositionDutyCycle(degreesToMotorTicks(m_targetPosition));
       m_turretMotor.setControl(target);
     });
   }
@@ -107,6 +131,7 @@ public class TurretSubsystem extends SubsystemBase {
     m_table.putValue("motorPosition", NetworkTableValue.makeDouble(m_turretMotor.getPosition().getValueAsDouble()));
     m_table.putValue("turretDegrees",
         NetworkTableValue.makeDouble(motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble())));
+    m_table.putValue("realTargetPosition", NetworkTableValue.makeDouble(m_targetPosition));
 
   }
 
