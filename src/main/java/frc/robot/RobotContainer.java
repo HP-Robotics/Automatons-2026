@@ -112,6 +112,7 @@ public class RobotContainer {
             ControllerConstants.runTurretTrigger.whileTrue(new StartEndCommand(m_turretSubsystem::runTurret,
                     m_turretSubsystem::stopTurret, m_turretSubsystem));
             ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
+            ControllerConstants.turnTurretToTargetTrigger.whileTrue(m_turretSubsystem.RotateTurret());
         }
     }
 
