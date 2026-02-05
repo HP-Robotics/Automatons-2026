@@ -27,7 +27,7 @@ import frc.robot.Constants.TurretConstants;
 public class TurretSubsystem extends SubsystemBase {
   TalonFX m_turretMotor = new TalonFX(MotorIDConstants.turretMotor);
   double turretSpeed = TurretConstants.turretSpeed;
-  double m_targetPosition; // in robot relative degrees
+  private double m_targetPosition; // in robot relative degrees
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("TurretSubsystem");
   double m_offset = 0;
   StatusSignal<ReverseLimitValue> m_limit = m_turretMotor.getReverseLimit(); // TODO: is it reversed?
@@ -54,6 +54,8 @@ public class TurretSubsystem extends SubsystemBase {
     m_turretMotor.set(0);
   }
 
+  // ONLY CHANGE M_TARGETPOSITION THROUGH THIS
+  // this is in robot relative degrees
   public void setTargetPosition(double position) {
     m_targetPosition = position;
     while (m_targetPosition >= TurretConstants.topLimitPosition) {
@@ -92,10 +94,7 @@ public class TurretSubsystem extends SubsystemBase {
     m_table.putValue("fullRotationDegrees", NetworkTableValue.makeDouble(fullRotationDegrees));
     if (Math.abs(m_targetPosition - motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble())) > Math
         .abs((m_targetPosition + fullRotationDegrees)
-            - motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble()))
-    // && ((m_targetPosition + fullRotationDegrees) < (m_offset +
-    // TurretConstants.distanceToLimitThreshold))
-    ) {
+            - motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble()))) {
       return m_targetPosition + fullRotationDegrees;
     }
     return m_targetPosition;
@@ -109,11 +108,13 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public double degreesToMotorTicks(double degrees) {
-    return (degrees * TurretConstants.encoderCPR * TurretConstants.gearRatio / 360) + m_offset;
+    return ((degrees - TurretConstants.limitSwitchDegrees) * TurretConstants.encoderCPR * TurretConstants.gearRatio
+        / 360) + m_offset;
   }
 
   public double motorTicksToDegrees(double motorTicks) {
-    return 360 * (motorTicks - m_offset) / (TurretConstants.encoderCPR * TurretConstants.gearRatio);
+    return 360 * (motorTicks - m_offset) / (TurretConstants.encoderCPR * TurretConstants.gearRatio)
+        + (TurretConstants.limitSwitchDegrees);
   }
 
   public Command Calibrate() { // turns turret until we hit the limit switch, then sets the offset to the motor

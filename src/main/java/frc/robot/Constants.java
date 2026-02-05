@@ -65,7 +65,8 @@ public final class Constants {
 
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
-        public static final double calibrationPosition = 0.0; // TODO: find the real position
+        public static final double calibrationPosition = 0.0; // TODO: find the real position, maybe limelight?
+        public static final double limitSwitchDegrees = 90.0; // TODO: find real value
         public static final double bottomLimitPosition = -200.0; // TODO: find real value
         public static final double topLimitPosition = 200.0;
         public static final double errorTolerance = 0.0; // find real value
