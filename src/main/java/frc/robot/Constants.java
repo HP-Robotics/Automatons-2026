@@ -32,6 +32,7 @@ public final class Constants {
         public static final Trigger adjustableShooterTrigger = m_driveJoystick.button(4);
         public static final Trigger runTurretTrigger = m_driveJoystick.button(5);
         public static final Trigger calibrateTurretTrigger = m_driveJoystick.button(6);
+        public static final Trigger turnTurretToTargetTrigger = m_driveJoystick.button(7);
         // TODO: pick a button number for all of these
 
     }
@@ -65,12 +66,17 @@ public final class Constants {
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0; // TODO: find the real position
-        public static final double bottomLimitPosition = 0.0; // TODO: find real value
-        public static final double topLimitPosition = 0.0;
+        public static final double bottomLimitPosition = -200.0; // TODO: find real value
+        public static final double topLimitPosition = 200.0;
         public static final double errorTolerance = 0.0; // find real value
         public static final double encoderCPR = 1.0; // TODO: clarify value
         public static final double gearRatio = 10.4167;
         public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
+        public static final double kP = 1;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double maxForwardDutyCycle = 0.042;
+        public static final double maxReverseDutyCycle = -0.042;
     }
 
     public static class FieldConstants {
