@@ -106,11 +106,12 @@ public class RobotContainer {
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
         // (robot-facing direction)
+        // TODO: factor in turret position compared to robot middle
         Rotation2d angleToHub = new Pose2d(FieldConstants.hub, new Rotation2d()).relativeTo(pose).getTranslation()
                 .getAngle();
 
         Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
-        // turret.pointin(angleToHub); TODO: make this function
+        // turret.pointin(angleToHub); TODO: merge branch to use the turret function
         // hood.setAngle(staticShot.get(1,0));
         m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
     }
