@@ -17,9 +17,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.SubsystemConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
@@ -35,6 +37,8 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry m_logger = new Telemetry(MaxSpeed);
+
+    private final HopperSubsystem m_hopperSubsystem = new HopperSubsystem();
 
     private final CommandXboxController m_joystick = new CommandXboxController(0);
 
@@ -59,7 +63,11 @@ public class RobotContainer {
                     m_drivetrain.getRotation3d().toRotation2d()))
             )
         );
+        
+        if (SubsystemConstants.useHopperSubsystem) {
+            ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.Hopper());
 
+        }
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
