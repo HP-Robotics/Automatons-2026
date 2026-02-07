@@ -12,7 +12,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.MathUtil;
@@ -20,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -31,6 +31,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
@@ -51,9 +52,10 @@ public class RobotContainer {
 
     private final CommandXboxController m_joystick = new CommandXboxController(0);
 
-    public final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
+    public final CommandSwerveDrivetrain m_drivetrain = (SubsystemConstants.useDrive) ? TunerConstants.createDrivetrain() : null;
     public final IntakeSubsystem m_intakeSubsystem = (SubsystemConstants.useIntake) ? new IntakeSubsystem() : null;
     public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
+    public final TurretSubsystem m_turretSubsystem = (SubsystemConstants.useTurret) ? new TurretSubsystem() : null;
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
 
@@ -64,6 +66,7 @@ public class RobotContainer {
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+         if (SubsystemConstants.useDrive) {
          m_drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             m_drivetrain.applyRequest(() ->
@@ -74,6 +77,7 @@ public class RobotContainer {
                     m_drivetrain.getRotation3d().toRotation2d()))
             )
         );
+         }
         if (SubsystemConstants.useIntake) {
             ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
         }
@@ -87,6 +91,7 @@ public class RobotContainer {
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
+  if (SubsystemConstants.useDrive) {
         final var idle = new SwerveRequest.Idle();
         RobotModeTriggers.disabled().whileTrue(
             m_drivetrain.applyRequest(() -> idle).ignoringDisable(true)
@@ -109,6 +114,13 @@ public class RobotContainer {
         m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
 
         m_drivetrain.registerTelemetry(m_logger::telemeterize);
+  }
+   if (SubsystemConstants.useTurret) {
+            ControllerConstants.runTurretTrigger.whileTrue(new StartEndCommand(m_turretSubsystem::runTurret,
+                    m_turretSubsystem::stopTurret, m_turretSubsystem));
+            ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
+            ControllerConstants.turnTurretToTargetTrigger.whileTrue(m_turretSubsystem.RotateTurret());
+        }
     }
 
     public void staticShot() {
