@@ -52,4 +52,9 @@ public class Constants {
         public static final Trigger climbUpTrigger = m_driveJoystick.button(0); // TODO: pick a button number
         public static final Trigger climbDownTrigger = m_driveJoystick.button(0); // TODO: pick a button number
     }
+
+    public static class HoodConstants {
+        public static double hoodBottom = 0;
+        public static double hoodTop = 0;
+    }
 }

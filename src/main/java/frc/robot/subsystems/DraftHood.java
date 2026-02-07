@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class DraftHood extends SubsystemBase {
@@ -29,23 +30,23 @@ public class DraftHood extends SubsystemBase {
     }
 
     public void setHood(double position) {
-        m_hoodMotor.setControl(new PositionVoltage(m_targetPosition).withPosition(position));
+        m_hoodMotor.setControl(new PositionVoltage(absoluteToRelative(position)));
     }
 
-    public void hoodUp(double position) {
-        m_hoodMotor.setControl(new PositionVoltage(m_targetPosition).withPosition(position));
+    public void hoodUp() {
+        setHood(HoodConstants.hoodTop);
     }
 
-    public void hoodDown(double position) {
-        m_hoodMotor.setControl(new PositionVoltage(m_targetPosition).withPosition(position));
+    public void hoodDown() {
+        setHood(HoodConstants.hoodBottom);
     }
 
     public void magicHood(double position) {
-        m_hoodMotor.setControl(new PositionVoltage(m_targetPosition).withPosition(position));
+        setHood(m_targetPosition);
     }
 
     public void networktablesHood(double position) {
-        m_hoodMotor.setControl(new PositionVoltage(m_targetPosition).withPosition(position));
+        setHood(m_targetPosition);
     }
 
     public double absoluteToRelative(double absolute) {
@@ -65,7 +66,7 @@ public class DraftHood extends SubsystemBase {
     }
 
     public Command Calibrate() {
-        return new StartEndCommand(() -> hoodUp(0), () -> hoodDown(0)).until(() -> isDown())
+        return new StartEndCommand(() -> hoodUp(), () -> hoodDown()).until(() -> isDown())
                 .finallyDo(() -> m_offset = m_hoodMotor.getRotorPosition().getValueAsDouble());
 
     }
