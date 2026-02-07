@@ -51,7 +51,7 @@ public class RobotContainer {
 
     private final CommandXboxController m_joystick = new CommandXboxController(0);
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
     public final IntakeSubsystem m_intakeSubsystem = (SubsystemConstants.useIntake) ? new IntakeSubsystem() : null;
     public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
@@ -112,7 +112,7 @@ public class RobotContainer {
     }
 
     public void staticShot() {
-        Pose2d pose = drivetrain.getState().Pose;
+        Pose2d pose = m_drivetrain.getState().Pose;
         double distance = pose.getTranslation().getDistance(FieldConstants.hub);
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
@@ -133,14 +133,14 @@ public class RobotContainer {
         return Commands.sequence(
                 // Reset our field centric heading to match the robot
                 // facing away from our alliance station wall (0 deg).
-                drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
+                m_drivetrain.runOnce(() -> m_drivetrain.seedFieldCentric(Rotation2d.kZero)),
                 // Then slowly drive forward (away from us) for 5 seconds.
-                drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
+                m_drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
                         .withVelocityY(0)
                         .withRotationalRate(0))
                         .withTimeout(5.0),
                 // Finally idle for the rest of auton
-                drivetrain.applyRequest(() -> idle));
+                m_drivetrain.applyRequest(() -> idle));
     }
 
     public void periodic() {
