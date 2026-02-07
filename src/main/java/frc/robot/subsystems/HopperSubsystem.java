@@ -10,10 +10,12 @@ import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class HopperSubsystem extends SubsystemBase {
-    TalonFX m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
-    TalonFX m_outakeMotor = new TalonFX(MotorIDConstants.HopperMotorOutake);
-
+    TalonFX m_hopperMotor;
+    TalonFX m_outakeMotor;
+    
     public HopperSubsystem() {
+        m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
+        m_outakeMotor = new TalonFX(MotorIDConstants.HopperMotorOutake);
 
     }
 
@@ -31,7 +33,7 @@ public class HopperSubsystem extends SubsystemBase {
 
     }
 
-    public Command Hopper() {
+    public Command RunHopper() {
         return new StartEndCommand(
                 () -> {
                     this.runHopper(HopperConstants.spinnerSpeed, HopperConstants.outakeSpeed);
@@ -43,4 +45,4 @@ public class HopperSubsystem extends SubsystemBase {
 
 }
 
-// TODO: make it start/stop using a button
+// TODO: make it start/stop using a button (DONE?)

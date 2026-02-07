@@ -65,7 +65,7 @@ public class RobotContainer {
         );
         
         if (SubsystemConstants.useHopperSubsystem) {
-            ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.Hopper());
+            ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.RunHopper());
 
         }
         // Idle while the robot is disabled. This ensures the configured

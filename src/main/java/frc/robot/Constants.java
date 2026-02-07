@@ -43,5 +43,6 @@ public class Constants {
     public static class MotorIDConstants {
         public static final int HopperMotorSpinner = 0;
         public static final int HopperMotorOutake = 0;
+        // TODO: set motor ID
     }
 }
