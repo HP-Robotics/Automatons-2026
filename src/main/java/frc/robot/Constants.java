@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -26,6 +28,7 @@ public final class Constants {
 
     public static class PortConstants {
         public static final int turretLimitPort = 9;
+        public static final int ledPort = 0; // TODO: get real values
     }
 
     public static class IntakeConstants {
@@ -105,6 +108,10 @@ public final class Constants {
 
     public static class FieldConstants {
         public static final Translation2d hub = new Translation2d(1.0, 0.0); // TODO: get real coordinates
+    }
+
+    public static class LEDConstants {
+        public static final LEDPattern defaultPattern = LEDPattern.solid(Color.kSandyBrown);
     }
 
 
