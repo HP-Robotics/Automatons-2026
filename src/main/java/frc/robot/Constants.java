@@ -10,6 +10,9 @@ public final class Constants {
 
     public static class IntakeConstants {
         public static final double speed = 1;
+        public static final double kP = 1;
+        public static final double kI = 0;
+        public static final double kD = 0;
     }
 
     public static class ControllerConstants {
@@ -18,7 +21,8 @@ public final class Constants {
     }
 
     public static class MotorIDConstants {
-        public static final int intakeMotor = 0;
-        // TODO:find this ID
+        public static final int intakeSpinMotor = 33;
+        public static final int intakeExtendRightMotor = 31;
+        public static final int intakeExtendLeftMotor = 32;
     }
 }
