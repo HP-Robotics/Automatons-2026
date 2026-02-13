@@ -30,7 +30,7 @@ public class Constants {
 
     public static class MotorIDConstants {
         public static final int climberMotor = 0; // TODO: find id
-        public static final int hoodMotor = 0; // TODO: find id
+        public static final int hoodMotor = 52; // TODO: find id
     }
 
     public static class ClimberConstants {
@@ -56,5 +56,6 @@ public class Constants {
     public static class HoodConstants {
         public static double hoodBottom = 0;
         public static double hoodTop = 0;
+        // hood speed 0.04 was safe.
     }
 }
