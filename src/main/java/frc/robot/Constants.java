@@ -27,8 +27,8 @@ public final class Constants {
     public static class MotorIDConstants {
         public static final int intakeMotor = 0;
         // TODO:find this ID
-        public static final int shooterMotor1 = 1;
-        public static final int shooterMotor2 = 2;
+        public static final int shooterMotor1 = 53;
+        public static final int shooterMotor2 = 54; // invert this
         // TODO: actually find the IDs of the shooter motors
     }
 
