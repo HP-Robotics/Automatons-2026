@@ -68,14 +68,14 @@ public class RobotContainer {
                                                                                       // negative X (left)
                 ));
         if (SubsystemConstants.useIntake) {
-            ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
+            // ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
         }
 
         if (SubsystemConstants.useShooter) {
-            ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
-            ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
-            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
-            ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
+            // ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
+            // ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
+            // ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
+            // ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 
         if (SubsystemConstants.useHopperSubsystem) {
