@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -26,6 +27,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
+import frc.robot.subsystems.DraftClimber;
+import frc.robot.subsystems.DraftHood;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -50,6 +53,10 @@ public class RobotContainer {
     private final CommandXboxController m_joystick = new CommandXboxController(0);
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
+    public final DraftClimber m_draftClimber = (SubsystemConstants.useClimber) ? new DraftClimber() : null;
+
+    public final DraftHood m_draftHood = SubsystemConstants.useHood ? new DraftHood() : null;
+
     public RobotContainer() {
         configureBindings();
     }
@@ -59,17 +66,12 @@ public class RobotContainer {
         // and Y is defined as to the left according to WPILib convention.
         m_drivetrain.setDefaultCommand(
                 // Drivetrain will execute this command periodically
-                m_drivetrain.applyRequest(() -> drive.withVelocityX(m_joystick.getLeftY() * MaxSpeed) // Drive forward
-                                                                                                      // with
-                                                                                                      // negative Y
-                                                                                                      // (forward)
-                        .withVelocityY(-m_joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                        .withRotationalRate(-m_joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with
-                                                                                      // negative X (left)
-                ));
-        if (SubsystemConstants.useIntake) {
-            // ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
-        }
+                m_drivetrain
+                        .applyRequest(() -> m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
+                                MathUtil.applyDeadband(-m_joystick.getLeftY(), 0.1) * MaxSpeed,
+                                MathUtil.applyDeadband(-m_joystick.getLeftX(), 0.1) * MaxSpeed,
+                                MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * MaxAngularRate,
+                                m_drivetrain.getRotation3d().toRotation2d()))));
 
         if (SubsystemConstants.useShooter) {
             // ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
@@ -78,7 +80,7 @@ public class RobotContainer {
             // ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 
-        if (SubsystemConstants.useHopperSubsystem) {
+        if (SubsystemConstants.useHopper) {
             ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.RunHopper());
 
         }
@@ -100,8 +102,18 @@ public class RobotContainer {
         m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
         m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
 
+        if (SubsystemConstants.useClimber) {
+            ControllerConstants.climbTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbUpTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbDownTrigger.whileTrue(m_draftClimber.Climb());
+        }
+
         // Reset the field-centric heading on left bumper press.
         m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+
+        if (SubsystemConstants.useHood) {
+            m_joystick.button(1).whileTrue(m_draftHood.hoodFromNetworkTables());
+        }
 
         m_drivetrain.registerTelemetry(m_logger::telemeterize);
     }
