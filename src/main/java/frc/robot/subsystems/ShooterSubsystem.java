@@ -1,6 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -18,7 +23,12 @@ public class ShooterSubsystem extends SubsystemBase {
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("ShooterSubsystem");
 
     public ShooterSubsystem() {
-
+        final TalonFXConfiguration rightMotorConfigs = new TalonFXConfiguration()
+                .withMotorOutput(
+                        new MotorOutputConfigs()
+                                .withInverted(InvertedValue.Clockwise_Positive));
+        shooterMotor2.getConfigurator().apply(rightMotorConfigs);
+        shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotor1, MotorAlignmentValue.Opposed));
     }
     // shooter modes: magic mode, fixed speed, network tables, stopped, idle
 
