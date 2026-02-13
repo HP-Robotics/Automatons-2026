@@ -65,7 +65,7 @@ public class Constants {
 
     public static class HopperConstants {
         public static final double spinnerSpeed = .5;
-        public static final double outakeSpeed = .5;
+        public static final double outakeSpeed = .8;
         // TODO: hopper/outake motors must turn counter clock-wise.
     }
 }
