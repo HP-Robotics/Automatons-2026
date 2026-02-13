@@ -31,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
         m_rightMotor.getConfigurator().apply(rightMotorConfigs);
-        m_rightMotor.setControl(new Follower(MotorIDConstants.intakeExtendLeftMotor, MotorAlignmentValue.Aligned));
+        m_rightMotor.setControl(new Follower(MotorIDConstants.intakeExtendLeftMotor, MotorAlignmentValue.Opposed));
         m_intakeConfig.kP = IntakeConstants.kP;
         m_intakeConfig.kI = IntakeConstants.kI;
         m_intakeConfig.kD = IntakeConstants.kD;
