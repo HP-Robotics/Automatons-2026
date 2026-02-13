@@ -25,6 +25,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 import frc.robot.subsystems.DraftClimber;
+import frc.robot.subsystems.DraftHood;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -48,6 +49,8 @@ public class RobotContainer {
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
     public final DraftClimber m_draftClimber = (SubsystemConstants.useClimber) ? new DraftClimber() : null;
+
+    public final DraftHood m_draftHood = SubsystemConstants.useHood ? new DraftHood() : null;
 
     public RobotContainer() {
         configureBindings();
@@ -91,6 +94,10 @@ public class RobotContainer {
 
         // Reset the field-centric heading on left bumper press.
         m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+
+        if (SubsystemConstants.useHood) {
+            m_joystick.button(1).whileTrue(m_draftHood.hoodFromNetworkTables());
+        }
 
         m_drivetrain.registerTelemetry(m_logger::telemeterize);
     }

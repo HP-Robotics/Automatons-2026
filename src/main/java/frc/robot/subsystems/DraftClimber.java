@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorIDConstants;
-import frc.robot.Constants.climberConstants;
+import frc.robot.Constants.ClimberConstants;
 
 public class DraftClimber extends SubsystemBase {
     TalonFX m_climberMotor = new TalonFX(MotorIDConstants.climberMotor);
@@ -25,10 +25,10 @@ public class DraftClimber extends SubsystemBase {
     Slot0Configs m_climberConfig = new Slot0Configs();
 
     public DraftClimber() {
-        m_climberConfig.kP = climberConstants.kP;
-        m_climberConfig.kI = climberConstants.kI;
-        m_climberConfig.kD = climberConstants.kD;
-        m_climberConfig.kG = climberConstants.kG;
+        m_climberConfig.kP = ClimberConstants.kP;
+        m_climberConfig.kI = ClimberConstants.kI;
+        m_climberConfig.kD = ClimberConstants.kD;
+        m_climberConfig.kG = ClimberConstants.kG;
     }
 
     public void periodic() {
@@ -41,11 +41,11 @@ public class DraftClimber extends SubsystemBase {
     }
 
     public void climberUp() {
-        m_climberMotor.setControl(new PositionVoltage(0).withPosition(climberConstants.climberTopPosition));
+        m_climberMotor.setControl(new PositionVoltage(0).withPosition(ClimberConstants.climberTopPosition));
     }
 
     public void climberDown() {
-        m_climberMotor.setControl(new PositionVoltage(0).withPosition(climberConstants.climberBottomPosition));
+        m_climberMotor.setControl(new PositionVoltage(0).withPosition(ClimberConstants.climberBottomPosition));
     }
 
     public Command Climb() {

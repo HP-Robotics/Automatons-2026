@@ -12,7 +12,8 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 public class Constants {
     public static class SubsystemConstants {
-        public static final boolean useClimber = true;
+        public static final boolean useClimber = false;
+        public static final boolean useHood = true;
     }
 
     public static class DriveConstants {
@@ -30,7 +31,7 @@ public class Constants {
 
     public static class MotorIDConstants {
         public static final int climberMotor = 0; // TODO: find id
-        public static final int hoodMotor = 52; // TODO: find id
+        public static final int hoodMotor = 52;
     }
 
     public static class ClimberConstants {
@@ -54,8 +55,11 @@ public class Constants {
     }
 
     public static class HoodConstants {
-        public static double hoodBottom = 0;
-        public static double hoodTop = 0;
+        public static final double hoodBottom = -0.41;
+        public static final double hoodTop = 2.15;
+        public static final double kP = 1.5;
+        public static final double kD = 0.01;
+        public static final double maxSpeed = 0.2;
         // hood speed 0.04 was safe.
     }
 }
