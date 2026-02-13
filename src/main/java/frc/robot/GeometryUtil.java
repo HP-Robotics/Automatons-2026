@@ -9,7 +9,7 @@ import edu.wpi.first.units.measure.Angle;
 
 public class GeometryUtil {
 
-    public class SphericalCoordinate {
+    public static class SphericalCoordinate {
         double magnitude;
         Angle pitch; // radians
         Angle yaw; // radians        

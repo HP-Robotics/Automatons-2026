@@ -1,5 +1,6 @@
 package frc.robot;
 
+
 import edu.wpi.first.math.InterpolatingMatrixTreeMap;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Nat;
@@ -11,6 +12,13 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.LimelightSubsystem;
+
 public final class Constants {
     public static class SubsystemConstants {
         public static final boolean useIntake = true;
@@ -21,6 +29,19 @@ public final class Constants {
         public static final double speed = 1;
     }
     // real actual change
+  
+    public static class DriveConstants {
+        public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+    }
+
+    public static class LimelightConstants {
+        public static final double inToM = 0.0254;
+        public static final AprilTagFieldLayout field = AprilTagFieldLayout
+                .loadField(AprilTagFields.k2026RebuiltWelded);
+        public static final Pose2d aprilTagList[] = LimelightSubsystem.getFieldTags(field);
+        public static final int disabledThrottle = 200;
+        public static final double imuAssist = 0.005;
+    }
 
     public static class ControllerConstants {
         public static final CommandJoystick m_driveJoystick = new CommandJoystick(0);
@@ -62,5 +83,6 @@ public final class Constants {
     public static class FieldConstants {
         public static final Translation2d hub = new Translation2d(1.0, 0.0); // TODO: get real coordinates
     }
+
 
 }

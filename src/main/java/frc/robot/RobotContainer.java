@@ -20,6 +20,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -34,7 +37,10 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
 import frc.robot.GeometryUtil;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -49,13 +55,15 @@ public class RobotContainer {
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-    private final Telemetry logger = new Telemetry(MaxSpeed);
+    private final Telemetry m_logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController m_joystick = new CommandXboxController(0);
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
     public final IntakeSubsystem m_intakeSubsystem = (SubsystemConstants.useIntake) ? new IntakeSubsystem() : null;
     public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
+    public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
+
 
     public RobotContainer() {
         configureBindings();
@@ -64,15 +72,16 @@ public class RobotContainer {
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
-        drivetrain.setDefaultCommand(
-                // Drivetrain will execute this command periodically
-                drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
-                                                                                                   // negative Y
-                                                                                                   // (forward)
-                        .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                        .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with
-                                                                                    // negative X (left)
-                ));
+         m_drivetrain.setDefaultCommand(
+            // Drivetrain will execute this command periodically
+            m_drivetrain.applyRequest(() ->
+                m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
+                    MathUtil.applyDeadband(-m_joystick.getLeftY(), 0.1) * MaxSpeed, 
+                    MathUtil.applyDeadband(-m_joystick.getLeftX(), 0.1) * MaxSpeed,
+                    MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * MaxAngularRate,
+                    m_drivetrain.getRotation3d().toRotation2d()))
+            )
+        );
         if (SubsystemConstants.useIntake) {
             ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
         }
@@ -88,34 +97,37 @@ public class RobotContainer {
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
         RobotModeTriggers.disabled().whileTrue(
-                drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+            m_drivetrain.applyRequest(() -> idle).ignoringDisable(true)
+        );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(
-                () -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
+        // These are neat but we probably don't need them
+        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        m_joystick.b().whileTrue(m_drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(), -m_joystick.getLeftX()))
+        ));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+        m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+        m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+        m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+        m_drivetrain.registerTelemetry(m_logger::telemeterize);
     }
 
     public Rotation2d getAngleToHub() {
-        Pose2d pose = drivetrain.getState().Pose;
+        Pose2d pose = m_drivetrain.getState().Pose;
         Rotation2d angleToHub = new Pose2d(FieldConstants.hub, new Rotation2d()).relativeTo(pose).getTranslation()
                 .getAngle();
         return angleToHub;
     }
 
     public double[] staticShot() {
-        Pose2d pose = drivetrain.getState().Pose;
+        Pose2d pose = m_drivetrain.getState().Pose;
         double distance = pose.getTranslation().getDistance(FieldConstants.hub);
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
@@ -142,7 +154,7 @@ public class RobotContainer {
         // Step 3: convert spherical coordinates to cartesian coordinates
         Translation3d motorOutputCartesian = GeometryUtil.sphericalToCartesian(motorOutputSpherical);
         // Step 4: subtract the driving velocity off of the cartesian static shot
-        ChassisSpeeds driveVelocity = drivetrain.getState().Speeds;
+        ChassisSpeeds driveVelocity = m_drivetrain.getState().Speeds;
         Translation3d driveTranslation = new Translation3d(driveVelocity.vxMetersPerSecond, driveVelocity.vyMetersPerSecond, 0.0);
         Translation3d dynamicShotVector = motorOutputCartesian.minus(driveTranslation);
 
@@ -159,13 +171,19 @@ public class RobotContainer {
         return Commands.sequence(
                 // Reset our field centric heading to match the robot
                 // facing away from our alliance station wall (0 deg).
-                drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
+                m_drivetrain.runOnce(() -> m_drivetrain.seedFieldCentric(Rotation2d.kZero)),
                 // Then slowly drive forward (away from us) for 5 seconds.
-                drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
+                m_drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
                         .withVelocityY(0)
                         .withRotationalRate(0))
                         .withTimeout(5.0),
                 // Finally idle for the rest of auton
-                drivetrain.applyRequest(() -> idle));
+                m_drivetrain.applyRequest(() -> idle));
+    }
+
+    public void periodic() {
+        for (VisionMeasurement visionMeasurement : m_limelightSubsystem.getAllLimelightData()) {
+            m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp);
+        }
     }
 }
