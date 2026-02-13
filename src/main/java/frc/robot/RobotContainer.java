@@ -11,10 +11,15 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -24,10 +29,12 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
+import frc.robot.GeometryUtil.SphericalCoordinate;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.GeometryUtil;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -100,20 +107,50 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    public void staticShot() {
+    public Rotation2d getAngleToHub() {
+        Pose2d pose = drivetrain.getState().Pose;
+        Rotation2d angleToHub = new Pose2d(FieldConstants.hub, new Rotation2d()).relativeTo(pose).getTranslation()
+                .getAngle();
+        return angleToHub;
+    }
+
+    public double[] staticShot() {
         Pose2d pose = drivetrain.getState().Pose;
         double distance = pose.getTranslation().getDistance(FieldConstants.hub);
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
         // (robot-facing direction)
         // TODO: factor in turret position compared to robot middle
-        Rotation2d angleToHub = new Pose2d(FieldConstants.hub, new Rotation2d()).relativeTo(pose).getTranslation()
-                .getAngle();
+        Rotation2d angleToHub = getAngleToHub();
 
         Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
+        
         // turret.pointin(angleToHub); TODO: merge branch to use the turret function
         // hood.setAngle(staticShot.get(1,0));
         m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
+        double[] output = {0, 0, 0};
+        output[0] = staticShot.get(0, 0); // hood angle?
+        output[1] = staticShot.get(0, 1); // wheel speeds?
+        output[2] = angleToHub.getRadians(); // turret angle, in radians right now
+
+        return output;
+    }
+
+     public void movingShot(double[] staticShot) {
+        // Step 2: converting the motor outputs from Step 1 to spherical coordinates
+        SphericalCoordinate motorOutputSpherical = new SphericalCoordinate(staticShot[0], Radians.of(staticShot[1]), Radians.of(staticShot[2]));
+        // Step 3: convert spherical coordinates to cartesian coordinates
+        Translation3d motorOutputCartesian = GeometryUtil.sphericalToCartesian(motorOutputSpherical);
+        // Step 4: subtract the driving velocity off of the cartesian static shot
+        ChassisSpeeds driveVelocity = drivetrain.getState().Speeds;
+        Translation3d driveTranslation = new Translation3d(driveVelocity.vxMetersPerSecond, driveVelocity.vyMetersPerSecond, 0.0);
+        Translation3d dynamicShotVector = motorOutputCartesian.minus(driveTranslation);
+
+        SphericalCoordinate dynamicShotSpherical = GeometryUtil.cartesianToSpherical(dynamicShotVector.getX(), dynamicShotVector.getY(), dynamicShotVector.getZ());
+        double wheelSpeed = dynamicShotSpherical.magnitude;
+        Angle hoodAngle = dynamicShotSpherical.pitch;
+        Angle turretAngle = dynamicShotSpherical.yaw;
+        // Step 5: set the motors for the wheel speed, hood angle, and turret angle
     }
 
     public Command getAutonomousCommand() {

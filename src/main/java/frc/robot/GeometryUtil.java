@@ -29,12 +29,12 @@ public class GeometryUtil {
         return angle * 180 / Math.PI;
     }
 
-    public Translation3d sphericalToCartesian(SphericalCoordinate target) {
+    public static Translation3d sphericalToCartesian(SphericalCoordinate target) {
         return new Translation3d(target.magnitude,
                 new Rotation3d(0, target.pitch.in(Radians), target.yaw.in(Radians)));
     }
 
-    public SphericalCoordinate cartesianToSpherical(double x, double y, double z) {
+    public static SphericalCoordinate cartesianToSpherical(double x, double y, double z) {
         double magnitude = Math.sqrt(x * x + y * y + z * z);
         double yaw = Math.atan2(y, x);
         double pitch = Math.atan2(z, Math.sqrt(x * x + y * y));

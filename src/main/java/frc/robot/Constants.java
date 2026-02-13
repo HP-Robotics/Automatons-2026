@@ -52,7 +52,8 @@ public final class Constants {
         public static InterpolatingMatrixTreeMap fillTreeMap() {
             // TreeMap.put(double) use this function to add to tree map
             InterpolatingMatrixTreeMap output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
-            // output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
+            // key is distance, data is (wheel speeds, hood angle)
+            output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
             return output;
         }
 
