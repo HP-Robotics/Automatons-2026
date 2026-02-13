@@ -74,7 +74,7 @@ public class RobotContainer {
         if (SubsystemConstants.useShooter) {
             // ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
             // ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
-            // ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
+            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
             // ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 

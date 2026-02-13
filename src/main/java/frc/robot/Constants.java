@@ -48,7 +48,7 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootingSpeed = 1;
+        public static final double shootingSpeed = 0.5;
         // TODO:find a value for a fixed speed mode
         public static final double idleSpeed = 0.1;
         // TODO: pick this
