@@ -58,6 +58,7 @@ public class RobotContainer {
 
     private final HopperSubsystem m_hopperSubsystem = new HopperSubsystem();
 
+    // TODO: Make these optionals?
     public final CommandSwerveDrivetrain m_drivetrain = (SubsystemConstants.useDrive)
             ? TunerConstants.createDrivetrain()
             : null;
@@ -190,6 +191,11 @@ public class RobotContainer {
     }
 
     public void periodic() {
+        if (SubsystemConstants.useDrive) {
+            double rot = m_drivetrain.getState().Pose.getRotation().getDegrees();
+            m_limelightSubsystem.updateRobotOrientation(rot);
+        }
+
         for (VisionMeasurement visionMeasurement : m_limelightSubsystem.getAllLimelightData()) {
             m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp);
         }

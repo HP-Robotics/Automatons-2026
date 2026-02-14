@@ -94,18 +94,22 @@ public class LimelightSubsystem extends SubsystemBase {
     return output;
   }
 
-  private Optional<VisionMeasurement> getLimelightData(NetworkTable limelightTable, DoubleArraySubscriber botPoseSub) {
-    Optional<VisionMeasurement> output = Optional.empty();
-
+  public void updateRobotOrientation(double rot) {
     double[] robotOrientationEntries = new double[6];
-    robotOrientationEntries[0] = 0;
+    robotOrientationEntries[0] = rot;
     robotOrientationEntries[1] = 0;
     robotOrientationEntries[2] = 0;
     robotOrientationEntries[3] = 0;
     robotOrientationEntries[4] = 0;
     robotOrientationEntries[5] = 0;
 
-    limelightTable.getEntry("robot_orientation_set").setDoubleArray(robotOrientationEntries);
+    for (LimelightCamera camera : m_cameras) {
+      camera.m_table.getEntry("robot_orientation_set").setDoubleArray(robotOrientationEntries);
+    }
+  }
+
+  private Optional<VisionMeasurement> getLimelightData(NetworkTable limelightTable, DoubleArraySubscriber botPoseSub) {
+    Optional<VisionMeasurement> output = Optional.empty();
 
     double[] botPose = null;
     double latency = 0;

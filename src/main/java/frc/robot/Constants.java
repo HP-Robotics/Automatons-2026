@@ -19,7 +19,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 public final class Constants {
     public static class SubsystemConstants {
-        public static final boolean useDrive = false;
+        public static final boolean useDrive = true;
         public static final boolean useTurret = true;
         public static final boolean useHopper = true;
         public static final boolean useIntake = true;
@@ -46,22 +46,22 @@ public final class Constants {
         public static final DoubleSupplier m_leftAxisX = () -> m_driveJoystick.getRawAxis(0);
         public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
 
-        public static final Trigger intakeTrigger = m_driveJoystick.button(0);
+        public static final Trigger intakeTrigger = m_driveJoystick.button(9);
         public static final Trigger setShooterTrigger = m_driveJoystick.button(1);
         public static final Trigger stopShooterTrigger = m_driveJoystick.button(2);
         public static final Trigger magicShooterTrigger = m_driveJoystick.button(3);
         public static final Trigger adjustableShooterTrigger = m_driveJoystick.button(4);
         // TODO: pick a button number for all of these
         public static final Trigger hopperTrigger = m_driveJoystick.button(1); // TODO: pick a button number
-        public static final Trigger climbTrigger = m_driveJoystick.button(0);// TODO: pick a button number
-        public static final Trigger climbUpTrigger = m_driveJoystick.button(0); // TODO: pick a button number
-        public static final Trigger climbDownTrigger = m_driveJoystick.button(0); // TODO: pick a button number
+        public static final Trigger climbTrigger = m_driveJoystick.button(9);// TODO: pick a button number
+        public static final Trigger climbUpTrigger = m_driveJoystick.button(9); // TODO: pick a button number
+        public static final Trigger climbDownTrigger = m_driveJoystick.button(9); // TODO: pick a button number
         public static final Trigger runTurretTrigger = m_driveJoystick.button(5);
         public static final Trigger calibrateTurretTrigger = m_driveJoystick.button(6);
         public static final Trigger turnTurretToTargetTrigger = m_driveJoystick.button(7);
         public static final Trigger shootTrigger = m_driveJoystick.axisGreaterThan(3, 0.2);
         public static final Trigger setFieldCentricTrigger = m_driveJoystick.button(8);
-        public static final Trigger runHoodTrigger = m_driveJoystick.button(0);
+        public static final Trigger runHoodTrigger = m_driveJoystick.button(9);
         // TODO: pick a button number for all of these
 
     }
