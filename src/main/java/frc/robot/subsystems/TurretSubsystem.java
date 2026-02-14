@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
@@ -46,11 +47,11 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void runTurret() {
-    m_turretMotor.set(turretSpeed);
+    m_turretMotor.setControl(new DutyCycleOut(turretSpeed));
   }
 
   public void stopTurret() {
-    m_turretMotor.set(0);
+    m_turretMotor.setControl(new DutyCycleOut(0));
   }
 
   // ONLY CHANGE M_TARGETPOSITION THROUGH THIS
@@ -64,6 +65,11 @@ public class TurretSubsystem extends SubsystemBase {
       m_targetPosition += 360;
     }
     m_targetPosition = flipToNewTarget(); // will get targetPosition from aiming math
+    if (m_targetPosition > TurretConstants.topLimitPosition) {
+      m_targetPosition = TurretConstants.topLimitPosition - TurretConstants.distanceToLimitThreshold;
+    } else if (m_targetPosition < TurretConstants.bottomLimitPosition) {
+      m_targetPosition = TurretConstants.bottomLimitPosition + TurretConstants.distanceToLimitThreshold;
+    }
   }
 
   public void getFromNetworkTables() {

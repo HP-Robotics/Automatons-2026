@@ -75,11 +75,11 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     public void magicHood(double position) {
-        setHood(m_targetPosition);
+        setHood(absoluteToRelative(m_targetPosition));
     }
 
     public void networktablesHood(double position) {
-        setHood(m_targetPosition);
+        setHood(absoluteToRelative(m_targetPosition));
     }
 
     public double absoluteToRelative(double absolute) {
