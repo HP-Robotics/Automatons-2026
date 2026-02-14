@@ -6,9 +6,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -22,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.MotorIDConstants;
 
-public class DraftHood extends SubsystemBase {
+public class HoodSubsystem extends SubsystemBase {
     double m_offset = 0;
     TalonFX m_hoodMotor = new TalonFX(MotorIDConstants.hoodMotor);
     boolean m_isCalibrated = false;
@@ -32,7 +30,7 @@ public class DraftHood extends SubsystemBase {
 
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("DraftHood");
 
-    public DraftHood() {
+    public HoodSubsystem() {
         double currentPosition = m_hoodMotor.getPosition().getValueAsDouble();
         m_defaultPosition = currentPosition + 0.01;
         m_targetPosition = m_defaultPosition;

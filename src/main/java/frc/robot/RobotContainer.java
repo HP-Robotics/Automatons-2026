@@ -19,7 +19,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -35,8 +34,8 @@ import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.subsystems.DraftClimber;
-import frc.robot.subsystems.DraftHood;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.HoodSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -63,8 +62,8 @@ public class RobotContainer {
     public final TurretSubsystem m_turretSubsystem = (SubsystemConstants.useTurret) ? new TurretSubsystem() : null;
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
     private final CommandXboxController m_joystick = new CommandXboxController(0);
-    public final DraftClimber m_draftClimber = (SubsystemConstants.useClimber) ? new DraftClimber() : null;
-    public final DraftHood m_draftHood = SubsystemConstants.useHood ? new DraftHood() : null;
+    public final ClimberSubsystem m_climberSubsystem = (SubsystemConstants.useClimber) ? new ClimberSubsystem() : null;
+    public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
     public RobotContainer() {
         configureBindings();
@@ -123,13 +122,13 @@ public class RobotContainer {
         }
 
         if (SubsystemConstants.useClimber) {
-            ControllerConstants.climbTrigger.whileTrue(m_draftClimber.Climb());
-            ControllerConstants.climbUpTrigger.whileTrue(m_draftClimber.Climb());
-            ControllerConstants.climbDownTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbTrigger.whileTrue(m_climberSubsystem.Climb());
+            ControllerConstants.climbUpTrigger.whileTrue(m_climberSubsystem.Climb());
+            ControllerConstants.climbDownTrigger.whileTrue(m_climberSubsystem.Climb());
         }
 
         if (SubsystemConstants.useHood) {
-            m_joystick.button(1).whileTrue(m_draftHood.hoodFromNetworkTables());
+            m_joystick.button(1).whileTrue(m_hoodSubsystem.hoodFromNetworkTables());
         }
 
         if (SubsystemConstants.useTurret) {

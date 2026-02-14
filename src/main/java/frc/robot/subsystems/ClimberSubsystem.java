@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.ClimberConstants;
 
-public class DraftClimber extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase {
     TalonFX m_climberMotor = new TalonFX(MotorIDConstants.climberMotor);
     boolean m_isCalibrated = false;
     StatusSignal<ReverseLimitValue> m_bottomLimit = m_climberMotor.getReverseLimit();
@@ -24,7 +24,7 @@ public class DraftClimber extends SubsystemBase {
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("DraftClimber");
     Slot0Configs m_climberConfig = new Slot0Configs();
 
-    public DraftClimber() {
+    public ClimberSubsystem() {
         m_climberConfig.kP = ClimberConstants.kP;
         m_climberConfig.kI = ClimberConstants.kI;
         m_climberConfig.kD = ClimberConstants.kD;
