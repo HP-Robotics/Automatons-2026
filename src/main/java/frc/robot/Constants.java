@@ -8,6 +8,9 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -39,6 +42,10 @@ public final class Constants {
 
     public static class ControllerConstants {
         public static final CommandJoystick m_driveJoystick = new CommandJoystick(0);
+        public static final DoubleSupplier m_leftAxisY = () -> m_driveJoystick.getRawAxis(1);
+        public static final DoubleSupplier m_leftAxisX = () -> m_driveJoystick.getRawAxis(0);
+        public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
+
         public static final Trigger intakeTrigger = m_driveJoystick.button(0);
         public static final Trigger setShooterTrigger = m_driveJoystick.button(1);
         public static final Trigger stopShooterTrigger = m_driveJoystick.button(2);
@@ -53,6 +60,8 @@ public final class Constants {
         public static final Trigger calibrateTurretTrigger = m_driveJoystick.button(6);
         public static final Trigger turnTurretToTargetTrigger = m_driveJoystick.button(7);
         public static final Trigger shootTrigger = m_driveJoystick.axisGreaterThan(3, 0.2);
+        public static final Trigger setFieldCentricTrigger = m_driveJoystick.button(8);
+        public static final Trigger runHoodTrigger = m_driveJoystick.button(0);
         // TODO: pick a button number for all of these
 
     }
@@ -88,6 +97,7 @@ public final class Constants {
             // output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
             return output;
         }
+
         public static final double shooterErrorThreshold = 1;
 
     }
@@ -147,6 +157,7 @@ public final class Constants {
         public static final double kP = 1.5;
         public static final double kD = 0.01;
         public static final double maxSpeed = 0.2;
+
         // hood speed 0.04 was safe.
     }
 }

@@ -40,7 +40,7 @@ import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
-           
+
 public class RobotContainer {
     private double m_maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
                                                                                           // speed
@@ -65,7 +65,6 @@ public class RobotContainer {
     public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
     public final TurretSubsystem m_turretSubsystem = (SubsystemConstants.useTurret) ? new TurretSubsystem() : null;
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
-    private final CommandXboxController m_joystick = new CommandXboxController(0); // TODO: Use controller constants
     public final ClimberSubsystem m_climberSubsystem = (SubsystemConstants.useClimber) ? new ClimberSubsystem() : null;
     public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
@@ -82,9 +81,12 @@ public class RobotContainer {
                     // Drivetrain will execute this command periodically
                     m_drivetrain.applyRequest(
                             () -> m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    MathUtil.applyDeadband(m_joystick.getLeftY(), 0.1) * m_maxSpeed,
-                                    MathUtil.applyDeadband(m_joystick.getLeftX(), 0.1) * m_maxSpeed,
-                                    MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * m_maxAngularRate,
+                                    MathUtil.applyDeadband(ControllerConstants.m_leftAxisY.getAsDouble(), 0.1)
+                                            * m_maxSpeed,
+                                    MathUtil.applyDeadband(ControllerConstants.m_leftAxisX.getAsDouble(), 0.1)
+                                            * m_maxSpeed,
+                                    MathUtil.applyDeadband(-ControllerConstants.m_rightAxisX.getAsDouble(), 0.1)
+                                            * m_maxAngularRate,
                                     m_drivetrain.getRotation3d().toRotation2d()))));
         }
         if (SubsystemConstants.useIntake) {
@@ -122,17 +124,18 @@ public class RobotContainer {
 
             // These are neat but we probably don't need them
             // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-            m_joystick.b().whileTrue(m_drivetrain.applyRequest(
-                    () -> point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(), -m_joystick.getLeftX()))));
+            // m_joystick.b().whileTrue(m_drivetrain.applyRequest(
+            // () -> point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(),
+            // -m_joystick.getLeftX()))));
 
-            // Run SysId routines when holding back/start and X/Y.
-            // Note that each routine should be run exactly once in a single log.
-            m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
-            m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
-            m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
-            m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
+            // // Run SysId routines when holding back/start and X/Y.
+            // // Note that each routine should be run exactly once in a single log.
+            // m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+            // m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+            // m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+            // m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
             // Reset the field-centric heading on left bumper press.
-            m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+            ControllerConstants.setFieldCentricTrigger.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
             m_drivetrain.registerTelemetry(m_logger::telemeterize);
         }
 
@@ -143,7 +146,7 @@ public class RobotContainer {
         }
 
         if (SubsystemConstants.useHood) {
-            m_joystick.button(1).whileTrue(m_hoodSubsystem.hoodFromNetworkTables());
+            ControllerConstants.runHoodTrigger.whileTrue(m_hoodSubsystem.hoodFromNetworkTables());
         }
 
         if (SubsystemConstants.useTurret) {
