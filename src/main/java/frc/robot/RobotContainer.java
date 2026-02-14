@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -33,6 +34,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.DraftClimber;
+import frc.robot.subsystems.DraftHood;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -49,14 +53,18 @@ public class RobotContainer {
 
     private final Telemetry m_logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController m_joystick = new CommandXboxController(0);
+    private final HopperSubsystem m_hopperSubsystem = new HopperSubsystem();
 
-    public final CommandSwerveDrivetrain m_drivetrain = (SubsystemConstants.useDrive) ? TunerConstants.createDrivetrain() : null;
+    public final CommandSwerveDrivetrain m_drivetrain = (SubsystemConstants.useDrive)
+            ? TunerConstants.createDrivetrain()
+            : null;
     public final IntakeSubsystem m_intakeSubsystem = (SubsystemConstants.useIntake) ? new IntakeSubsystem() : null;
     public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
     public final TurretSubsystem m_turretSubsystem = (SubsystemConstants.useTurret) ? new TurretSubsystem() : null;
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
-
+    private final CommandXboxController m_joystick = new CommandXboxController(0);
+    public final DraftClimber m_draftClimber = (SubsystemConstants.useClimber) ? new DraftClimber() : null;
+    public final DraftHood m_draftHood = SubsystemConstants.useHood ? new DraftHood() : null;
 
     public RobotContainer() {
         configureBindings();
@@ -65,56 +73,66 @@ public class RobotContainer {
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
-         if (SubsystemConstants.useDrive) {
-         m_drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            m_drivetrain.applyRequest(() ->
-                m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
-                    MathUtil.applyDeadband(-m_joystick.getLeftY(), 0.1) * MaxSpeed, 
-                    MathUtil.applyDeadband(-m_joystick.getLeftX(), 0.1) * MaxSpeed,
-                    MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * MaxAngularRate,
-                    m_drivetrain.getRotation3d().toRotation2d()))
-            )
-        );
-         }
+
+        if (SubsystemConstants.useDrive) {
+            m_drivetrain.setDefaultCommand(
+                    // Drivetrain will execute this command periodically
+                    m_drivetrain.applyRequest(
+                            () -> m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
+                                    MathUtil.applyDeadband(m_joystick.getLeftY(), 0.1) * MaxSpeed,
+                                    MathUtil.applyDeadband(m_joystick.getLeftX(), 0.1) * MaxSpeed,
+                                    MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * MaxAngularRate,
+                                    m_drivetrain.getRotation3d().toRotation2d()))));
+        }
         if (SubsystemConstants.useIntake) {
             ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
         }
 
         if (SubsystemConstants.useShooter) {
-            ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
-            ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
+            // ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
+            // ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
             ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
-            ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
+            // ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 
+        if (SubsystemConstants.useHopper) {
+            ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.RunHopper());
+
+        }
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
-  if (SubsystemConstants.useDrive) {
-        final var idle = new SwerveRequest.Idle();
-        RobotModeTriggers.disabled().whileTrue(
-            m_drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-        );
+        if (SubsystemConstants.useDrive) {
+            final var idle = new SwerveRequest.Idle();
+            RobotModeTriggers.disabled().whileTrue(
+                    m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
-        // These are neat but we probably don't need them
-        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        m_joystick.b().whileTrue(m_drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(), -m_joystick.getLeftX()))
-        ));
+            // These are neat but we probably don't need them
+            // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+            m_joystick.b().whileTrue(m_drivetrain.applyRequest(
+                    () -> point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(), -m_joystick.getLeftX()))));
 
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
-        m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
-        m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
-        m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
+            // Run SysId routines when holding back/start and X/Y.
+            // Note that each routine should be run exactly once in a single log.
+            m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+            m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+            m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+            m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
+            // Reset the field-centric heading on left bumper press.
+            m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+            m_drivetrain.registerTelemetry(m_logger::telemeterize);
+        }
 
-        // Reset the field-centric heading on left bumper press.
-        m_joystick.button(8).onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+        if (SubsystemConstants.useClimber) {
+            ControllerConstants.climbTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbUpTrigger.whileTrue(m_draftClimber.Climb());
+            ControllerConstants.climbDownTrigger.whileTrue(m_draftClimber.Climb());
+        }
 
-        m_drivetrain.registerTelemetry(m_logger::telemeterize);
-  }
-   if (SubsystemConstants.useTurret) {
+        if (SubsystemConstants.useHood) {
+            m_joystick.button(1).whileTrue(m_draftHood.hoodFromNetworkTables());
+        }
+
+        if (SubsystemConstants.useTurret) {
             ControllerConstants.runTurretTrigger.whileTrue(new StartEndCommand(m_turretSubsystem::runTurret,
                     m_turretSubsystem::stopTurret, m_turretSubsystem));
             ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
@@ -135,7 +153,7 @@ public class RobotContainer {
         Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
         // turret.pointin(angleToHub); TODO: merge branch to use the turret function
         // hood.setAngle(staticShot.get(1,0));
-        m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
+        // m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
     }
 
     public Command getAutonomousCommand() {
