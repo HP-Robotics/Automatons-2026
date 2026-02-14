@@ -61,7 +61,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     m_cameras = new ArrayList<LimelightCamera>();
     m_cameras.add(new LimelightCamera("limelight-shpwrte"));
-    m_cameras.add(new LimelightCamera("limelight-kite"));
+    // m_cameras.add(new LimelightCamera("limelight-kite"));
   }
 
   // TODO: move all geometry code to a geometry util file
@@ -82,7 +82,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void setThrottle(int throttle) {
     for (LimelightCamera camera : m_cameras) {
-      camera.m_table.getEntry("throttle_set").setDouble(throttle);
+      camera.m_table.getEntry("throttle_set").setNumber(throttle);
     }
   }
 
