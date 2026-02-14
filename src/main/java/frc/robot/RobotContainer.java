@@ -68,8 +68,8 @@ public class RobotContainer {
                 // Drivetrain will execute this command periodically
                 m_drivetrain
                         .applyRequest(() -> m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
-                                MathUtil.applyDeadband(-m_joystick.getLeftY(), 0.1) * MaxSpeed,
-                                MathUtil.applyDeadband(-m_joystick.getLeftX(), 0.1) * MaxSpeed,
+                                MathUtil.applyDeadband(m_joystick.getLeftY(), 0.1) * MaxSpeed,
+                                MathUtil.applyDeadband(m_joystick.getLeftX(), 0.1) * MaxSpeed,
                                 MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * MaxAngularRate,
                                 m_drivetrain.getRotation3d().toRotation2d()))));
 
