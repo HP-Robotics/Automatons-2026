@@ -26,7 +26,7 @@ public final class Constants {
     }
 
     public static class PortConstants {
-        public static final int turretLimitPort = 9;
+        public static final int turretLimitPort = 11;
     }
 
     public static class IntakeConstants {
@@ -52,6 +52,7 @@ public final class Constants {
         public static final Trigger runTurretTrigger = m_driveJoystick.button(5);
         public static final Trigger calibrateTurretTrigger = m_driveJoystick.button(6);
         public static final Trigger turnTurretToTargetTrigger = m_driveJoystick.button(7);
+        public static final Trigger shootTrigger = m_driveJoystick.axisGreaterThan(3, 0.2);
         // TODO: pick a button number for all of these
 
     }
@@ -71,7 +72,7 @@ public final class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double shootingSpeed = 0.5;
+        public static final double shootingSpeed = 75; // rotations per second
         // TODO:find a value for a fixed speed mode
         public static final double idleSpeed = 0.1;
         // TODO: pick this
@@ -87,6 +88,7 @@ public final class Constants {
             // output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
             return output;
         }
+        public static final double shooterErrorThreshold = 1;
 
     }
 

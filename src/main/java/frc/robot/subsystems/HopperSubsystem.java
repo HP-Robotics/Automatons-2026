@@ -15,14 +15,14 @@ import frc.robot.Constants.MotorIDConstants;
 public class HopperSubsystem extends SubsystemBase {
     TalonFX m_hopperMotor;
     TalonFX m_outakeMotor;
-    final TalonFXConfiguration rightMotorConfigs = new TalonFXConfiguration()
+    final TalonFXConfiguration m_rightMotorConfigs = new TalonFXConfiguration()
             .withMotorOutput(new MotorOutputConfigs()
                     .withInverted(InvertedValue.Clockwise_Positive));
 
     public HopperSubsystem() {
         // m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
         m_outakeMotor = new TalonFX(MotorIDConstants.HopperMotorOutake);
-        m_outakeMotor.getConfigurator().apply(rightMotorConfigs);
+        m_outakeMotor.getConfigurator().apply(m_rightMotorConfigs);
     }
 
     public void runHopper(double spinnerSpeed, double outakeSpeed) {

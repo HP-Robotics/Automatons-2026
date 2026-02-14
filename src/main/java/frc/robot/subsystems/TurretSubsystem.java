@@ -25,7 +25,7 @@ import frc.robot.Constants.TurretConstants;
 
 public class TurretSubsystem extends SubsystemBase {
   TalonFX m_turretMotor = new TalonFX(MotorIDConstants.turretMotor);
-  double turretSpeed = TurretConstants.turretSpeed;
+  double m_turretSpeed = TurretConstants.turretSpeed;
   private double m_targetPosition; // in robot relative degrees
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("TurretSubsystem");
   double m_offset = 0;
@@ -46,7 +46,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void runTurret() {
-    m_turretMotor.set(turretSpeed);
+    m_turretMotor.set(m_turretSpeed);
   }
 
   public void stopTurret() {
@@ -67,7 +67,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void getFromNetworkTables() {
-    this.turretSpeed = m_table.getEntry("turretSpeed").getDouble(TurretConstants.turretSpeed);
+    this.m_turretSpeed = m_table.getEntry("turretSpeed").getDouble(TurretConstants.turretSpeed);
     setTargetPosition(m_table.getEntry("targetPosition").getDouble(m_targetPosition));
   }
 

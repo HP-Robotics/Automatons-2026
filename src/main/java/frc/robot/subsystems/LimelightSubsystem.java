@@ -21,9 +21,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LimelightConstants;
 
 public class LimelightSubsystem extends SubsystemBase {
-  Pose2d loadingPose; // This is needed because the april tag field causes a like 6-10 second loop
-                      // overrun the first time we see an april tag so we need to run it on boot
-  CommandJoystick m_driveJoystick;
+  Pose2d m_loadingPose; // This is needed because the april tag field causes a like 6-10 second loop
+  // overrun the first time we see an april tag so we need to run it on boot
   ArrayList<LimelightCamera> m_cameras;
 
   class LimelightCamera {
@@ -40,7 +39,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
-    private double[] defaultValues = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  private double[] defaultValues = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable poseEstimatorTable = inst.getTable("pose-estimator-table");
@@ -58,7 +57,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public LimelightSubsystem() {
-    loadingPose = LimelightConstants.aprilTagList[1];
+    m_loadingPose = LimelightConstants.aprilTagList[1];
 
     m_cameras = new ArrayList<LimelightCamera>();
     m_cameras.add(new LimelightCamera("limelight-shpwrte"));
@@ -167,5 +166,5 @@ public class LimelightSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    }
+  }
 }

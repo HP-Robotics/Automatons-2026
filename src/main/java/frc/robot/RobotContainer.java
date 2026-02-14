@@ -18,7 +18,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -38,19 +41,19 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.HoodSubsystem;
 
 public class RobotContainer {
-    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
-                                                                                        // speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
-                                                                                      // max angular velocity
+    private double m_maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
+                                                                                          // speed
+    private double m_maxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
+                                                                                        // max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(m_maxSpeed * 0.1).withRotationalDeadband(m_maxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-    private final Telemetry m_logger = new Telemetry(MaxSpeed);
+    private final Telemetry m_logger = new Telemetry(m_maxSpeed);
 
     private final HopperSubsystem m_hopperSubsystem = new HopperSubsystem();
 
@@ -61,7 +64,7 @@ public class RobotContainer {
     public final ShooterSubsystem m_shooterSubsystem = (SubsystemConstants.useShooter) ? new ShooterSubsystem() : null;
     public final TurretSubsystem m_turretSubsystem = (SubsystemConstants.useTurret) ? new TurretSubsystem() : null;
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
-    private final CommandXboxController m_joystick = new CommandXboxController(0);
+    private final CommandXboxController m_joystick = new CommandXboxController(0); // TODO: Use controller constants
     public final ClimberSubsystem m_climberSubsystem = (SubsystemConstants.useClimber) ? new ClimberSubsystem() : null;
     public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
@@ -78,9 +81,9 @@ public class RobotContainer {
                     // Drivetrain will execute this command periodically
                     m_drivetrain.applyRequest(
                             () -> m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    MathUtil.applyDeadband(m_joystick.getLeftY(), 0.1) * MaxSpeed,
-                                    MathUtil.applyDeadband(m_joystick.getLeftX(), 0.1) * MaxSpeed,
-                                    MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * MaxAngularRate,
+                                    MathUtil.applyDeadband(m_joystick.getLeftY(), 0.1) * m_maxSpeed,
+                                    MathUtil.applyDeadband(m_joystick.getLeftX(), 0.1) * m_maxSpeed,
+                                    MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1) * m_maxAngularRate,
                                     m_drivetrain.getRotation3d().toRotation2d()))));
         }
         if (SubsystemConstants.useIntake) {
@@ -90,13 +93,24 @@ public class RobotContainer {
         if (SubsystemConstants.useShooter) {
             // ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
             // ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
-            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.adjustableShooter());
+            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.AdjustableShooter());
             // ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 
         if (SubsystemConstants.useHopper) {
             ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.RunHopper());
 
+        }
+
+        if (SubsystemConstants.useHopper && SubsystemConstants.useShooter) {
+
+            ControllerConstants.shootTrigger.whileTrue(
+                    new ParallelCommandGroup(m_shooterSubsystem.AdjustableShooter(),
+                            new SequentialCommandGroup(new WaitUntilCommand(m_shooterSubsystem::atSpeed),
+                                    m_hopperSubsystem.RunHopper())));
+            // First, spin up the shooter
+            // Wait until shoot is spinning
+            // Run hopper
         }
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.

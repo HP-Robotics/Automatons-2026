@@ -50,6 +50,7 @@ public class HoodSubsystem extends SubsystemBase {
                         .withPeakForwardDutyCycle(HoodConstants.maxSpeed)
                         .withPeakReverseDutyCycle(-HoodConstants.maxSpeed));
         m_hoodMotor.getConfigurator().apply(hoodMotorConfigs);
+        m_hoodMotor.setPosition(0);
     }
 
     @Override

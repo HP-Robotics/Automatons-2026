@@ -22,31 +22,32 @@ import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    TalonFX shooterMotor1 = new TalonFX(MotorIDConstants.shooterMotor1);
-    TalonFX shooterMotor2 = new TalonFX(MotorIDConstants.shooterMotor2);
-    public NetworkTable table = NetworkTableInstance.getDefault().getTable("ShooterSubsystem");
-    
+    TalonFX m_shooterMotor1 = new TalonFX(MotorIDConstants.shooterMotor1);
+    TalonFX m_shooterMotor2 = new TalonFX(MotorIDConstants.shooterMotor2);
+    public NetworkTable m_table = NetworkTableInstance.getDefault().getTable("ShooterSubsystem");
+    double m_velocity = 0.0;
+
     public ShooterSubsystem() {
         final TalonFXConfiguration leftMotorConfigs = new TalonFXConfiguration()
                 .withSlot0(new Slot0Configs()
                         .withKP(ShooterConstants.kP)
                         .withKS(ShooterConstants.kS)
                         .withKV(ShooterConstants.kV));
-        shooterMotor1.getConfigurator().apply(leftMotorConfigs);
+        m_shooterMotor1.getConfigurator().apply(leftMotorConfigs);
         final TalonFXConfiguration rightMotorConfigs = new TalonFXConfiguration()
                 .withMotorOutput(
                         new MotorOutputConfigs()
                                 .withInverted(InvertedValue.Clockwise_Positive));
-        shooterMotor2.getConfigurator().apply(rightMotorConfigs);
-        shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotor1, MotorAlignmentValue.Opposed));
-        table.putValue("shooterSpeed", NetworkTableValue.makeDouble(ShooterConstants.shootingSpeed));
-    
-        
+        m_shooterMotor2.getConfigurator().apply(rightMotorConfigs);
+        m_shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotor1, MotorAlignmentValue.Opposed));
+        m_table.putValue("shooterSpeed", NetworkTableValue.makeDouble(ShooterConstants.shootingSpeed));
+
     }
     // shooter modes: magic mode, fixed speed, network tables, stopped, idle
 
     public void setVelocity(double speed) {
-        shooterMotor1.setControl(new VelocityTorqueCurrentFOC(speed));
+        m_velocity = speed;
+        m_shooterMotor1.setControl(new VelocityTorqueCurrentFOC(speed));
         // shooterMotor2.set(speed);
     }
 
@@ -61,15 +62,21 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void networkTablesSpeed() {
-        double speed = table.getEntry("shooterSpeed").getDouble(ShooterConstants.idleSpeed);
+        double speed = m_table.getEntry("shooterSpeed").getDouble(ShooterConstants.idleSpeed);
         setVelocity(speed);
+    }
+
+    public boolean atSpeed() {
+        return (m_velocity > 0 && (Math
+                .abs(m_shooterMotor1.getClosedLoopError()
+                        .getValueAsDouble()) < ShooterConstants.shooterErrorThreshold));
     }
 
     public void magicSpeed() {
         double speed = ShooterConstants.idleSpeed;
         // TODO: add the magic
-        shooterMotor1.set(speed);
-        shooterMotor2.set(speed);
+        m_shooterMotor1.set(speed);
+        m_shooterMotor2.set(speed);
     }
 
     public Command FixedShooter() {

@@ -21,7 +21,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean m_isCalibrated = false;
     StatusSignal<ReverseLimitValue> m_bottomLimit = m_climberMotor.getReverseLimit();
     double m_offset = 0;
-    public NetworkTable table = NetworkTableInstance.getDefault().getTable("DraftClimber");
+    public NetworkTable m_table = NetworkTableInstance.getDefault().getTable("DraftClimber");
     Slot0Configs m_climberConfig = new Slot0Configs();
 
     public ClimberSubsystem() {
@@ -32,12 +32,12 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        table.putValue("limitValue", NetworkTableValue.makeBoolean(isDown()));
-        table.putValue("relativeValue",
+        m_table.putValue("limitValue", NetworkTableValue.makeBoolean(isDown()));
+        m_table.putValue("relativeValue",
                 NetworkTableValue.makeDouble(m_climberMotor.getRotorPosition().getValueAsDouble()));
-        table.putValue("absoluteValue",
+        m_table.putValue("absoluteValue",
                 NetworkTableValue.makeDouble(relativeToAbsolute(m_climberMotor.getRotorPosition().getValueAsDouble())));
-        table.putValue("m_offset", NetworkTableValue.makeDouble(m_offset));
+        m_table.putValue("m_offset", NetworkTableValue.makeDouble(m_offset));
     }
 
     public void climberUp() {
