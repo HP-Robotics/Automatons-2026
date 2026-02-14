@@ -57,6 +57,9 @@ public class Constants {
         // TODO:find a value for a fixed speed mode
         public static final double idleSpeed = 0.1;
         // TODO: pick this
+        public static final double kP = 10;
+        public static final double kS = 5.8;
+        public static final double kV = 0.009;
     }
 
     public static class LimelightConstants {
