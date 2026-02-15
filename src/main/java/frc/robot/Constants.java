@@ -67,17 +67,17 @@ public final class Constants {
     }
 
     public static class MotorIDConstants {
-        public static final int intakeMotor = 0;
+        public static final int intakeMotor = 33;
         // TODO:find this ID
         public static final int shooterMotor1 = 53;
         public static final int shooterMotor2 = 54;
-        public static final int HopperMotorSpinner = 0;
+        public static final int HopperMotorSpinner = 43;
         public static final int HopperMotorOutake = 42; // invert this
         // TODO: set motor ID
-        public static final int climberMotor = 0; // TODO: find id
+        public static final int climberMotor = 60; // TODO: find id
         public static final int hoodMotor = 52;
 
-        public static final int turretMotor = 10; // TODO: fix
+        public static final int turretMotor = 21; // TODO: fix
     }
 
     public static class ShooterConstants {
@@ -115,17 +115,17 @@ public final class Constants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0; // TODO: find the real position, maybe limelight?
         public static final double limitSwitchDegrees = 90.0; // TODO: find real value
-        public static final double bottomLimitPosition = -200.0; // TODO: find real value
-        public static final double topLimitPosition = 200.0;
+        public static final double bottomLimitPosition = 0.0; // TODO: find real value
+        public static final double topLimitPosition = 270.0;
         public static final double errorTolerance = 0.0; // find real value
         public static final double encoderCPR = 1.0; // TODO: clarify value
         public static final double gearRatio = 10.4167;
         public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
-        public static final double kP = 1;
+        public static final double kP = 0.4;
         public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double maxForwardDutyCycle = 0.042;
-        public static final double maxReverseDutyCycle = -0.042;
+        public static final double kD = 0.025;
+        public static final double maxForwardDutyCycle = 0.5;
+        public static final double maxReverseDutyCycle = -0.5;
     }
 
     public static class FieldConstants {
