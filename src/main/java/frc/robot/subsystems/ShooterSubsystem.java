@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public boolean atSpeed() {
         return (m_velocity > 0 && (Math
-                .abs(m_shooterMotor1.getClosedLoopError()
+                .abs(m_velocity - m_shooterMotor1.getVelocity()
                         .getValueAsDouble()) < ShooterConstants.shooterErrorThreshold));
     }
 

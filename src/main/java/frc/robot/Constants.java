@@ -49,23 +49,24 @@ public final class Constants {
         public static final DoubleSupplier m_leftAxisX = () -> m_driveJoystick.getRawAxis(0);
         public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
 
-        public static final Trigger intakeTrigger = m_driveJoystick.button(9);
-        public static final Trigger setShooterTrigger = m_driveJoystick.a();
-        public static final Trigger stopShooterTrigger = m_driveJoystick.b();
-        public static final Trigger magicShooterTrigger = m_driveJoystick.x();
-        public static final Trigger adjustableShooterTrigger = m_driveJoystick.y();
-        // TODO: pick a button number for all of these
-        public static final Trigger hopperTrigger = m_driveJoystick.button(1); // TODO: don't overload A button
-        public static final Trigger climbTrigger = m_driveJoystick.button(9);// TODO: pick a button number
-        public static final Trigger climbUpTrigger = m_driveJoystick.button(9); // TODO: pick a button number
-        public static final Trigger climbDownTrigger = m_driveJoystick.button(9); // TODO: pick a button number
-        public static final Trigger runTurretTrigger = m_driveJoystick.button(5);
-        public static final Trigger calibrateTurretTrigger = m_driveJoystick.button(6);
-        public static final Trigger turnTurretToTargetTrigger = m_driveJoystick.button(7);
-        public static final Trigger shootTrigger = m_driveJoystick.axisGreaterThan(3, 0.2);
-        public static final Trigger setFieldCentricTrigger = m_driveJoystick.button(8);
-        public static final Trigger runHoodTrigger = m_driveJoystick.button(9);
-        // TODO: pick a button number for all of these
+        public static final Trigger intakeTrigger = m_driveJoystick.leftTrigger(0.2);
+        public static final Trigger shootTrigger = m_driveJoystick.rightTrigger(0.2);
+        public static final Trigger setShooterTrigger = new Trigger(m_driveJoystick.getHID()::getAButton);
+        public static final Trigger stopShooterTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
+        public static final Trigger magicShooterTrigger = new Trigger(m_driveJoystick.getHID()::getXButton);
+        public static final Trigger adjustableShooterTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
+        public static final Trigger runHoodTrigger = new Trigger(m_driveJoystick.getHID()::getLeftStickButton);
+        public static final Trigger runTurretTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
+        public static final Trigger calibrateTurretTrigger = new Trigger(
+                m_driveJoystick.getHID()::getRightBumperButton);
+        public static final Trigger turnTurretToTargetTrigger = new Trigger(m_driveJoystick.getHID()::getStartButton);
+        public static final Trigger setFieldCentricTrigger = new Trigger(m_driveJoystick.getHID()::getBackButton);
+        // begin TODO: pick a button number for all of these
+        public static final Trigger hopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
+        public static final Trigger climbTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
+        public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
+        public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
+        // end TODO
 
     }
 
@@ -75,7 +76,7 @@ public final class Constants {
         public static final int shooterMotor1 = 53;
         public static final int shooterMotor2 = 54;
         public static final int HopperMotorSpinner = 43;
-        public static final int HopperMotorOutake = 42; // invert this
+        public static final int HopperMotorUplifter = 42; // invert this
         // TODO: set motor ID
         public static final int climberMotor = 60; // TODO: find id
         public static final int hoodMotor = 52;
@@ -137,8 +138,12 @@ public final class Constants {
 
     public static class HopperConstants {
         public static final double spinnerSpeed = .5;
-        public static final double outakeSpeed = .8;
+        public static final double uplifterSpeed = 80; // rotations per second
         // TODO: hopper/outake motors must turn counter clock-wise.
+
+        public static final double kP = 10;
+        public static final double kS = 3.4;
+        public static final double kV = 0.006;
     }
 
     public static class ClimberConstants {

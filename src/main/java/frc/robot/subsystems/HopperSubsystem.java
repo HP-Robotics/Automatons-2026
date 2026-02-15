@@ -2,7 +2,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
@@ -11,28 +13,33 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.MotorIDConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class HopperSubsystem extends SubsystemBase {
     TalonFX m_hopperMotor;
-    TalonFX m_outakeMotor;
-    final TalonFXConfiguration m_rightMotorConfigs = new TalonFXConfiguration()
+    TalonFX m_uplifterMotor;
+    final TalonFXConfiguration m_uplifterMotorConfigs = new TalonFXConfiguration()
             .withMotorOutput(new MotorOutputConfigs()
-                    .withInverted(InvertedValue.Clockwise_Positive));
+                    .withInverted(InvertedValue.Clockwise_Positive))
+            .withSlot0(new Slot0Configs()
+                    .withKP(HopperConstants.kP)
+                    .withKS(HopperConstants.kS)
+                    .withKV(HopperConstants.kV));
 
     public HopperSubsystem() {
         // m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
-        m_outakeMotor = new TalonFX(MotorIDConstants.HopperMotorOutake);
-        m_outakeMotor.getConfigurator().apply(m_rightMotorConfigs);
+        m_uplifterMotor = new TalonFX(MotorIDConstants.HopperMotorUplifter);
+        m_uplifterMotor.getConfigurator().apply(m_uplifterMotorConfigs);
     }
 
-    public void runHopper(double spinnerSpeed, double outakeSpeed) {
+    public void runHopper(double spinnerSpeed, double uplifterSpeed) {
         // m_hopperMotor.set(spinnerSpeed);
-        m_outakeMotor.set(outakeSpeed);
+        m_uplifterMotor.setControl(new VelocityTorqueCurrentFOC(uplifterSpeed));
     }
 
     public void stopHopper() {
         // m_hopperMotor.set(0);
-        m_outakeMotor.set(0);
+        m_uplifterMotor.set(0);
     }
 
     public void periodic() {
@@ -42,7 +49,7 @@ public class HopperSubsystem extends SubsystemBase {
     public Command RunHopper() {
         return new StartEndCommand(
                 () -> {
-                    this.runHopper(HopperConstants.spinnerSpeed, HopperConstants.outakeSpeed);
+                    this.runHopper(HopperConstants.spinnerSpeed, HopperConstants.uplifterSpeed);
                 },
                 () -> {
                     this.stopHopper();
