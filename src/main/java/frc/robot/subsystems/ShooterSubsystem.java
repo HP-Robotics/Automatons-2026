@@ -26,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
     TalonFX m_shooterMotor2 = new TalonFX(MotorIDConstants.shooterMotor2);
     public NetworkTable m_table = NetworkTableInstance.getDefault().getTable("ShooterSubsystem");
     double m_velocity = 0.0;
+    double shooterSetpoint;
 
     public ShooterSubsystem() {
         final TalonFXConfiguration leftMotorConfigs = new TalonFXConfiguration()
@@ -40,14 +41,14 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .withInverted(InvertedValue.Clockwise_Positive));
         m_shooterMotor2.getConfigurator().apply(rightMotorConfigs);
         m_shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotor1, MotorAlignmentValue.Opposed));
-        m_table.putValue("shooterSpeed", NetworkTableValue.makeDouble(ShooterConstants.shootingSpeed));
-
+        m_table.putValue("speedToSet", NetworkTableValue.makeDouble(ShooterConstants.defaultShootingSpeed));
     }
     // shooter modes: magic mode, fixed speed, network tables, stopped, idle
 
     public void setVelocity(double speed) {
         m_velocity = speed;
         m_shooterMotor1.setControl(new VelocityTorqueCurrentFOC(speed));
+        m_table.putValue("shooterSpeed", NetworkTableValue.makeDouble(speed));
         // shooterMotor2.set(speed);
     }
 
@@ -62,7 +63,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void networkTablesSpeed() {
-        double speed = m_table.getEntry("shooterSpeed").getDouble(ShooterConstants.idleSpeed);
+        double speed = m_table.getEntry("speedToSet").getDouble(ShooterConstants.idleSpeed);
         setVelocity(speed);
     }
 
@@ -79,9 +80,15 @@ public class ShooterSubsystem extends SubsystemBase {
         m_shooterMotor2.set(speed);
     }
 
+    @Override
+    public void periodic() {
+        m_table.putValue("motorSpeed",
+                NetworkTableValue.makeDouble(m_shooterMotor1.getRotorVelocity().getValueAsDouble()));
+    }
+
     public Command FixedShooter() {
         return new StartEndCommand(() -> {
-            setVelocity(ShooterConstants.shootingSpeed);
+            setVelocity(ShooterConstants.defaultShootingSpeed);
         },
                 this::idleMotor,
                 this);
