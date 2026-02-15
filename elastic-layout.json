@@ -1,0 +1,89 @@
+{
+  "version": 1.0,
+  "grid_size": 128,
+  "tabs": [
+    {
+      "name": "Teleoperated",
+      "grid_layout": {
+        "layouts": [],
+        "containers": []
+      }
+    },
+    {
+      "name": "Autonomous",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "active",
+            "x": 896.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Auto Chooser/active",
+              "period": 0.06,
+              "data_type": "string",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "default",
+            "x": 640.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Auto Chooser/default",
+              "period": 0.06,
+              "data_type": "string",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "options",
+            "x": 128.0,
+            "y": 0.0,
+            "width": 1024.0,
+            "height": 256.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Auto Chooser/options",
+              "period": 0.06,
+              "data_type": "string[]",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Auto Chooser",
+            "x": 384.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Auto Chooser",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Path Chooser",
+            "x": 128.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/SmartDashboard/Path Chooser",
+              "period": 0.06,
+              "sort_options": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
