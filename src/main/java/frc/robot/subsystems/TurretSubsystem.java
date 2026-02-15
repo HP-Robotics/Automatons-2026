@@ -122,6 +122,9 @@ public class TurretSubsystem extends SubsystemBase {
         + (TurretConstants.limitSwitchDegrees);
   }
 
+  // TODO: if we don't hit the limit switch and our current rises, we need to
+  // assume we messed up and reverse until we hit the limit switch, and stop after
+  // the limit switch turns off
   public Command Calibrate() { // turns turret until we hit the limit switch, then sets the offset to the motor
                                // position
     return new StartEndCommand(() -> runTurret(), () -> stopTurret()).until(() -> atLimit())
