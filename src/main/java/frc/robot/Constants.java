@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
@@ -41,18 +42,20 @@ public final class Constants {
     }
 
     public static class ControllerConstants {
-        public static final CommandJoystick m_driveJoystick = new CommandJoystick(0);
+        public static final CommandXboxController m_driveJoystick = new CommandXboxController(0);
+        public static final CommandXboxController m_opJoystick = new CommandXboxController(1);
+
         public static final DoubleSupplier m_leftAxisY = () -> m_driveJoystick.getRawAxis(1);
         public static final DoubleSupplier m_leftAxisX = () -> m_driveJoystick.getRawAxis(0);
         public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
 
         public static final Trigger intakeTrigger = m_driveJoystick.button(9);
-        public static final Trigger setShooterTrigger = m_driveJoystick.button(1);
-        public static final Trigger stopShooterTrigger = m_driveJoystick.button(2);
-        public static final Trigger magicShooterTrigger = m_driveJoystick.button(3);
-        public static final Trigger adjustableShooterTrigger = m_driveJoystick.button(4);
+        public static final Trigger setShooterTrigger = m_driveJoystick.a();
+        public static final Trigger stopShooterTrigger = m_driveJoystick.b();
+        public static final Trigger magicShooterTrigger = m_driveJoystick.x();
+        public static final Trigger adjustableShooterTrigger = m_driveJoystick.y();
         // TODO: pick a button number for all of these
-        public static final Trigger hopperTrigger = m_driveJoystick.button(1); // TODO: pick a button number
+        public static final Trigger hopperTrigger = m_driveJoystick.button(1); // TODO: don't overload A button
         public static final Trigger climbTrigger = m_driveJoystick.button(9);// TODO: pick a button number
         public static final Trigger climbUpTrigger = m_driveJoystick.button(9); // TODO: pick a button number
         public static final Trigger climbDownTrigger = m_driveJoystick.button(9); // TODO: pick a button number
