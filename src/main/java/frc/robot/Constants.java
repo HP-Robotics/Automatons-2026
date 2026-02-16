@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.InterpolatingMatrixTreeMap;
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import java.util.function.DoubleSupplier;
+
+import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -56,7 +60,8 @@ public final class Constants {
         public static final Trigger magicShooterTrigger = new Trigger(m_driveJoystick.getHID()::getXButton);
         public static final Trigger adjustableShooterTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
         public static final Trigger runHoodTrigger = new Trigger(m_driveJoystick.getHID()::getLeftStickButton);
-        public static final Trigger runTurretTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
+        // public static final Trigger runTurretTrigger = new
+        // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         public static final Trigger calibrateTurretTrigger = new Trigger(
                 m_driveJoystick.getHID()::getRightBumperButton);
         public static final Trigger turnTurretToTargetTrigger = new Trigger(m_driveJoystick.getHID()::getStartButton);
@@ -66,6 +71,8 @@ public final class Constants {
         public static final Trigger climbTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
         public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
         public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
+        public static final Trigger turnTurretToHubTrigger = m_driveJoystick.povUp();
+        public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         // end TODO
 
     }
@@ -98,7 +105,11 @@ public final class Constants {
         public static InterpolatingMatrixTreeMap<Double, N2, N1> fillTreeMap() {
             // TreeMap.put(double) use this function to add to tree map
             InterpolatingMatrixTreeMap<Double, N2, N1> output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
-            // output.put(2.0, MatBuilder.fill(Nat.N2(), Nat.N1(), 1.0, 2.0));
+            output.put(1.36, MatBuilder.fill(Nat.N2(), Nat.N1(), 50, 1.15));
+            output.put(2.54, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 2.05));
+            output.put(3.68, MatBuilder.fill(Nat.N2(), Nat.N1(), 62, 2.5));
+            output.put(4.36, MatBuilder.fill(Nat.N2(), Nat.N1(), 68, 2.5));
+            output.put(5.49, MatBuilder.fill(Nat.N2(), Nat.N1(), 74, 2.5));
             return output;
         }
 
@@ -118,9 +129,9 @@ public final class Constants {
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0; // TODO: find the real position, maybe limelight?
-        public static final double limitSwitchDegrees = 78.0; // TODO: find real value
-        public static final double bottomLimitPosition = 0.0; // TODO: find real value
-        public static final double topLimitPosition = 270.0;
+        public static final double limitSwitchDegrees = 171.0; // TODO: find real value
+        public static final double bottomLimitPosition = 93.0; // TODO: find real value
+        public static final double topLimitPosition = 363.0;
         public static final double errorTolerance = 0.0; // find real value
         public static final double encoderCPR = 1.0; // TODO: clarify value
         public static final double gearRatio = 10.4167;
@@ -130,10 +141,12 @@ public final class Constants {
         public static final double kD = 0.025;
         public static final double maxForwardDutyCycle = 0.5;
         public static final double maxReverseDutyCycle = -0.5;
+        public static final Translation2d centerPosition = new Translation2d(-6.5 * .0254, 6.5 * .0254);
     }
 
     public static class FieldConstants {
-        public static final Translation2d hub = new Translation2d(1.0, 0.0); // TODO: get real coordinates
+        public static final Translation2d blueHub = new Translation2d(4.625594, 4.034536);
+        public static final Translation2d redHub = FlippingUtil.flipFieldPosition(blueHub);
     }
 
     public static class HopperConstants {

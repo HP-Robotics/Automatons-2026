@@ -116,7 +116,7 @@ public class HoodSubsystem extends SubsystemBase {
                 () -> {
                     getFromNetworkTables();
                     magicHood(m_targetPosition);
-                });
+                }, this);
     }
 
     public boolean isDown() {

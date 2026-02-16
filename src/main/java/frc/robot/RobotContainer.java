@@ -12,21 +12,29 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -66,6 +74,15 @@ public class RobotContainer {
     public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
     public final ClimberSubsystem m_climberSubsystem = (SubsystemConstants.useClimber) ? new ClimberSubsystem() : null;
     public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
+
+    public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("glimbus");
+    StructPublisher<Pose2d> m_posePublisher = m_table.getStructTopic("hubPose", Pose2d.struct).publish();
+    StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
+            .publish();
+
+    public double m_turretToHub;
+    public double m_staticWheelSpeed;
+    public double m_staticHoodPosition;
 
     public RobotContainer() {
         configureBindings();
@@ -149,24 +166,65 @@ public class RobotContainer {
         }
 
         if (SubsystemConstants.useTurret) {
-            ControllerConstants.runTurretTrigger.whileTrue(new StartEndCommand(m_turretSubsystem::runTurret,
-                    m_turretSubsystem::stopTurret, m_turretSubsystem));
+            // ControllerConstants.runTurretTrigger.whileTrue(new
+            // StartEndCommand(m_turretSubsystem::runTurret,
+            // m_turretSubsystem::stopTurret, m_turretSubsystem));
             ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
             ControllerConstants.turnTurretToTargetTrigger.whileTrue(m_turretSubsystem.RotateTurret());
+            ControllerConstants.turnTurretToHubTrigger.whileTrue(new RunCommand(() -> {
+                m_turretSubsystem.setTargetPosition(m_turretToHub);
+                m_turretSubsystem.rotateTurretToTarget();
+            }, m_turretSubsystem));
+        }
+
+        if (SubsystemConstants.useShooter && SubsystemConstants.useTurret && SubsystemConstants.useHood) {
+            ControllerConstants.runStaticShotTrigger.whileTrue(
+                    new ParallelCommandGroup(
+                            new RunCommand(() -> {
+                                m_shooterSubsystem.setVelocity(m_staticWheelSpeed);
+                                m_hoodSubsystem.setHood(m_staticHoodPosition);
+                                m_turretSubsystem.setTargetPosition(m_turretToHub);
+                                m_turretSubsystem.rotateTurretToTarget();
+                            }, m_shooterSubsystem, m_hoodSubsystem).finallyDo(m_shooterSubsystem::stopMotor),
+                            new SequentialCommandGroup(
+                                    new WaitUntilCommand(m_shooterSubsystem::atSpeed),
+                                    m_hopperSubsystem.RunHopper())));
         }
     }
 
-    public void staticShot() {
+    public void calculateStaticShot() {
         Pose2d pose = m_drivetrain.getState().Pose;
-        double distance = pose.getTranslation().getDistance(FieldConstants.hub);
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
         // (robot-facing direction)
         // TODO: factor in turret position compared to robot middle
-        Rotation2d angleToHub = new Pose2d(FieldConstants.hub, new Rotation2d()).relativeTo(pose).getTranslation()
-                .getAngle();
+        Pose2d robotToHub = new Pose2d(FieldConstants.redHub, new Rotation2d()).relativeTo(pose);
+        Translation2d turretToHub = robotToHub.getTranslation().minus(TurretConstants.centerPosition);
+
+        // Rotation2d robotAngleToHub = turretToHub.getAngle();
+        // double distance = turretToHub.getNorm();
+        // m_turretToHub = robotAngleToHub.getDegrees();
+        Translation2d turretPosition = TurretConstants.centerPosition.rotateBy(pose.getRotation())
+                .plus(pose.getTranslation());
+        Pose2d alternateTurretToHub = new Pose2d(FieldConstants.redHub, new Rotation2d())
+                .relativeTo(new Pose2d(turretPosition, pose.getRotation()));
+        Rotation2d robotAngleToHub = alternateTurretToHub.getTranslation().getAngle();
+        double distance = alternateTurretToHub.getTranslation().getNorm();
+        m_turretToHub = robotAngleToHub.getDegrees();
+
+        m_table.putValue("robotAngleToHub", NetworkTableValue.makeDouble(m_turretToHub));
+        m_table.putValue("distance", NetworkTableValue.makeDouble(distance));
+        m_posePublisher.set(new Pose2d(FieldConstants.redHub, new Rotation2d()));
+        m_turretPosePublisher.set(new Pose2d(turretPosition,
+                new Rotation2d(m_turretSubsystem.getAngle().plus(pose.getRotation().getMeasure()))));
 
         Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
+        m_staticWheelSpeed = staticShot.get(0, 0);
+        m_staticHoodPosition = staticShot.get(1, 0);
+
+        m_table.putValue("staticWheelSpeed", NetworkTableValue.makeDouble(m_staticWheelSpeed));
+        m_table.putValue("staticHoodPosition", NetworkTableValue.makeDouble(m_staticHoodPosition));
+
         // turret.pointin(angleToHub); TODO: merge branch to use the turret function
         // hood.setAngle(staticShot.get(1,0));
         // m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
@@ -197,5 +255,7 @@ public class RobotContainer {
         for (VisionMeasurement visionMeasurement : m_limelightSubsystem.getAllLimelightData()) {
             m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp);
         }
+
+        calculateStaticShot();
     }
 }

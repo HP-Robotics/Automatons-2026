@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -15,6 +17,7 @@ import com.ctre.phoenix6.signals.ReverseLimitValue;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -87,6 +90,10 @@ public class TurretSubsystem extends SubsystemBase {
     return !m_limitInput.get(); // flipped because this limit switch returns false when hit
   }
 
+  public Angle getAngle() {
+    return Degrees.of(motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble()));
+  }
+
   public double flipToNewTarget() { // calculate if we're in the overlap, if we're nearer the top or bottom limit,
     // and which version of target position we're closest to --> flip
     if (m_targetPosition - 360 < TurretConstants.bottomLimitPosition
@@ -110,6 +117,11 @@ public class TurretSubsystem extends SubsystemBase {
       var target = new PositionDutyCycle(degreesToMotorTicks(m_targetPosition));
       m_turretMotor.setControl(target);
     });
+  }
+
+  public void rotateTurretToTarget() {
+    var target = new PositionDutyCycle(degreesToMotorTicks(m_targetPosition));
+    m_turretMotor.setControl(target);
   }
 
   public double degreesToMotorTicks(double degrees) {
