@@ -11,6 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -23,8 +24,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -39,12 +44,15 @@ import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.GeometryUtil.SphericalCoordinate;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+
+import frc.robot.GeometryUtil;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
@@ -199,7 +207,7 @@ public class RobotContainer {
         }
     }
 
-    public void calculateStaticShot(Translation2d target) {
+    public double[] calculateStaticShot(Translation2d target) {
         Pose2d pose = m_drivetrain.getState().Pose;
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
@@ -235,6 +243,31 @@ public class RobotContainer {
         // turret.pointin(angleToHub); TODO: merge branch to use the turret function
         // hood.setAngle(staticShot.get(1,0));
         // m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
+        double[] output = new double[3];
+        output[0] = m_staticWheelSpeed;
+        output[1] = m_staticHoodPosition;
+        output[2] = m_turretToHub;
+        return output;
+    }
+
+    public void movingShot(double[] staticShot) {
+        // Step 2: converting the motor outputs from Step 1 to spherical coordinates
+        SphericalCoordinate motorOutputSpherical = new SphericalCoordinate(staticShot[0], Radians.of(staticShot[1]),
+                Radians.of(staticShot[2]));
+        // Step 3: convert spherical coordinates to cartesian coordinates
+        Translation3d motorOutputCartesian = GeometryUtil.sphericalToCartesian(motorOutputSpherical);
+        // Step 4: subtract the driving velocity off of the cartesian static shot
+        ChassisSpeeds driveVelocity = m_drivetrain.getState().Speeds;
+        Translation3d driveTranslation = new Translation3d(driveVelocity.vxMetersPerSecond,
+                driveVelocity.vyMetersPerSecond, 0.0);
+        Translation3d dynamicShotVector = motorOutputCartesian.minus(driveTranslation);
+
+        SphericalCoordinate dynamicShotSpherical = GeometryUtil.cartesianToSpherical(dynamicShotVector.getX(),
+                dynamicShotVector.getY(), dynamicShotVector.getZ());
+        double wheelSpeed = dynamicShotSpherical.magnitude;
+        Angle hoodAngle = dynamicShotSpherical.pitch;
+        Angle turretAngle = dynamicShotSpherical.yaw;
+        // Step 5: set the motors for the wheel speed, hood angle, and turret angle
     }
 
     public Command getAutonomousCommand() {
