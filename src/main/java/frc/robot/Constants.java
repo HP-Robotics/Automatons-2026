@@ -147,6 +147,13 @@ public final class Constants {
     public static class FieldConstants {
         public static final Translation2d blueHub = new Translation2d(4.625594, 4.034536);
         public static final Translation2d redHub = FlippingUtil.flipFieldPosition(blueHub);
+        public static final Translation2d blueDepotSide = new Translation2d(2.54, 6.02);
+        public static final Translation2d blueOutpostSide = new Translation2d(2.54, 2.01);
+        public static final double blueAllianceZoneX = 4.61;
+        public static final double redAllianceZoneX = 11.91;
+        public static final double centerLineY = 4.02;
+        public static final Translation2d redDepotSide = FlippingUtil.flipFieldPosition(blueDepotSide);
+        public static final Translation2d redOutpostSide = FlippingUtil.flipFieldPosition(blueOutpostSide);
     }
 
     public static class HopperConstants {

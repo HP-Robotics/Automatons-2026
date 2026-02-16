@@ -28,7 +28,7 @@ public class HoodSubsystem extends SubsystemBase {
     double m_targetPosition;
     double m_defaultPosition;
 
-    public NetworkTable table = NetworkTableInstance.getDefault().getTable("DraftHood");
+    public NetworkTable table = NetworkTableInstance.getDefault().getTable("Hood");
 
     public HoodSubsystem() {
         double currentPosition = m_hoodMotor.getPosition().getValueAsDouble();

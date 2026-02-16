@@ -19,6 +19,10 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -75,17 +79,20 @@ public class RobotContainer {
     public final ClimberSubsystem m_climberSubsystem = (SubsystemConstants.useClimber) ? new ClimberSubsystem() : null;
     public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
-    public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("glimbus");
-    StructPublisher<Pose2d> m_posePublisher = m_table.getStructTopic("hubPose", Pose2d.struct).publish();
+    public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Robot");
+    StructPublisher<Pose2d> m_posePublisher = m_table.getStructTopic("targetPose", Pose2d.struct).publish();
     StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
             .publish();
 
     public double m_turretToHub;
     public double m_staticWheelSpeed;
     public double m_staticHoodPosition;
+    public Translation2d m_shootingTarget;
+    public Field2d m_field = new Field2d();
 
     public RobotContainer() {
         configureBindings();
+        SmartDashboard.putData("field", m_field);
     }
 
     private void configureBindings() {
@@ -192,13 +199,13 @@ public class RobotContainer {
         }
     }
 
-    public void calculateStaticShot() {
+    public void calculateStaticShot(Translation2d target) {
         Pose2d pose = m_drivetrain.getState().Pose;
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
         // (robot-facing direction)
         // TODO: factor in turret position compared to robot middle
-        Pose2d robotToHub = new Pose2d(FieldConstants.redHub, new Rotation2d()).relativeTo(pose);
+        Pose2d robotToHub = new Pose2d(target, new Rotation2d()).relativeTo(pose);
         Translation2d turretToHub = robotToHub.getTranslation().minus(TurretConstants.centerPosition);
 
         // Rotation2d robotAngleToHub = turretToHub.getAngle();
@@ -206,7 +213,7 @@ public class RobotContainer {
         // m_turretToHub = robotAngleToHub.getDegrees();
         Translation2d turretPosition = TurretConstants.centerPosition.rotateBy(pose.getRotation())
                 .plus(pose.getTranslation());
-        Pose2d alternateTurretToHub = new Pose2d(FieldConstants.redHub, new Rotation2d())
+        Pose2d alternateTurretToHub = new Pose2d(target, new Rotation2d())
                 .relativeTo(new Pose2d(turretPosition, pose.getRotation()));
         Rotation2d robotAngleToHub = alternateTurretToHub.getTranslation().getAngle();
         double distance = alternateTurretToHub.getTranslation().getNorm();
@@ -214,7 +221,7 @@ public class RobotContainer {
 
         m_table.putValue("robotAngleToHub", NetworkTableValue.makeDouble(m_turretToHub));
         m_table.putValue("distance", NetworkTableValue.makeDouble(distance));
-        m_posePublisher.set(new Pose2d(FieldConstants.redHub, new Rotation2d()));
+        m_posePublisher.set(new Pose2d(target, new Rotation2d()));
         m_turretPosePublisher.set(new Pose2d(turretPosition,
                 new Rotation2d(m_turretSubsystem.getAngle().plus(pose.getRotation().getMeasure()))));
 
@@ -255,7 +262,33 @@ public class RobotContainer {
         for (VisionMeasurement visionMeasurement : m_limelightSubsystem.getAllLimelightData()) {
             m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp);
         }
+        if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().get() == Alliance.Red) {
+                if (m_drivetrain.getState().Pose.getX() > FieldConstants.redAllianceZoneX) {
+                    m_shootingTarget = FieldConstants.redHub;
+                } else {
+                    if (m_drivetrain.getState().Pose.getY() > FieldConstants.centerLineY) {
+                        m_shootingTarget = FieldConstants.redOutpostSide;
+                    } else {
+                        m_shootingTarget = FieldConstants.redDepotSide;
+                    }
+                }
+            } else {
+                if (m_drivetrain.getState().Pose.getX() < FieldConstants.blueAllianceZoneX) {
+                    m_shootingTarget = FieldConstants.blueHub;
+                } else {
+                    if (m_drivetrain.getState().Pose.getY() < FieldConstants.centerLineY) {
+                        m_shootingTarget = FieldConstants.blueOutpostSide;
+                    } else {
+                        m_shootingTarget = FieldConstants.blueDepotSide;
+                    }
+                }
 
-        calculateStaticShot();
+            }
+
+            calculateStaticShot(m_shootingTarget);
+        }
+        m_field.setRobotPose(m_drivetrain.getState().Pose);
+
     }
 }
