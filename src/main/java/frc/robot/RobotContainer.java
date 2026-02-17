@@ -92,6 +92,14 @@ public class RobotContainer {
     StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
             .publish();
 
+    public TriangleInterpolator m_velocityInterpolator = new TriangleInterpolator(2,
+            Filesystem.getDeployDirectory().getAbsolutePath().concat("/velocityTriangles.json"),
+            Filesystem.getDeployDirectory().getAbsolutePath().concat("/velocityPoints.json"));
+
+    public TriangleInterpolator m_motorOutputInterpolator = new TriangleInterpolator(2,
+            Filesystem.getDeployDirectory().getAbsolutePath().concat("/motorOutputTriangles.json"),
+            Filesystem.getDeployDirectory().getAbsolutePath().concat("/motorOutputPoints.json"));
+
     public double m_turretToHub;
     public double m_staticWheelSpeed;
     public double m_staticHoodPosition;
@@ -101,6 +109,12 @@ public class RobotContainer {
     public RobotContainer() {
         configureBindings();
         SmartDashboard.putData("field", m_field);
+        // m_velocityInterpolator.draw("/media/sda1/draws/xVelcoty.png",
+        // 1000,
+        // 1000, 45, 90, 2.7, 0, 0, 0, 6);
+        // m_velocityInterpolator.draw("/media/sda1/draws/yVelcoty.png",
+        // 1000,
+        // 1000, 45, 90, 2.7, 0, 1, 0, 10);
     }
 
     private void configureBindings() {
