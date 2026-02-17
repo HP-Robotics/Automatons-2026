@@ -113,6 +113,8 @@ public final class Constants {
             return output;
         }
 
+        public static final double lookAheadTime = 0.1;
+
         public static final double shooterErrorThreshold = 1;
 
     }

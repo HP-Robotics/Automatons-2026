@@ -13,7 +13,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -27,19 +26,14 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.ControllerConstants;
@@ -55,7 +49,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
-import frc.robot.GeometryUtil;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
@@ -229,7 +222,7 @@ public class RobotContainer {
 
                                     m_hoodSubsystem.setHood(m_dynamicHoodAngle);
                                     m_turretSubsystem.setTargetPosition(m_dynamicTurretAngle);
-                                m_turretSubsystem.rotateTurretToTarget();
+                                    m_turretSubsystem.rotateTurretToTarget();
                                 }
                             }, m_shooterSubsystem, m_hoodSubsystem).finallyDo(m_shooterSubsystem::stopMotor),
                             new SequentialCommandGroup(
@@ -307,7 +300,6 @@ public class RobotContainer {
         Translation3d driveTranslation = new Translation3d(driveVelocity.vxMetersPerSecond,
                 driveVelocity.vyMetersPerSecond, 0.0);
         Translation3d dynamicShotVector = motorOutputCartesian.minus(driveTranslation);
-
         SphericalCoordinate dynamicShotSpherical = GeometryUtil.cartesianToSpherical(dynamicShotVector.getX(),
                 dynamicShotVector.getY(), dynamicShotVector.getZ());
         Optional<double[]> dynamicShotMotorOutputs = m_motorOutputInterpolator.getTriangulatedOutput(
@@ -385,6 +377,15 @@ public class RobotContainer {
             movingShot(
                     calculateStaticShot(
                             m_shootingTarget,
+                            m_drivetrain.getState().Pose));
+            // .plus(
+            // new Transform2d(
+            // new Translation2d(
+            // m_drivetrain.getState().Speeds.vxMetersPerSecond,
+            // m_drivetrain.getState().Speeds.vyMetersPerSecond)
+            // .times(ShooterConstants.lookAheadTime),
+            // new Rotation2d()))));
+
             m_table.putValue("shotIsLegal", NetworkTableValue.makeBoolean(m_shotIsLegal));
         }
         m_field.setRobotPose(m_drivetrain.getState().Pose);
