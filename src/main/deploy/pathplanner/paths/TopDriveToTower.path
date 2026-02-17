@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.506804564907275,
-        "y": 7.043238231098431
+        "x": 3.621470273236614,
+        "y": 7.24909027131468
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.506804564907273,
-        "y": 7.043238231098431
+        "x": 3.54922891566265,
+        "y": 6.187759036144579
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DT Start"
     },
     {
       "anchor": {
-        "x": 1.710099857346647,
-        "y": 3.0322539229671905
+        "x": 1.0761055634807417,
+        "y": 4.623708987161199
       },
       "prevControl": {
-        "x": 0.710099857346647,
-        "y": 3.0322539229671905
+        "x": 4.183036144578313,
+        "y": 4.450253012048193
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Climb Zone",
+      "minWaypointRelativePos": 0.8387096774193548,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -42,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

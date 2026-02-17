@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4938659058487873,
-        "y": 1.7125106990014274
+        "x": 3.635360353366873,
+        "y": 0.8111266710979339
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4938659058487844,
-        "y": 1.7125106990014274
+        "x": 2.9544629653150287,
+        "y": 2.904694503164718
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "OT Start"
     },
     {
       "anchor": {
-        "x": 1.710099857346647,
-        "y": 3.0322539229671905
+        "x": 1.0577108433734939,
+        "y": 2.887590361445783
       },
       "prevControl": {
-        "x": 0.710099857346647,
-        "y": 3.0322539229671905
+        "x": 3.0465542168674697,
+        "y": 2.7892409638554216
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Climb Zone",
+      "minWaypointRelativePos": 0.7870967741935422,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -42,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -88.10305452367264
   },
   "reversed": false,
   "folder": null,
