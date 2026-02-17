@@ -1,5 +1,6 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
 
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -10,13 +11,13 @@ public class GeometryUtil {
 
     public static class SphericalCoordinate {
         double magnitude;
-        Angle pitch; // radians
-        Angle yaw; // radians        
+        Angle pitch;
+        Angle yaw;
 
         public SphericalCoordinate(double magnitude, Angle pitch, Angle yaw) {
             this.magnitude = magnitude;
             this.pitch = pitch;
-            this.yaw = pitch;
+            this.yaw = yaw;
         }
     }
 
@@ -29,8 +30,14 @@ public class GeometryUtil {
     }
 
     public static Translation3d sphericalToCartesian(SphericalCoordinate target) {
-        return new Translation3d(target.magnitude,
-                new Rotation3d(0, target.pitch.in(Radians), target.yaw.in(Radians)));
+        // System.out.printf("magnitude: %g, pitch: %g, yaw: %g \n", target.magnitude,
+        // target.pitch.in(Degrees),
+        // target.yaw.in(Degrees));
+        return new Translation3d(
+                target.magnitude * Math.cos(target.pitch.in(Radians)) * Math.cos(target.yaw.in(Radians)),
+                target.magnitude * Math.cos(target.pitch.in(Radians)) * Math.sin(target.yaw.in(Radians)),
+                target.magnitude * Math.sin(target.pitch.in(Radians)));
+
     }
 
     public static SphericalCoordinate cartesianToSpherical(double x, double y, double z) {
