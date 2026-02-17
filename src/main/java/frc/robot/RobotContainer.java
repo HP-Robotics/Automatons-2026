@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -21,6 +23,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -105,6 +108,10 @@ public class RobotContainer {
     public double m_staticHoodPosition;
     public Translation2d m_shootingTarget;
     public Field2d m_field = new Field2d();
+    public boolean m_shotIsLegal = false;
+    public double m_dynamicWheelSpeed;
+    public double m_dynamicHoodAngle;
+    public double m_dynamicTurretAngle;
 
     public RobotContainer() {
         configureBindings();
@@ -210,10 +217,13 @@ public class RobotContainer {
             ControllerConstants.runStaticShotTrigger.whileTrue(
                     new ParallelCommandGroup(
                             new RunCommand(() -> {
-                                m_shooterSubsystem.setVelocity(m_staticWheelSpeed);
-                                m_hoodSubsystem.setHood(m_staticHoodPosition);
-                                m_turretSubsystem.setTargetPosition(m_turretToHub);
+                                if (m_shotIsLegal) {
+                                    m_shooterSubsystem.setVelocity(m_dynamicWheelSpeed);
+
+                                    m_hoodSubsystem.setHood(m_dynamicHoodAngle);
+                                    m_turretSubsystem.setTargetPosition(m_dynamicTurretAngle);
                                 m_turretSubsystem.rotateTurretToTarget();
+                                }
                             }, m_shooterSubsystem, m_hoodSubsystem).finallyDo(m_shooterSubsystem::stopMotor),
                             new SequentialCommandGroup(
                                     new WaitUntilCommand(m_shooterSubsystem::atSpeed),
@@ -221,31 +231,29 @@ public class RobotContainer {
         }
     }
 
-    public double[] calculateStaticShot(Translation2d target) {
-        Pose2d pose = m_drivetrain.getState().Pose;
+    public double[] calculateStaticShot(Translation2d target, Pose2d robotPose) {
         // Get the hub as a Pose2d (vector representing where it is on the field) -->
         // find the hub in robot relative coordinates --> get the angle with the x axis
         // (robot-facing direction)
-        // TODO: factor in turret position compared to robot middle
-        Pose2d robotToHub = new Pose2d(target, new Rotation2d()).relativeTo(pose);
+        Pose2d robotToHub = new Pose2d(target, new Rotation2d()).relativeTo(robotPose);
         Translation2d turretToHub = robotToHub.getTranslation().minus(TurretConstants.centerPosition);
 
         // Rotation2d robotAngleToHub = turretToHub.getAngle();
         // double distance = turretToHub.getNorm();
         // m_turretToHub = robotAngleToHub.getDegrees();
-        Translation2d turretPosition = TurretConstants.centerPosition.rotateBy(pose.getRotation())
-                .plus(pose.getTranslation());
+        Translation2d turretPosition = TurretConstants.centerPosition.rotateBy(robotPose.getRotation())
+                .plus(robotPose.getTranslation());
         Pose2d alternateTurretToHub = new Pose2d(target, new Rotation2d())
-                .relativeTo(new Pose2d(turretPosition, pose.getRotation()));
+                .relativeTo(new Pose2d(turretPosition, robotPose.getRotation()));
         Rotation2d robotAngleToHub = alternateTurretToHub.getTranslation().getAngle();
         double distance = alternateTurretToHub.getTranslation().getNorm();
         m_turretToHub = robotAngleToHub.getDegrees();
 
-        m_table.putValue("robotAngleToHub", NetworkTableValue.makeDouble(m_turretToHub));
+        m_table.putValue("turretToHub", NetworkTableValue.makeDouble(m_turretToHub));
         m_table.putValue("distance", NetworkTableValue.makeDouble(distance));
         m_posePublisher.set(new Pose2d(target, new Rotation2d()));
         m_turretPosePublisher.set(new Pose2d(turretPosition,
-                new Rotation2d(m_turretSubsystem.getAngle().plus(pose.getRotation().getMeasure()))));
+                new Rotation2d(m_turretSubsystem.getAngle().plus(robotPose.getRotation().getMeasure()))));
 
         Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
         m_staticWheelSpeed = staticShot.get(0, 0);
@@ -266,8 +274,19 @@ public class RobotContainer {
 
     public void movingShot(double[] staticShot) {
         // Step 2: converting the motor outputs from Step 1 to spherical coordinates
-        SphericalCoordinate motorOutputSpherical = new SphericalCoordinate(staticShot[0], Radians.of(staticShot[1]),
-                Radians.of(staticShot[2]));
+        Optional<double[]> staticShotVelocities = m_velocityInterpolator.getTriangulatedOutput(staticShot[0],
+                staticShot[1]);
+        if (staticShotVelocities.isEmpty()) {
+            m_shotIsLegal = false;
+            return;
+        }
+        double totalVelocity = Math
+                .sqrt(Math.pow(staticShotVelocities.get()[0], 2) + Math.pow(staticShotVelocities.get()[1], 2));
+        double pitchAngle = Math.atan2(staticShotVelocities.get()[1], staticShotVelocities.get()[0]);
+        SphericalCoordinate motorOutputSpherical = new SphericalCoordinate(
+                totalVelocity,
+                Radians.of(pitchAngle),
+                Degrees.of(staticShot[2]));
         // Step 3: convert spherical coordinates to cartesian coordinates
         Translation3d motorOutputCartesian = GeometryUtil.sphericalToCartesian(motorOutputSpherical);
         // Step 4: subtract the driving velocity off of the cartesian static shot
@@ -278,10 +297,21 @@ public class RobotContainer {
 
         SphericalCoordinate dynamicShotSpherical = GeometryUtil.cartesianToSpherical(dynamicShotVector.getX(),
                 dynamicShotVector.getY(), dynamicShotVector.getZ());
-        double wheelSpeed = dynamicShotSpherical.magnitude;
-        Angle hoodAngle = dynamicShotSpherical.pitch;
-        Angle turretAngle = dynamicShotSpherical.yaw;
+        Optional<double[]> dynamicShotMotorOutputs = m_motorOutputInterpolator.getTriangulatedOutput(
+                dynamicShotSpherical.magnitude * Math.cos(dynamicShotSpherical.pitch.in(Radians)),
+                dynamicShotSpherical.magnitude * Math.sin(dynamicShotSpherical.pitch.in(Radians)));
+        m_staticShotVelocityPublisher.set(motorOutputCartesian);
+        m_dynamicShotVelocityPublisher.set(dynamicShotVector);
+        m_robotVelocityPublisher.set(driveTranslation);
+        if (dynamicShotMotorOutputs.isEmpty()) {
+            m_shotIsLegal = false;
+            return;
+        }
+        m_dynamicWheelSpeed = dynamicShotMotorOutputs.get()[0];
+        m_dynamicHoodAngle = dynamicShotMotorOutputs.get()[1];
+        m_dynamicTurretAngle = dynamicShotSpherical.yaw.in(Degrees);
         // Step 5: set the motors for the wheel speed, hood angle, and turret angle
+        m_shotIsLegal = true;
     }
 
     public Command getAutonomousCommand() {
@@ -333,7 +363,11 @@ public class RobotContainer {
 
             }
 
-            calculateStaticShot(m_shootingTarget);
+            movingShot(
+                    calculateStaticShot(
+                            m_shootingTarget,
+                            m_drivetrain.getState().Pose
+                             ));
         }
         m_field.setRobotPose(m_drivetrain.getState().Pose);
 
