@@ -95,6 +95,13 @@ public class RobotContainer {
     StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
             .publish();
 
+    StructPublisher<Translation3d> m_staticShotVelocityPublisher = m_table
+            .getStructTopic("staticShotVelocity", Translation3d.struct).publish();
+    StructPublisher<Translation3d> m_dynamicShotVelocityPublisher = m_table
+            .getStructTopic("dynamicShotVelocity", Translation3d.struct).publish();
+    StructPublisher<Translation3d> m_robotVelocityPublisher = m_table
+            .getStructTopic("robotVelocity", Translation3d.struct).publish();
+
     public TriangleInterpolator m_velocityInterpolator = new TriangleInterpolator(2,
             Filesystem.getDeployDirectory().getAbsolutePath().concat("/velocityTriangles.json"),
             Filesystem.getDeployDirectory().getAbsolutePath().concat("/velocityPoints.json"));
@@ -287,6 +294,12 @@ public class RobotContainer {
                 totalVelocity,
                 Radians.of(pitchAngle),
                 Degrees.of(staticShot[2]));
+        m_table.putValue("staticShotXVelocity", NetworkTableValue.makeDouble(staticShotVelocities.get()[0]));
+        m_table.putValue("staticShotYVelocity", NetworkTableValue.makeDouble(staticShotVelocities.get()[1]));
+        m_table.putValue("totalVelocity", NetworkTableValue.makeDouble(totalVelocity));
+        m_table.putValue("staticShotPitchAngle", NetworkTableValue.makeDouble(pitchAngle));
+        m_table.putValue("staticYawAngle", NetworkTableValue.makeDouble(staticShot[2]));
+
         // Step 3: convert spherical coordinates to cartesian coordinates
         Translation3d motorOutputCartesian = GeometryUtil.sphericalToCartesian(motorOutputSpherical);
         // Step 4: subtract the driving velocity off of the cartesian static shot
@@ -300,6 +313,7 @@ public class RobotContainer {
         Optional<double[]> dynamicShotMotorOutputs = m_motorOutputInterpolator.getTriangulatedOutput(
                 dynamicShotSpherical.magnitude * Math.cos(dynamicShotSpherical.pitch.in(Radians)),
                 dynamicShotSpherical.magnitude * Math.sin(dynamicShotSpherical.pitch.in(Radians)));
+        m_table.putValue("dynamicShotSphericalMagnitude", NetworkTableValue.makeDouble(dynamicShotSpherical.magnitude));
         m_staticShotVelocityPublisher.set(motorOutputCartesian);
         m_dynamicShotVelocityPublisher.set(dynamicShotVector);
         m_robotVelocityPublisher.set(driveTranslation);
@@ -311,6 +325,11 @@ public class RobotContainer {
         m_dynamicHoodAngle = dynamicShotMotorOutputs.get()[1];
         m_dynamicTurretAngle = dynamicShotSpherical.yaw.in(Degrees);
         // Step 5: set the motors for the wheel speed, hood angle, and turret angle
+
+        m_table.putValue("wheelSpeed", NetworkTableValue.makeDouble(m_dynamicWheelSpeed));
+        m_table.putValue("hoodAngle", NetworkTableValue.makeDouble(m_dynamicHoodAngle));
+        m_table.putValue("turretAngle", NetworkTableValue.makeDouble(m_dynamicTurretAngle));
+
         m_shotIsLegal = true;
     }
 
@@ -366,8 +385,7 @@ public class RobotContainer {
             movingShot(
                     calculateStaticShot(
                             m_shootingTarget,
-                            m_drivetrain.getState().Pose
-                             ));
+            m_table.putValue("shotIsLegal", NetworkTableValue.makeBoolean(m_shotIsLegal));
         }
         m_field.setRobotPose(m_drivetrain.getState().Pose);
 
