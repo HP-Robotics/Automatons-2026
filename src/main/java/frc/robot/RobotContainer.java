@@ -65,8 +65,10 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(m_maxSpeed * 0.1).withRotationalDeadband(m_maxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    // private final SwerveRequest.SwerveDriveBrake brake = new
+    // SwerveRequest.SwerveDriveBrake();
+    // private final SwerveRequest.PointWheelsAt point = new
+    // SwerveRequest.PointWheelsAt();
 
     private final Telemetry m_logger = new Telemetry(m_maxSpeed);
 
@@ -262,9 +264,6 @@ public class RobotContainer {
         m_table.putValue("staticWheelSpeed", NetworkTableValue.makeDouble(m_staticWheelSpeed));
         m_table.putValue("staticHoodPosition", NetworkTableValue.makeDouble(m_staticHoodPosition));
 
-        // turret.pointin(angleToHub); TODO: merge branch to use the turret function
-        // hood.setAngle(staticShot.get(1,0));
-        // m_shooterSubsystem.setSpeed(staticShot.get(0, 0));
         double[] output = new double[3];
         output[0] = m_staticWheelSpeed;
         output[1] = m_staticHoodPosition;

@@ -33,7 +33,7 @@ public class TurretSubsystem extends SubsystemBase {
   private double m_targetPosition; // in robot relative degrees
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("TurretSubsystem");
   double m_offset = 0;
-  StatusSignal<ReverseLimitValue> m_limit = m_turretMotor.getReverseLimit(); // TODO: is it reversed?
+  StatusSignal<ReverseLimitValue> m_limit = m_turretMotor.getReverseLimit();
   DigitalInput m_limitInput = new DigitalInput(PortConstants.turretLimitPort);
   Slot0Configs m_turretConfig = new Slot0Configs();
   MotorOutputConfigs m_turretOutputConfig = new MotorOutputConfigs();
