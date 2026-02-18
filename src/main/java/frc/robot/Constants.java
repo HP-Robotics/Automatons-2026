@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -18,7 +17,6 @@ import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 
@@ -62,32 +60,35 @@ public final class Constants {
         public static final Trigger calibrateTurretTrigger = new Trigger(
                 m_driveJoystick.getHID()::getRightBumperButton);
         public static final Trigger setFieldCentricTrigger = new Trigger(m_driveJoystick.getHID()::getBackButton);
-        // begin TODO: pick a button number for all of these
         public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
         public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
         public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
         public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
-        // end TODO
 
+        // TODO: merge the sysID routine selection and make these do something
+        public static final Trigger sysIdDynamicForward = new Trigger(m_driveJoystick.getHID()::getBackButton)
+                .and(m_driveJoystick.getHID()::getYButton);
+        public static final Trigger sysIdDynamicReverse = new Trigger(m_driveJoystick.getHID()::getBackButton)
+                .and(m_driveJoystick.getHID()::getXButton);
+        public static final Trigger sysIdQuasistaticForward = new Trigger(m_driveJoystick.getHID()::getStartButton)
+                .and(m_driveJoystick.getHID()::getYButton);
+        public static final Trigger sysIdQuasistaticReverse = new Trigger(m_driveJoystick.getHID()::getStartButton)
+                .and(m_driveJoystick.getHID()::getXButton);
     }
 
     public static class MotorIDConstants {
         public static final int intakeMotor = 33;
-        // TODO:find this ID
         public static final int shooterMotor1 = 53;
         public static final int shooterMotor2 = 54;
         public static final int HopperMotorSpinner = 43;
-        public static final int HopperMotorUplifter = 42; // invert this
-        // TODO: set motor ID
-        public static final int climberMotor = 60; // TODO: find id
+        public static final int HopperMotorUplifter = 42;
+        public static final int climberMotor = 60;
         public static final int hoodMotor = 52;
-
         public static final int turretMotor = 21; // TODO: fix
     }
 
     public static class ShooterConstants {
         public static final double defaultShootingSpeed = 75; // rotations per second
-        // TODO:find a value for a fixed speed mode
         public static final double idleSpeed = 10; // rotations per second
         // TODO: pick this
         public static final double kP = 10;
@@ -124,12 +125,12 @@ public final class Constants {
 
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
-        public static final double calibrationPosition = 0.0; // TODO: find the real position, maybe limelight?
-        public static final double limitSwitchDegrees = 171.0; // TODO: find real value
-        public static final double bottomLimitPosition = 93.0; // TODO: find real value
+        public static final double calibrationPosition = 0.0;
+        public static final double limitSwitchDegrees = 171.0;
+        public static final double bottomLimitPosition = 93.0;
         public static final double topLimitPosition = 363.0;
-        public static final double errorTolerance = 0.0; // find real value
-        public static final double encoderCPR = 1.0; // TODO: clarify value
+        public static final double errorTolerance = 0.0; // TODO: find real value
+        public static final double encoderCPR = 1.0;
         public static final double gearRatio = 10.4167;
         public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
         public static final double kP = 0.4;
@@ -155,7 +156,6 @@ public final class Constants {
     public static class HopperConstants {
         public static final double spinnerSpeed = .5;
         public static final double uplifterSpeed = 80; // rotations per second
-        // TODO: hopper/outake motors must turn counter clock-wise.
 
         public static final double kP = 10;
         public static final double kS = 3.4;

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.MotorIDConstants;
-import frc.robot.Constants.ShooterConstants;
 
 public class HopperSubsystem extends SubsystemBase {
     TalonFX m_hopperMotor;
@@ -57,5 +56,3 @@ public class HopperSubsystem extends SubsystemBase {
     }
 
 }
-
-// TODO: make it start/stop using a button (DONE?)

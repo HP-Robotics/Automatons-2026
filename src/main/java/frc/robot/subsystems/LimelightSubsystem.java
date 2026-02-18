@@ -63,7 +63,6 @@ public class LimelightSubsystem extends SubsystemBase {
     // m_cameras.add(new LimelightCamera("limelight-kite"));
   }
 
-  // TODO: move all geometry code to a geometry util file
   public double getDistanceToPose(Pose2d robot, Pose2d fieldPose) {
     double distX = fieldPose.getX() - robot.getX();
     double distY = fieldPose.getY() - robot.getY();
@@ -122,10 +121,6 @@ public class LimelightSubsystem extends SubsystemBase {
       timeStamp = tsValue.timestamp;
       double botPosX = botPose[0];
       double botPosY = botPose[1];
-      // double botPosZ = botpose[2];
-      // double botRotX = botpose[3];
-      // double botRotY = botpose[4]; // TODO: Store botPosZ, botRotX, and botRotY
-      // somewhere (Store 3D)
       double botRotZ = botPose[5];
       latency = botPose[6];
       int targetAprilTagID = (int) botPose[11];

@@ -2,8 +2,6 @@ package frc.robot;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 // import org.poly2tri.triangulation.TriangulationPoint;
