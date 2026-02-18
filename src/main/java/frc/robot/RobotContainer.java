@@ -148,18 +148,18 @@ public class RobotContainer {
         if (SubsystemConstants.useShooter) {
             // ControllerConstants.setShooterTrigger.whileTrue(m_shooterSubsystem.fixedShooter());
             // ControllerConstants.stopShooterTrigger.whileTrue(m_shooterSubsystem.stopShooter());
-            ControllerConstants.adjustableShooterTrigger.whileTrue(m_shooterSubsystem.AdjustableShooter());
+            ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(m_shooterSubsystem.AdjustableShooter());
             // ControllerConstants.magicShooterTrigger.whileTrue(m_shooterSubsystem.magicShooter());
         }
 
         if (SubsystemConstants.useHopper) {
-            ControllerConstants.hopperTrigger.whileTrue(m_hopperSubsystem.RunHopper());
+            ControllerConstants.manualHopperTrigger.whileTrue(m_hopperSubsystem.RunHopper());
 
         }
 
         if (SubsystemConstants.useHopper && SubsystemConstants.useShooter) {
 
-            ControllerConstants.shootTrigger.whileTrue(
+            ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(
                     new ParallelCommandGroup(m_shooterSubsystem.AdjustableShooter(),
                             new SequentialCommandGroup(new WaitUntilCommand(m_shooterSubsystem::atSpeed),
                                     m_hopperSubsystem.RunHopper())));
@@ -192,13 +192,12 @@ public class RobotContainer {
         }
 
         if (SubsystemConstants.useClimber) {
-            ControllerConstants.climbTrigger.whileTrue(m_climberSubsystem.Climb());
-            ControllerConstants.climbUpTrigger.whileTrue(m_climberSubsystem.Climb());
-            ControllerConstants.climbDownTrigger.whileTrue(m_climberSubsystem.Climb());
+            ControllerConstants.climbUpTrigger.whileTrue(m_climberSubsystem.ClimbUp());
+            ControllerConstants.climbDownTrigger.whileTrue(m_climberSubsystem.ClimbDown());
         }
 
         if (SubsystemConstants.useHood) {
-            ControllerConstants.runHoodTrigger.whileTrue(m_hoodSubsystem.hoodFromNetworkTables());
+            ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(m_hoodSubsystem.hoodFromNetworkTables());
         }
 
         if (SubsystemConstants.useTurret) {
@@ -206,11 +205,8 @@ public class RobotContainer {
             // StartEndCommand(m_turretSubsystem::runTurret,
             // m_turretSubsystem::stopTurret, m_turretSubsystem));
             ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
-            ControllerConstants.turnTurretToTargetTrigger.whileTrue(m_turretSubsystem.RotateTurret());
-            ControllerConstants.turnTurretToHubTrigger.whileTrue(new RunCommand(() -> {
-                m_turretSubsystem.setTargetPosition(m_turretToHub);
-                m_turretSubsystem.rotateTurretToTarget();
-            }, m_turretSubsystem));
+            ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(m_turretSubsystem.RotateTurret());
+            
         }
 
         if (SubsystemConstants.useShooter && SubsystemConstants.useTurret && SubsystemConstants.useHood) {

@@ -114,8 +114,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public Command RotateTurret() {
     return new RunCommand(() -> {
-      var target = new PositionDutyCycle(degreesToMotorTicks(m_targetPosition));
-      m_turretMotor.setControl(target);
+      rotateTurretToTarget();
     });
   }
 

@@ -54,24 +54,18 @@ public final class Constants {
         public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
 
         public static final Trigger intakeTrigger = m_driveJoystick.leftTrigger(0.2);
-        public static final Trigger shootTrigger = m_driveJoystick.rightTrigger(0.2);
-        public static final Trigger setShooterTrigger = new Trigger(m_driveJoystick.getHID()::getAButton);
         public static final Trigger stopShooterTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         public static final Trigger magicShooterTrigger = new Trigger(m_driveJoystick.getHID()::getXButton);
-        public static final Trigger adjustableShooterTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
-        public static final Trigger runHoodTrigger = new Trigger(m_driveJoystick.getHID()::getLeftStickButton);
+        public static final Trigger ShooterNetworkTablesModeTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
         // public static final Trigger runTurretTrigger = new
         // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         public static final Trigger calibrateTurretTrigger = new Trigger(
                 m_driveJoystick.getHID()::getRightBumperButton);
-        public static final Trigger turnTurretToTargetTrigger = new Trigger(m_driveJoystick.getHID()::getStartButton);
         public static final Trigger setFieldCentricTrigger = new Trigger(m_driveJoystick.getHID()::getBackButton);
         // begin TODO: pick a button number for all of these
-        public static final Trigger hopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
-        public static final Trigger climbTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
+        public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
         public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
         public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
-        public static final Trigger turnTurretToHubTrigger = m_driveJoystick.povUp();
         public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         // end TODO
 

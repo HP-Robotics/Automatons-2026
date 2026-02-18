@@ -48,16 +48,7 @@ public class ClimberSubsystem extends SubsystemBase {
         m_climberMotor.setControl(new PositionVoltage(0).withPosition(ClimberConstants.climberBottomPosition));
     }
 
-    public Command Climb() {
-        return new StartEndCommand(
-                () -> {
-                    this.climberUp();
 
-                },
-                () -> {
-                    this.climberDown();
-                }, this);
-    }
 
     public Command ClimbUp() {
         return new InstantCommand(
