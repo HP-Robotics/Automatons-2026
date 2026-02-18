@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.621470273236614,
-        "y": 7.24909027131468
+        "x": 0.4894698795180723,
+        "y": 5.280759036144579
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.54922891566265,
-        "y": 6.187759036144579
+        "x": 1.6368795180722886,
+        "y": 5.849000000000001
       },
       "isLocked": false,
-      "linkedName": "DT Start"
+      "linkedName": "DepotLower"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 4.614168674698795
       },
       "prevControl": {
-        "x": 4.153713713627692,
-        "y": 4.440712699585789
+        "x": 1.243481927710843,
+        "y": 4.8108674698795175
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,21 +29,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Climb Zone",
-      "minWaypointRelativePos": 0.8387096774193548,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -62,7 +48,7 @@
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

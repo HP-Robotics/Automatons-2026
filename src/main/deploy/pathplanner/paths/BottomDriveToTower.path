@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9544629653150287,
-        "y": 2.904694503164718
+        "x": 1.0030722891593924,
+        "y": 0.9533855421650337
       },
       "isLocked": false,
       "linkedName": "OT Start"
     },
     {
       "anchor": {
-        "x": 1.0577108433734939,
-        "y": 2.887590361445783
+        "x": 1.1123493975931276,
+        "y": 2.8220240963819014
       },
       "prevControl": {
-        "x": 3.0465542168674697,
-        "y": 2.7892409638554216
+        "x": 0.09607228915939259,
+        "y": 2.395843373490335
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LowerTower"
     }
   ],
   "rotationTargets": [],
@@ -56,10 +56,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -88.10305452367264
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.621470273236614,
-        "y": 7.24909027131468
+        "x": 3.571,
+        "y": 4.00221686746988
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.54922891566265,
-        "y": 6.187759036144579
+        "x": 2.5329518072289163,
+        "y": 5.007566265060241
       },
       "isLocked": false,
-      "linkedName": "DT Start"
+      "linkedName": "DHStart"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 4.614168674698795
       },
       "prevControl": {
-        "x": 4.153713713627692,
-        "y": 4.440712699585789
+        "x": 0.38019277108433724,
+        "y": 5.805289156626507
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,21 +29,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Climb Zone",
-      "minWaypointRelativePos": 0.8387096774193548,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -62,7 +48,7 @@
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

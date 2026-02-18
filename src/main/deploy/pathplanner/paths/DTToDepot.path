@@ -8,42 +8,28 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.54922891566265,
-        "y": 6.187759036144579
+        "x": 2.6094457831325304,
+        "y": 7.5318674698795185
       },
       "isLocked": false,
       "linkedName": "DT Start"
     },
     {
       "anchor": {
-        "x": 1.0467831325301202,
-        "y": 4.614168674698795
+        "x": 0.4894698795180723,
+        "y": 6.756
       },
       "prevControl": {
-        "x": 4.153713713627692,
-        "y": 4.440712699585789
+        "x": 0.3364819277108431,
+        "y": 7.608361445783132
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "UpperTower"
+      "linkedName": "DepotTop"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Climb Zone",
-      "minWaypointRelativePos": 0.8387096774193548,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -56,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.98776039940002
+    "rotation": -91.36392753160294
   },
   "reversed": false,
-  "folder": "To Tower",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
