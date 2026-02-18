@@ -85,8 +85,9 @@ public final class Constants {
         public static final DoubleSupplier m_leftAxisX = () -> m_driveJoystick.getRawAxis(0);
         public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
 
-        public static final Trigger intakeTrigger = m_driveJoystick.leftTrigger(0.2);
-        public static final Trigger stopShooterTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
+        public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
+        // public static final Trigger stopShooterTrigger = new
+        // Trigger(m_driveJoystick.getHID()::getBButton);
         public static final Trigger magicShooterTrigger = new Trigger(m_driveJoystick.getHID()::getXButton);
         public static final Trigger ShooterNetworkTablesModeTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
         // public static final Trigger runTurretTrigger = new
@@ -108,12 +109,9 @@ public final class Constants {
                 .and(m_driveJoystick.getHID()::getYButton);
         public static final Trigger sysIdQuasistaticReverse = new Trigger(m_driveJoystick.getHID()::getStartButton)
                 .and(m_driveJoystick.getHID()::getXButton);
-
-        public static final Trigger intakeExtendTrigger = m_driveJoystick.button(2);
     }
 
     public static class MotorIDConstants {
-        public static final int intakeMotor = 33;
         public static final int shooterMotor1 = 53;
         public static final int shooterMotor2 = 54;
         public static final int HopperMotorSpinner = 43;

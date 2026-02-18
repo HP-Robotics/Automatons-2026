@@ -97,11 +97,9 @@ public class IntakeSubsystem extends SubsystemBase {
         m_leftMotor.setControl(m_leftRequest.withPosition(IntakeConstants.leftExtendPosition));
         final MotionMagicVoltage m_rightRequest = new MotionMagicVoltage(0);
         m_rightMotor.setControl(m_rightRequest.withPosition(IntakeConstants.rightExtendPosition));
-        runIntake(IntakeConstants.speed);
     }
 
     public void retractIntake() {
-        stopIntake();
         final MotionMagicVoltage m_leftRequest = new MotionMagicVoltage(0);
         m_leftMotor.setControl(m_leftRequest.withPosition(IntakeConstants.leftRetractPosition));
         final MotionMagicVoltage m_rightRequest = new MotionMagicVoltage(0);

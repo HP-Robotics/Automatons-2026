@@ -146,13 +146,7 @@ public class RobotContainer {
 									m_drivetrain.getRotation3d().toRotation2d()))));
 		}
 		if (SubsystemConstants.useIntake) {
-			ControllerConstants.intakeTrigger.whileTrue(m_intakeSubsystem.Intake());
-			ControllerConstants.intakeExtendTrigger.toggleOnTrue(
-					new RunCommand(
-							() -> m_intakeSubsystem.extendIntake(),
-							m_intakeSubsystem)
-							.finallyDo(
-									() -> m_intakeSubsystem.retractIntake()));
+			ControllerConstants.intakeTrigger.toggleOnTrue(m_intakeSubsystem.Intake());
 		}
 
 		if (SubsystemConstants.useShooter) {
