@@ -26,18 +26,18 @@ public class HopperSubsystem extends SubsystemBase {
                     .withKV(HopperConstants.kV));
 
     public HopperSubsystem() {
-        // m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
+        m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
         m_uplifterMotor = new TalonFX(MotorIDConstants.HopperMotorUplifter);
         m_uplifterMotor.getConfigurator().apply(m_uplifterMotorConfigs);
     }
 
     public void runHopper(double spinnerSpeed, double uplifterSpeed) {
-        // m_hopperMotor.set(spinnerSpeed);
+        m_hopperMotor.set(spinnerSpeed);
         m_uplifterMotor.setControl(new VelocityTorqueCurrentFOC(uplifterSpeed));
     }
 
     public void stopHopper() {
-        // m_hopperMotor.set(0);
+        m_hopperMotor.set(0);
         m_uplifterMotor.set(0);
     }
 
