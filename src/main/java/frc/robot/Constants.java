@@ -73,8 +73,16 @@ public final class Constants {
         public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
         public static final Trigger turnTurretToHubTrigger = m_driveJoystick.povUp();
         public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
-        // end TODO
 
+        // TODO: merge the sysID routine selection and make these do something
+        public static final Trigger sysIdDynamicForward = new Trigger(m_driveJoystick.getHID()::getBackButton)
+                .and(m_driveJoystick.getHID()::getYButton);
+        public static final Trigger sysIdDynamicReverse = new Trigger(m_driveJoystick.getHID()::getBackButton)
+                .and(m_driveJoystick.getHID()::getXButton);
+        public static final Trigger sysIdQuasistaticForward = new Trigger(m_driveJoystick.getHID()::getStartButton)
+                .and(m_driveJoystick.getHID()::getYButton);
+        public static final Trigger sysIdQuasistaticReverse = new Trigger(m_driveJoystick.getHID()::getStartButton)
+                .and(m_driveJoystick.getHID()::getXButton);
     }
 
     public static class MotorIDConstants {
