@@ -130,19 +130,18 @@ public class RobotContainer {
 		// 1000, 45, 90, 2.7, 0, 1, 0, 10);
 	}
 
-    private void configureBindings() {
-        // Note that X is defined as forward according to WPILib convention,
-        // and Y is defined as to the left according to WPILib convention.
+	private void configureBindings() {
+		// Note that X is defined as forward according to WPILib convention,
+		// and Y is defined as to the left according to WPILib convention.
 
-        // Idle while the robot is disabled. This ensures the configured
-        // neutral mode is applied to the drive motors while disabled.
-        final var idle = new SwerveRequest.Idle();
-        RobotModeTriggers.disabled().whileTrue(
-                m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+		// Idle while the robot is disabled. This ensures the configured
+		// neutral mode is applied to the drive motors while disabled.
+		final var idle = new SwerveRequest.Idle();
 
-        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        // joystick.b().whileTrue(drivetrain.applyRequest(
-        //         () -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
+		// joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+		// joystick.b().whileTrue(drivetrain.applyRequest(
+		// () -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(),
+		// -joystick.getLeftX()))));
 
 		if (SubsystemConstants.useDrive) {
 			m_drivetrain.setDefaultCommand(
@@ -156,6 +155,24 @@ public class RobotContainer {
 									MathUtil.applyDeadband(-ControllerConstants.m_rightAxisX.getAsDouble(), 0.1)
 											* m_maxAngularRate,
 									m_drivetrain.getRotation3d().toRotation2d()))));
+			RobotModeTriggers.disabled().whileTrue(
+					m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+
+			// These are neat but we probably don't need them
+			// joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+			// m_joystick.b().whileTrue(m_drivetrain.applyRequest(
+			// () -> point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(),
+			// -m_joystick.getLeftX()))));
+
+			// // Run SysId routines when holding back/start and X/Y.
+			// // Note that each routine should be run exactly once in a single log.
+			// m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+			// m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+			// m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+			// m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
+			// Reset the field-centric heading on left bumper press.
+			ControllerConstants.setFieldCentricTrigger.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
+			m_drivetrain.registerTelemetry(m_logger::telemeterize);
 		}
 		if (SubsystemConstants.useIntake) {
 			ControllerConstants.intakeTrigger.toggleOnTrue(m_intakeSubsystem.Intake());
@@ -180,28 +197,6 @@ public class RobotContainer {
 			// First, spin up the shooter
 			// Wait until shoot is spinning
 			// Run hopper
-		}
-		// Idle while the robot is disabled. This ensures the configured
-		// neutral mode is applied to the drive motors while disabled.
-		if (SubsystemConstants.useDrive) {
-			RobotModeTriggers.disabled().whileTrue(
-					m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
-
-			// These are neat but we probably don't need them
-			// joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-			// m_joystick.b().whileTrue(m_drivetrain.applyRequest(
-			// () -> point.withModuleDirection(new Rotation2d(-m_joystick.getLeftY(),
-			// -m_joystick.getLeftX()))));
-
-			// // Run SysId routines when holding back/start and X/Y.
-			// // Note that each routine should be run exactly once in a single log.
-			// m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
-			// m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
-			// m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
-			// m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
-			// Reset the field-centric heading on left bumper press.
-			ControllerConstants.setFieldCentricTrigger.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
-			m_drivetrain.registerTelemetry(m_logger::telemeterize);
 		}
 
 		if (SubsystemConstants.useClimber) {
@@ -348,10 +343,11 @@ public class RobotContainer {
 	}
 
 	public void periodic() {
-		if (SubsystemConstants.useDrive) {
-			double rot = m_drivetrain.getState().Pose.getRotation().getDegrees();
-			m_limelightSubsystem.updateRobotOrientation(rot);
+		if (!SubsystemConstants.useDrive) {
+			return;
 		}
+		double rot = m_drivetrain.getState().Pose.getRotation().getDegrees();
+		m_limelightSubsystem.updateRobotOrientation(rot);
 
 		for (VisionMeasurement visionMeasurement : m_limelightSubsystem.getAllLimelightData()) {
 			m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp);
