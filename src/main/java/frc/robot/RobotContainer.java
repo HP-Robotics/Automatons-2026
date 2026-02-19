@@ -369,19 +369,21 @@ public class RobotContainer {
 
 			}
 
-			movingShot(
-					calculateStaticShot(
-							m_shootingTarget,
-							m_drivetrain.getState().Pose));
-			// .plus(
-			// new Transform2d(
-			// new Translation2d(
-			// m_drivetrain.getState().Speeds.vxMetersPerSecond,
-			// m_drivetrain.getState().Speeds.vyMetersPerSecond)
-			// .times(ShooterConstants.lookAheadTime),
-			// new Rotation2d()))));
+			if (Constants.SubsystemConstants.useShooter) {
+				movingShot(
+						calculateStaticShot(
+								m_shootingTarget,
+								m_drivetrain.getState().Pose));
+				// .plus(
+				// new Transform2d(
+				// new Translation2d(
+				// m_drivetrain.getState().Speeds.vxMetersPerSecond,
+				// m_drivetrain.getState().Speeds.vyMetersPerSecond)
+				// .times(ShooterConstants.lookAheadTime),
+				// new Rotation2d()))));
 
-			m_table.putValue("shotIsLegal", NetworkTableValue.makeBoolean(m_shotIsLegal));
+				m_table.putValue("shotIsLegal", NetworkTableValue.makeBoolean(m_shotIsLegal));
+			}
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
 
