@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -166,10 +167,10 @@ public class RobotContainer {
 
 			// // Run SysId routines when holding back/start and X/Y.
 			// // Note that each routine should be run exactly once in a single log.
-			// m_joystick.back().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
-			// m_joystick.back().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
-			// m_joystick.start().and(m_joystick.y()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
-			// m_joystick.start().and(m_joystick.x()).whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
+			ControllerConstants.sysIdDynamicForward.whileTrue(m_drivetrain.sysIdDynamic(Direction.kForward));
+			ControllerConstants.sysIdDynamicReverse.whileTrue(m_drivetrain.sysIdDynamic(Direction.kReverse));
+			ControllerConstants.sysIdQuasistaticForward.whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kForward));
+			ControllerConstants.sysIdQuasistaticReverse.whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
 			// Reset the field-centric heading on left bumper press.
 			ControllerConstants.setFieldCentricTrigger.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
 			m_drivetrain.registerTelemetry(m_logger::telemeterize);
