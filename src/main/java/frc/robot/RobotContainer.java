@@ -203,6 +203,7 @@ public class RobotContainer {
 		if (SubsystemConstants.useClimber) {
 			ControllerConstants.climbUpTrigger.whileTrue(m_climberSubsystem.ClimbUp());
 			ControllerConstants.climbDownTrigger.whileTrue(m_climberSubsystem.ClimbDown());
+			ControllerConstants.calibrateClimberTrigger.whileTrue(m_climberSubsystem.Calibrate());
 		}
 
 		if (SubsystemConstants.useHood) {

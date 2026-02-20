@@ -105,8 +105,9 @@ public final class Constants {
                 m_driveJoystick.getHID()::getRightBumperButton);
         public static final Trigger setFieldCentricTrigger = new Trigger(m_driveJoystick.getHID()::getBackButton);
         public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
-        public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
-        public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getLeftStickButton);
+        public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getBButton);
+        public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getYButton);
+        public static final Trigger calibrateClimberTrigger = new Trigger(m_opJoystick.getHID()::getXButton);
         public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
 
         // TODO: merge the sysID routine selection and make these do something
