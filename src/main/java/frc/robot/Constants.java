@@ -211,7 +211,7 @@ public final class Constants {
     public static class ClimberConstants {
         public static final double climberTopPosition = 0;
         public static final double climberBottomPosition = 0;
-        public static final double kP = 0;
+        public static final double kP = 1;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kS = 0;

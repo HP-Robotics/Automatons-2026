@@ -59,6 +59,7 @@ import frc.robot.subsystems.LimelightSubsystem.VisionMeasurement;
 
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.DraftClimber;
 
 public class RobotContainer {
 	private double m_maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
