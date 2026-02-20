@@ -219,6 +219,7 @@ public final class Constants {
         public static final double kV = 0;
         public static final double kA = 0;
         public static final double kG = 0;
+        public static final double climberCalibrateSpeed = 0.15; // TODO: is this value right?
 
     }
 
