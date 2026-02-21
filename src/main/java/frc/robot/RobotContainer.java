@@ -405,4 +405,9 @@ public class RobotContainer {
 			CommandScheduler.getInstance().schedule(m_climberSubsystem.Calibrate());
 		}
 	}
+	public void CalibrateHood() {
+		if (SubsystemConstants.useHood) {
+			CommandScheduler.getInstance().schedule(m_hoodSubsystem.Calibrate());
+		}
+	}
 }

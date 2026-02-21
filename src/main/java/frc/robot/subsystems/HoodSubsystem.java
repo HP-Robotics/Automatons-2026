@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
@@ -12,21 +13,22 @@ import com.ctre.phoenix6.signals.ReverseLimitValue;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class HoodSubsystem extends SubsystemBase {
-    double m_offset = 0;
     TalonFX m_hoodMotor = new TalonFX(MotorIDConstants.hoodMotor);
     boolean m_isCalibrated = false;
-    StatusSignal<ReverseLimitValue> m_bottomLimit = m_hoodMotor.getReverseLimit();
     double m_targetPosition;
     double m_defaultPosition;
+    Timer m_timer = new Timer();
 
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("Hood");
 
@@ -40,9 +42,8 @@ public class HoodSubsystem extends SubsystemBase {
                 .withSoftwareLimitSwitch(new SoftwareLimitSwitchConfigs()
                         .withForwardSoftLimitEnable(true)
                         .withReverseSoftLimitEnable(true)
-                        .withReverseSoftLimitThreshold(currentPosition + 0.01)
-                        .withForwardSoftLimitThreshold(
-                                currentPosition + (HoodConstants.hoodTop - HoodConstants.hoodBottom)))
+                        .withReverseSoftLimitThreshold(0.01)
+                        .withForwardSoftLimitThreshold(HoodConstants.hoodTop))
                 .withSlot0(new Slot0Configs()
                         .withKP(HoodConstants.kP)
                         .withKD(HoodConstants.kD))
@@ -50,13 +51,18 @@ public class HoodSubsystem extends SubsystemBase {
                         .withPeakForwardDutyCycle(HoodConstants.maxSpeed)
                         .withPeakReverseDutyCycle(-HoodConstants.maxSpeed));
         m_hoodMotor.getConfigurator().apply(hoodMotorConfigs);
-        m_hoodMotor.setPosition(0);
+        m_hoodMotor.setPosition(HoodConstants.hoodTop);
+    }
+
+    public void hoodCalibrateDown() {
+        m_hoodMotor.setControl(new DutyCycleOut(HoodConstants.hoodCalibrateSpeed));
     }
 
     @Override
     public void periodic() {
         table.putValue("targetPosition", NetworkTableValue.makeDouble(m_targetPosition));
         table.putValue("position", NetworkTableValue.makeDouble(m_hoodMotor.getPosition().getValueAsDouble()));
+        table.putValue("isCalibrated", NetworkTableValue.makeBoolean(m_isCalibrated));
     }
 
     public void getFromNetworkTables() {
@@ -64,7 +70,11 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     public void setHood(double position) {
-        m_hoodMotor.setControl(new PositionDutyCycle(absoluteToRelative(position)));
+
+        if (m_isCalibrated) {
+            m_hoodMotor.setControl(new PositionDutyCycle(position));
+        }
+
     }
 
     public void hoodUp() {
@@ -76,20 +86,11 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     public void magicHood(double position) {
-        setHood(absoluteToRelative(m_targetPosition));
+        setHood((m_targetPosition));
     }
 
     public void networktablesHood(double position) {
-        setHood(absoluteToRelative(m_targetPosition));
-    }
-
-    public double absoluteToRelative(double absolute) {
-        return (absolute) + m_offset;
-    }
-    // relative is the actual command that we send to the motor
-
-    public double relativeToAbsolute(double motorTicks) {
-        return (motorTicks - m_offset);
+        setHood((m_targetPosition));
     }
 
     public Command setHoodPosition(double position) {
@@ -99,10 +100,30 @@ public class HoodSubsystem extends SubsystemBase {
                 }, this);
     }
 
-    public Command Calibrate() {
-        return new StartEndCommand(() -> hoodUp(), () -> hoodDown()).until(() -> isDown())
-                .finallyDo(() -> m_offset = m_hoodMotor.getRotorPosition().getValueAsDouble());
+    public void startCalibration() {
+        if (m_isCalibrated) {
+            return;
+        }
+        m_timer.reset();
+        hoodCalibrateDown();
+        m_timer.start();
+    }
 
+    public Command Calibrate() {
+        return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))
+                .finallyDo(() -> {
+                    resetMotorEncoders();
+                    if (isDown()) {
+                        m_isCalibrated = true;
+                    }
+                    ;
+                    m_hoodMotor.stopMotor();
+                }).withTimeout(3.0);
+
+    }
+
+    public Command clearCallibration() {
+        return new InstantCommand(() -> m_isCalibrated = false);
     }
 
     public Command hoodFromMagic() {
@@ -120,19 +141,11 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     public boolean isDown() {
-        m_bottomLimit.refresh();
-        if (m_bottomLimit.getValue() == ReverseLimitValue.ClosedToGround) {
-            m_isCalibrated = true;
-            return true;
-        } else {
-            return false;
-
-        }
+        return (Math.abs(m_hoodMotor.getVelocity().getValueAsDouble()) < 0.02 // make constants
+                && m_timer.hasElapsed(0.2));
     }
 
     public void resetMotorEncoders() {
-        if (isDown()) {
-            m_offset = m_hoodMotor.getRotorPosition().getValueAsDouble();
-        }
+        m_hoodMotor.setPosition(0);
     }
 }

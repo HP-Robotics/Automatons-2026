@@ -229,6 +229,7 @@ public final class Constants {
         public static final double kP = 1.5;
         public static final double kD = 0.01;
         public static final double maxSpeed = 0.2;
+        public static final double hoodCalibrateSpeed = -0.05;
 
         // hood speed 0.04 was safe.
     }
