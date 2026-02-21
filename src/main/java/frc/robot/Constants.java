@@ -97,7 +97,7 @@ public final class Constants {
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
-        public static final Trigger magicShooterTrigger = new Trigger(m_driveJoystick.getHID()::getXButton);
+        public static final Trigger magicShooterTrigger = m_opJoystick.axisGreaterThan(3, 0.2);
         public static final Trigger ShooterNetworkTablesModeTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
         // public static final Trigger runTurretTrigger = new
         // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
@@ -108,7 +108,8 @@ public final class Constants {
         public static final Trigger climbUpTrigger = m_opJoystick.povUp();
         public static final Trigger climbDownTrigger = m_opJoystick.povDown();
         public static final Trigger calibrateClimberTrigger = new Trigger(m_opJoystick.getHID()::getXButton);
-        public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
+        // public static final Trigger runStaticShotTrigger = new
+        // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
 
         // TODO: merge the sysID routine selection and make these do something
         public static final Trigger sysIdDynamicForward = new Trigger(m_driveJoystick.getHID()::getBackButton)

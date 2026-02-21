@@ -222,7 +222,7 @@ public class RobotContainer {
 		}
 
 		if (SubsystemConstants.useShooter && SubsystemConstants.useTurret && SubsystemConstants.useHood) {
-			ControllerConstants.runStaticShotTrigger.whileTrue(
+			ControllerConstants.magicShooterTrigger.whileTrue(
 					new ParallelCommandGroup(
 							new RunCommand(() -> {
 								if (m_shotIsLegal) {
@@ -405,6 +405,7 @@ public class RobotContainer {
 			CommandScheduler.getInstance().schedule(m_climberSubsystem.Calibrate());
 		}
 	}
+
 	public void CalibrateHood() {
 		if (SubsystemConstants.useHood) {
 			CommandScheduler.getInstance().schedule(m_hoodSubsystem.Calibrate());
