@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -12,10 +13,14 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDConstants;
 
@@ -25,6 +30,8 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX m_rightMotor = new TalonFX(MotorIDConstants.intakeExtendRightMotor);
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("IntakeSubsystem");
     Slot0Configs m_intakeConfig = new Slot0Configs();
+    boolean m_isCalibrated = false;
+    Timer m_timer = new Timer();
 
     final TalonFXConfiguration rightMotorConfigs = new TalonFXConfiguration()
             .withMotorOutput(
@@ -106,6 +113,20 @@ public class IntakeSubsystem extends SubsystemBase {
         m_rightMotor.setControl(m_rightRequest.withPosition(IntakeConstants.rightRetractPosition));
     }
 
+    public void intakeCalibrateDown() {
+        m_leftMotor.setControl(new DutyCycleOut(IntakeConstants.intakeCalibrateSpeed));
+        m_rightMotor.setControl(new DutyCycleOut(IntakeConstants.intakeCalibrateSpeed));
+    }
+
+    public void startCalibration() {
+        if (m_isCalibrated) {
+            return;
+        }
+        m_timer.reset();
+        intakeCalibrateDown();
+        m_timer.start();
+    }
+
     public Command Intake() {
         return new StartEndCommand(
                 () -> {
@@ -118,4 +139,33 @@ public class IntakeSubsystem extends SubsystemBase {
                 }, this);
     }
 
+    public Command Calibrate() {
+        return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))
+                .finallyDo(() -> {
+                    resetMotorEncoders();
+                    if (isDown()) {
+                        m_isCalibrated = true;
+                    }
+                    ;
+                    m_leftMotor.stopMotor();
+                    m_rightMotor.stopMotor();
+                }).withTimeout(3.0);
+
+    }
+
+    public Command clearCallibration() {
+        return new InstantCommand(() -> m_isCalibrated = false);
+    }
+
+    public boolean isDown() {
+        return (Math.abs(m_leftMotor.getVelocity().getValueAsDouble()) < 0.05
+                && Math.abs(m_leftMotor.getVelocity().getValueAsDouble()) < 0.05
+
+                && m_timer.hasElapsed(0.2));
+    }
+
+    public void resetMotorEncoders() {
+        m_leftMotor.setPosition(0);
+        m_leftMotor.setPosition(0);
+    }
 }

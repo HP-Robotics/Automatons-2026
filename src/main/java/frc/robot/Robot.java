@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
         }
         m_robotContainer.CalibrateClimber();
         m_robotContainer.CalibrateHood();
+        m_robotContainer.CalibrateIntake();
     }
 
     @Override
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
         }
         m_robotContainer.CalibrateClimber();
         m_robotContainer.CalibrateHood();
+        m_robotContainer.CalibrateIntake();
     }
 
     @Override

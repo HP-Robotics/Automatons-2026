@@ -26,10 +26,10 @@ import frc.robot.subsystems.LimelightSubsystem;
 public final class Constants {
     public static class SubsystemConstants {
         public static final boolean useDrive = true;
-        public static final boolean useTurret = true;
+        public static final boolean useTurret = false;
         public static final boolean useHopper = true;
         public static final boolean useIntake = true;
-        public static final boolean useShooter = true;
+        public static final boolean useShooter = false;
         public static final boolean useClimber = true;
         public static final boolean useHood = true;
     }
@@ -43,6 +43,7 @@ public final class Constants {
         public static final double kP = 1;
         public static final double kI = 0;
         public static final double kD = 0;
+        public static final double intakeCalibrateSpeed = -0.2; // TODO: find actual speed
 
         // set slot 0 gains
         public static final double leftkS = 0; // Add 0.25 V output to overcome static friction
@@ -207,6 +208,7 @@ public final class Constants {
         public static final double kP = 10;
         public static final double kS = 3.4;
         public static final double kV = 0.006;
+
     }
 
     public static class ClimberConstants {
