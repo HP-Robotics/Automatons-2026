@@ -411,7 +411,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 .withSpeeds(previousSetpoint.robotRelativeSpeeds())
                 // .withDeadband(DriveConstants.maxSpeed *
                 // 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-                .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+                .withDriveRequestType(DriveRequestType.Velocity);
     }
 
     public Pose2d getPose() {

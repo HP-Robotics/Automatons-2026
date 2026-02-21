@@ -25,13 +25,13 @@ public class TunerConstants {
         // the
         // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
         private static final Slot0Configs steerGains = new Slot0Configs()
-                        .withKP(62.422).withKI(0).withKD(0) // kp was 3.3006
+                        .withKP(50).withKI(0).withKD(0.27) // kp was 3.3006
                         .withKS(0.12154).withKV(2.5931).withKA(0.59542) // sysID for link floor and light bot
                         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign); // TODO: tune
         // When using closed-loop control, the drive motor uses the control
         // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
         private static final Slot0Configs driveGains = new Slot0Configs()
-                        .withKP(0.048005).withKI(0).withKD(0)
+                        .withKP(17).withKI(0).withKD(0)
                         .withKS(3.8305).withKV(0.018701); // sysID for link floor and light bot
         // 0.64605 is angular kA (pidgeon torque: 0.08754, pidgeon voltage: 0.0022574),
         // 0.42257 is linear kA, .5555
@@ -91,7 +91,7 @@ public class TunerConstants {
 
         // Theoretical free speed (m/s) at 12 V applied output;
         // This needs to be tuned to your individual robot
-        public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.39); // TODO: tune
+        public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(5.852); // TODO: tune
 
         // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
         // This may need to be tuned to your individual robot
