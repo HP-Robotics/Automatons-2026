@@ -33,6 +33,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -203,7 +204,8 @@ public class RobotContainer {
 		if (SubsystemConstants.useClimber) {
 			ControllerConstants.climbUpTrigger.whileTrue(m_climberSubsystem.ClimbUp());
 			ControllerConstants.climbDownTrigger.whileTrue(m_climberSubsystem.ClimbDown());
-			ControllerConstants.calibrateClimberTrigger.whileTrue(m_climberSubsystem.Calibrate());
+			ControllerConstants.calibrateClimberTrigger
+					.whileTrue(m_climberSubsystem.clearCallibration().andThen(m_climberSubsystem.Calibrate()));
 		}
 
 		if (SubsystemConstants.useHood) {
@@ -396,5 +398,11 @@ public class RobotContainer {
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
 
+	}
+
+	public void Calibrate() {
+		if (SubsystemConstants.useClimber) {
+			CommandScheduler.getInstance().schedule(m_climberSubsystem.Calibrate());
+		}
 	}
 }

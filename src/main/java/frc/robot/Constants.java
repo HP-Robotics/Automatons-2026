@@ -30,7 +30,7 @@ public final class Constants {
         public static final boolean useHopper = true;
         public static final boolean useIntake = true;
         public static final boolean useShooter = true;
-        public static final boolean useClimber = false;
+        public static final boolean useClimber = true;
         public static final boolean useHood = true;
     }
 
@@ -105,8 +105,8 @@ public final class Constants {
                 m_driveJoystick.getHID()::getRightBumperButton);
         public static final Trigger setFieldCentricTrigger = new Trigger(m_driveJoystick.getHID()::getBackButton);
         public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
-        public static final Trigger climbUpTrigger = new Trigger(m_opJoystick.getHID()::getBButton);
-        public static final Trigger climbDownTrigger = new Trigger(m_opJoystick.getHID()::getYButton);
+        public static final Trigger climbUpTrigger = m_opJoystick.povUp();
+        public static final Trigger climbDownTrigger = m_opJoystick.povDown();
         public static final Trigger calibrateClimberTrigger = new Trigger(m_opJoystick.getHID()::getXButton);
         public static final Trigger runStaticShotTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
 
@@ -210,16 +210,16 @@ public final class Constants {
     }
 
     public static class ClimberConstants {
-        public static final double climberTopPosition = 0;
-        public static final double climberBottomPosition = 0;
-        public static final double kP = 1;
+        public static final double climberTopPosition = 28;
+        public static final double climberBottomPosition = 1;
+        public static final double kP = 5;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kS = 0;
         public static final double kV = 0;
         public static final double kA = 0;
         public static final double kG = 0;
-        public static final double climberCalibrateSpeed = 0.15; // TODO: is this value right?
+        public static final double climberCalibrateSpeed = -0.15;
 
     }
 

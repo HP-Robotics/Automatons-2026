@@ -62,6 +62,9 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void startCalibration() {
+        if (m_isCalibrated) {
+            return;
+        }
         m_timer.reset();
         climberCalibrateDown();
         m_timer.start();
@@ -92,6 +95,10 @@ public class ClimberSubsystem extends SubsystemBase {
                     m_climberMotor.stopMotor();
                 }).withTimeout(3.0);
 
+    }
+
+    public Command clearCallibration() {
+        return new InstantCommand(() -> m_isCalibrated = false);
     }
 
     public boolean isDown() {
