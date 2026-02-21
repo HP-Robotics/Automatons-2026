@@ -45,7 +45,20 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Climber up",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 0.7712158808932579,
+      "command": null
+    },
+    {
+      "name": "Climber down",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

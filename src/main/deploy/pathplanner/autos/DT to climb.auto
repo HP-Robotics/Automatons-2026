@@ -7,17 +7,11 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BottomDriveToTower"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "BOB"
+            "pathName": "TopDriveToTower"
           }
         }
       ]
-    }
+    }w
   },
   "resetOdom": true,
   "folder": null,
