@@ -11,6 +11,8 @@ import java.util.Optional;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.events.EventTrigger;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,11 +27,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -123,9 +125,10 @@ public class RobotContainer {
 
         // Another option that allows you to specify the default auto by its name
         // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-
+		configurePathPlannerCommands();
         SmartDashboard.putData("Auto Chooser", autoChooser);
         configureBindings();
+		
 		SmartDashboard.putData("field", m_field);
 		// m_velocityInterpolator.draw("/media/sda1/draws/xVelcoty.png",
 		// 1000,
@@ -133,6 +136,16 @@ public class RobotContainer {
 		// m_velocityInterpolator.draw("/media/sda1/draws/yVelcoty.png",
 		// 1000,
 		// 1000, 45, 90, 2.7, 0, 1, 0, 10);
+	}
+
+	private void configurePathPlannerCommands(){
+		new EventTrigger("Climber up").onTrue(m_climberSubsystem.ClimbUp());
+		new EventTrigger("Climber down").onTrue(m_climberSubsystem.ClimbDown());
+		new EventTrigger("Shoot").onTrue(m_shooterSubsystem.MagicShooter());
+		new EventTrigger("Start Intake").onTrue(m_intakeSubsystem.StartIntake());
+		new EventTrigger("Stop Intake").onTrue(m_intakeSubsystem.StopIntake());
+		new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
+		new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
 	}
 
 	private void configureBindings() {
