@@ -400,7 +400,7 @@ public class RobotContainer {
 
 	}
 
-	public void Calibrate() {
+	public void CalibrateClimber() {
 		if (SubsystemConstants.useClimber) {
 			CommandScheduler.getInstance().schedule(m_climberSubsystem.Calibrate());
 		}

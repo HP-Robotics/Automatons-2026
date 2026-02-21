@@ -21,8 +21,8 @@ import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    TalonFX m_shooterMotor1 = new TalonFX(MotorIDConstants.shooterMotor1);
-    TalonFX m_shooterMotor2 = new TalonFX(MotorIDConstants.shooterMotor2);
+    TalonFX m_shooterMotor1 = new TalonFX(MotorIDConstants.shooterMotorLeft);
+    TalonFX m_shooterMotor2 = new TalonFX(MotorIDConstants.shooterMotorRight);
     public NetworkTable m_table = NetworkTableInstance.getDefault().getTable("ShooterSubsystem");
     double m_velocity = 0.0;
     double shooterSetpoint;
@@ -39,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
                         new MotorOutputConfigs()
                                 .withInverted(InvertedValue.Clockwise_Positive));
         m_shooterMotor2.getConfigurator().apply(rightMotorConfigs);
-        m_shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotor1, MotorAlignmentValue.Opposed));
+        m_shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotorLeft, MotorAlignmentValue.Opposed));
         m_table.putValue("speedToSet", NetworkTableValue.makeDouble(ShooterConstants.defaultShootingSpeed));
     }
     // shooter modes: magic mode, fixed speed, network tables, stopped, idle

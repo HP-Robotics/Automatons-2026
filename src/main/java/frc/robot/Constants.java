@@ -122,8 +122,8 @@ public final class Constants {
     }
 
     public static class MotorIDConstants {
-        public static final int shooterMotor1 = 53;
-        public static final int shooterMotor2 = 54;
+        public static final int shooterMotorLeft = 53;
+        public static final int shooterMotorRight = 54;
         public static final int HopperMotorSpinner = 43;
         public static final int HopperMotorUplifter = 42;
         public static final int climberMotor = 60;
