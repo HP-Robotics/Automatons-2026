@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.571,
-        "y": 4.00221686746988
+        "x": 3.6203282203502427,
+        "y": 7.248792356861759
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5329518072289163,
-        "y": 5.007566265060241
+        "x": 2.3289815288170317,
+        "y": 6.93316006477498
       },
       "isLocked": false,
-      "linkedName": "DHStart"
+      "linkedName": "DT Start"
     },
     {
       "anchor": {
-        "x": 1.058803661700389,
-        "y": 4.63222706211353
+        "x": 2.1504819277072587,
+        "y": 5.947349397595162
       },
       "prevControl": {
-        "x": 0.3922133002546061,
-        "y": 5.823347544041241
+        "x": 2.286294452638768,
+        "y": 6.1572421275114895
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "UpperTower"
+      "linkedName": "UL of Field"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 90.98776039940002
+    "velocity": 3.0,
+    "rotation": -91.76239102351013
   },
   "reversed": false,
-  "folder": "To Tower",
+  "folder": "Movement Throughout the Field",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

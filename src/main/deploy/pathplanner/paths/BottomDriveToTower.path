@@ -8,11 +8,43 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0030722891593924,
-        "y": 0.9533855421650337
+        "x": 2.6571404473903355,
+        "y": 1.8069146572142918
       },
       "isLocked": false,
       "linkedName": "OT Start"
+    },
+    {
+      "anchor": {
+        "x": 2.933693926266464,
+        "y": 2.3012948278101466
+      },
+      "prevControl": {
+        "x": 3.3406943280597368,
+        "y": 1.8734215107930368
+      },
+      "nextControl": {
+        "x": 2.602093750767959,
+        "y": 2.64990103652359
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.9201249669148297,
+        "y": 2.3012948278101466
+      },
+      "prevControl": {
+        "x": 1.4343329691721571,
+        "y": 2.173039705265461
+      },
+      "nextControl": {
+        "x": 0.6775564254688696,
+        "y": 2.3617969162102965
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,20 +52,29 @@
         "y": 2.8220240963819014
       },
       "prevControl": {
-        "x": 0.09607228915939259,
-        "y": 2.395843373490335
+        "x": 0.40653212875320544,
+        "y": 2.8997138898884702
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "LowerTower"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.814107883817413,
+      "rotationDegrees": -93.7055323607779
+    },
+    {
+      "waypointRelativePos": 1.585892116182555,
+      "rotationDegrees": -93.88660866282693
+    }
+  ],
   "constraintZones": [
     {
       "name": "Climb Zone",
-      "minWaypointRelativePos": 0.7870967741935422,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 2.015880893300253,
+      "maxWaypointRelativePos": 3.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
@@ -54,8 +95,8 @@
     },
     {
       "name": "Climber down",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": 1.0,
+      "waypointRelativePos": 3.0,
+      "endWaypointRelativePos": null,
       "command": null
     }
   ],
@@ -74,7 +115,7 @@
   "reversed": false,
   "folder": "To Tower",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0.0
   },
   "useDefaultConstraints": true

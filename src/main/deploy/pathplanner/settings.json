@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "Boring",
+    "Movement Throughout the Field",
     "Through Middle",
     "To Tower"
   ],

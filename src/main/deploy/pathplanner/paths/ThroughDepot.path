@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.4348313253012048,
-        "y": 6.297036144578313
+        "x": 0.48950860144073743,
+        "y": 5.891825207657651
       },
       "isLocked": false,
       "linkedName": "DepotTop"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 0.4894698795180723,
-        "y": 5.280759036144579
+        "y": 5.017099451531216
       },
       "prevControl": {
-        "x": 0.5441084337349399,
-        "y": 5.892710843373494
+        "x": 0.4854259747091471,
+        "y": 5.953110988271242
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -48,7 +55,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -91.36392753160294
+    "rotation": -89.94972680129587
   },
   "useDefaultConstraints": true
 }

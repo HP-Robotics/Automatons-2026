@@ -3,58 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6203282203502427,
-        "y": 7.248792356861759
+        "x": 2.019349397590361,
+        "y": 1.7729638554216867
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3706121005214267,
-        "y": 7.048243141455197
+        "x": 0.6643132530120479,
+        "y": 1.9587349397590368
       },
       "isLocked": false,
-      "linkedName": "DT Start"
+      "linkedName": "BL of Field"
     },
     {
       "anchor": {
-        "x": 2.809885877318117,
-        "y": 4.960114122681883
+        "x": 1.1123493975931276,
+        "y": 2.8220240963819014
       },
       "prevControl": {
-        "x": 3.330685746646501,
-        "y": 5.343570761679836
-      },
-      "nextControl": {
-        "x": 2.2173805876336474,
-        "y": 4.523861926106049
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.058803661700389,
-        "y": 4.63222706211353
-      },
-      "prevControl": {
-        "x": 1.4238620290025523,
-        "y": 4.643286399121055
+        "x": 0.06328915662650592,
+        "y": 2.811096385542169
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "UpperTower"
+      "linkedName": "LowerTower"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 90.7358397426438
+      "waypointRelativePos": 0.6348547717842171,
+      "rotationDegrees": -89.07565731553451
     }
   ],
   "constraintZones": [
     {
-      "name": "Climb Zone",
-      "minWaypointRelativePos": 1.3288318703578574,
-      "maxWaypointRelativePos": 2.0,
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6342431761786558,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
@@ -77,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.98776039940002
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -91.46880071438578
   },
   "useDefaultConstraints": true
 }
