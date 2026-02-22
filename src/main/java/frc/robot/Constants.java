@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.InterpolatingMatrixTreeMap;
 import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -90,9 +91,13 @@ public final class Constants {
         public static final CommandXboxController m_driveJoystick = new CommandXboxController(0);
         public static final CommandXboxController m_opJoystick = new CommandXboxController(1);
 
-        public static final DoubleSupplier m_leftAxisY = () -> m_driveJoystick.getRawAxis(1);
-        public static final DoubleSupplier m_leftAxisX = () -> m_driveJoystick.getRawAxis(0);
-        public static final DoubleSupplier m_rightAxisX = () -> m_driveJoystick.getRawAxis(4);
+        public static final DoubleSupplier m_leftAxisY = () -> Math
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(1), 0.1), 3);
+        public static final DoubleSupplier m_leftAxisX = () -> Math
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(0),
+                        0.1), 3);
+        public static final DoubleSupplier m_rightAxisX = () -> Math
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 3);
 
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         // public static final Trigger stopShooterTrigger = new

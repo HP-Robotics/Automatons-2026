@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,7 +36,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -172,15 +170,15 @@ public class RobotContainer {
 		if (SubsystemConstants.useDrive) {
 			m_drivetrain.setDefaultCommand(
 					// Drivetrain will execute this command periodically
-					m_drivetrain.applyRequest(
-							() -> m_drivetrain.applySetpointGenerator(ChassisSpeeds.fromFieldRelativeSpeeds(
-									MathUtil.applyDeadband(ControllerConstants.m_leftAxisY.getAsDouble(), 0.1)
-											* m_maxSpeed,
-									MathUtil.applyDeadband(ControllerConstants.m_leftAxisX.getAsDouble(), 0.1)
-											* m_maxSpeed,
-									MathUtil.applyDeadband(-ControllerConstants.m_rightAxisX.getAsDouble(), 0.1)
-											* m_maxAngularRate,
-									m_drivetrain.getRotation3d().toRotation2d()))));
+					m_drivetrain.applyRequest(() -> new SwerveRequest.FieldCentric()
+							.withDriveRequestType(DriveRequestType.Velocity)
+							.withDeadband(0.1 * m_maxSpeed)
+							.withRotationalDeadband(0.1 * m_maxAngularRate)
+							.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
+							.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
+
+							.withRotationalRate(
+									-ControllerConstants.m_rightAxisX.getAsDouble() * m_maxAngularRate)));
 			RobotModeTriggers.disabled().whileTrue(
 					m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
