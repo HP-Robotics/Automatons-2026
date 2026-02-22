@@ -408,7 +408,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return new SwerveRequest.ApplyRobotSpeeds()
                 .withSpeeds(previousSetpoint.robotRelativeSpeeds())
                 // .withDeadband(DriveConstants.maxSpeed *
-                // 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+                // 0.1)
+                // .withRotationalDeadband(m_maxAngularRate * 0.1)
                 .withDriveRequestType(DriveRequestType.Velocity);
     }
 
@@ -441,7 +442,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                             new PIDConstants(7.0, 0.0, 0.0)), // Rotation PID constants
                     config,
                     () -> {
-                        // Boolean supplier that controls when the path will be mirrored for the red alliance
+                        // Boolean supplier that controls when the path will be mirrored for the red
+                        // alliance
                         // This will flip the path being followed to the red side of the field.
                         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
