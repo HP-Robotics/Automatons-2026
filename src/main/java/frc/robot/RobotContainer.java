@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -139,13 +140,20 @@ public class RobotContainer {
 	}
 
 	private void configurePathPlannerCommands() {
-		new EventTrigger("Climber up").onTrue(m_climberSubsystem.ClimbUp());
-		new EventTrigger("Climber down").onTrue(m_climberSubsystem.ClimbDown());
-		new EventTrigger("Shoot").onTrue(m_shooterSubsystem.MagicShooter());
-		new EventTrigger("Start Intake").onTrue(m_intakeSubsystem.StartIntake());
-		new EventTrigger("Stop Intake").onTrue(m_intakeSubsystem.StopIntake());
-		new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
-		new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
+		if (SubsystemConstants.useClimber) {
+			new EventTrigger("Climber up").onTrue(m_climberSubsystem.ClimbUp());
+			new EventTrigger("Climber down").onTrue(m_climberSubsystem.ClimbDown());
+		}
+		if (SubsystemConstants.useShooter) {
+			new EventTrigger("Shoot").onTrue(m_shooterSubsystem.MagicShooter());
+		}
+		if (SubsystemConstants.useIntake) {
+			new EventTrigger("Start Intake").onTrue(m_intakeSubsystem.StartIntake());
+			new EventTrigger("Stop Intake").onTrue(m_intakeSubsystem.StopIntake());
+			new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
+			new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
+		}
+
 	}
 
 	private void configureBindings() {
