@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.PortConstants;
 import frc.robot.Constants.TurretConstants;
@@ -37,6 +38,7 @@ public class TurretSubsystem extends SubsystemBase {
   DigitalInput m_limitInput = new DigitalInput(PortConstants.turretLimitPort);
   Slot0Configs m_turretConfig = new Slot0Configs();
   MotorOutputConfigs m_turretOutputConfig = new MotorOutputConfigs();
+  public static boolean m_isCalibrated;
 
   /** Creates a new TurretSubsystem. */
   public TurretSubsystem() {
@@ -47,6 +49,7 @@ public class TurretSubsystem extends SubsystemBase {
     m_turretConfig.kD = TurretConstants.kD;
     m_turretOutputConfig.PeakForwardDutyCycle = TurretConstants.maxForwardDutyCycle;
     m_turretOutputConfig.PeakReverseDutyCycle = TurretConstants.maxReverseDutyCycle;
+    m_isCalibrated = false;
   }
 
   public void runTurret() {
@@ -113,9 +116,13 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public Command RotateTurret() {
-    return new RunCommand(() -> {
-      rotateTurretToTarget();
-    });
+    if (m_isCalibrated) {
+      return new RunCommand(() -> {
+        rotateTurretToTarget();
+      });
+    } else {
+      return new WaitCommand(0);
+    }
   }
 
   public void rotateTurretToTarget() {
@@ -123,14 +130,19 @@ public class TurretSubsystem extends SubsystemBase {
     m_turretMotor.setControl(target);
   }
 
+  public double getQuotient(double x, double modulo) {
+    double remainder = x % modulo;
+    return remainder > 0 ? x - remainder : x - (remainder + 1);
+  }
+
   public double degreesToMotorTicks(double degrees) {
-    return ((degrees - TurretConstants.limitSwitchDegrees) * TurretConstants.encoderCPR * TurretConstants.gearRatio
+    return ((degrees - TurretConstants.calibrationDegrees) * TurretConstants.encoderCPR * TurretConstants.gearRatio
         / 360) + m_offset;
   }
 
   public double motorTicksToDegrees(double motorTicks) {
     return 360 * (motorTicks - m_offset) / (TurretConstants.encoderCPR * TurretConstants.gearRatio)
-        + (TurretConstants.limitSwitchDegrees);
+        + (TurretConstants.calibrationDegrees);
   }
 
   // TODO: if we don't hit the limit switch and our current rises, we need to
@@ -157,7 +169,9 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void resetMotorEncoders() {
     if (atLimit()) {
-      m_offset = m_turretMotor.getRotorPosition().getValueAsDouble();
+      m_offset = -(getQuotient(m_turretMotor.getRotorPosition().getValueAsDouble(), 1)
+          - getQuotient(TurretConstants.limitSwitchMotorPosition, 1)) - TurretConstants.calibrationPosition;
+      m_isCalibrated = true;
     }
   }
 }

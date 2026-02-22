@@ -25,9 +25,9 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 public final class Constants {
     public static class SubsystemConstants {
-        public static final boolean useDrive = true;
+        public static final boolean useDrive = false;
         public static final boolean useTurret = true;
-        public static final boolean useHopper = true;
+        public static final boolean useHopper = false;
         public static final boolean useIntake = true;
         public static final boolean useShooter = true;
         public static final boolean useClimber = true;
@@ -173,7 +173,8 @@ public final class Constants {
 
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
-        public static final double calibrationPosition = 0.0;
+        public static final double calibrationPosition = -0.197;
+        public static final double calibrationDegrees = 180;
         public static final double limitSwitchDegrees = 171.0;
         public static final double bottomLimitPosition = 93.0;
         public static final double topLimitPosition = 363.0;
@@ -187,6 +188,8 @@ public final class Constants {
         public static final double maxForwardDutyCycle = 0.5;
         public static final double maxReverseDutyCycle = -0.5;
         public static final Translation2d centerPosition = new Translation2d(-6.5 * .0254, 6.5 * .0254);
+        public static final double limitSwitchMotorPosition = -0.197;
+
     }
 
     public static class FieldConstants {
