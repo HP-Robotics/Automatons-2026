@@ -218,8 +218,10 @@ public class TunerConstants {
          * This should only be called once in your robot program,.
          */
         public static CommandSwerveDrivetrain createDrivetrain() {
-                return new CommandSwerveDrivetrain(
+                CommandSwerveDrivetrain output = new CommandSwerveDrivetrain(
                                 DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);
+                output.configNeutralMode(NeutralModeValue.Coast);
+                return output;
         }
 
         /**
