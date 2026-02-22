@@ -6,7 +6,29 @@
       "name": "Teleoperated",
       "grid_layout": {
         "layouts": [],
-        "containers": []
+        "containers": [
+          {
+            "title": "field",
+            "x": 128.0,
+            "y": 0.0,
+            "width": 1280.0,
+            "height": 768.0,
+            "type": "Field",
+            "properties": {
+              "topic": "/SmartDashboard/field",
+              "period": 0.06,
+              "field_game": "Rebuilt",
+              "robot_width": 0.85,
+              "robot_length": 0.85,
+              "show_other_objects": true,
+              "show_trajectories": true,
+              "field_rotation": 0.0,
+              "robot_color": 4294198070,
+              "trajectory_color": 4294967295,
+              "show_robot_outside_widget": true
+            }
+          }
+        ]
       }
     },
     {
@@ -15,69 +37,14 @@
         "layouts": [],
         "containers": [
           {
-            "title": "active",
-            "x": 896.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Auto Chooser/active",
-              "period": 0.06,
-              "data_type": "string",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "default",
-            "x": 640.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Auto Chooser/default",
-              "period": 0.06,
-              "data_type": "string",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "options",
-            "x": 128.0,
-            "y": 0.0,
-            "width": 1024.0,
-            "height": 256.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Auto Chooser/options",
-              "period": 0.06,
-              "data_type": "string[]",
-              "show_submit_button": false
-            }
-          },
-          {
             "title": "Auto Chooser",
-            "x": 384.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 256.0,
+            "x": 512.0,
+            "y": 128.0,
+            "width": 384.0,
+            "height": 384.0,
             "type": "ComboBox Chooser",
             "properties": {
               "topic": "/SmartDashboard/Auto Chooser",
-              "period": 0.06,
-              "sort_options": false
-            }
-          },
-          {
-            "title": "Path Chooser",
-            "x": 128.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 128.0,
-            "type": "ComboBox Chooser",
-            "properties": {
-              "topic": "/SmartDashboard/Path Chooser",
               "period": 0.06,
               "sort_options": false
             }
@@ -169,7 +136,84 @@
     {
       "name": "Shooter",
       "grid_layout": {
-        "layouts": [],
+        "layouts": [
+          {
+            "title": "dynamicShotVelocity",
+            "x": 1152.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "List Layout",
+            "properties": {
+              "label_position": "TOP"
+            },
+            "children": [
+              {
+                "title": "x",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Robot/dynamicShotVelocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "struct_meta": {
+                    "path": [
+                      "x"
+                    ],
+                    "schema_name": "Translation3d",
+                    "type": "double"
+                  },
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "y",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Robot/dynamicShotVelocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "struct_meta": {
+                    "path": [
+                      "y"
+                    ],
+                    "schema_name": "Translation3d",
+                    "type": "double"
+                  },
+                  "show_submit_button": false
+                }
+              },
+              {
+                "title": "z",
+                "x": 0.0,
+                "y": 0.0,
+                "width": 128.0,
+                "height": 128.0,
+                "type": "Text Display",
+                "properties": {
+                  "topic": "/Robot/dynamicShotVelocity",
+                  "period": 0.06,
+                  "data_type": "double",
+                  "struct_meta": {
+                    "path": [
+                      "z"
+                    ],
+                    "schema_name": "Translation3d",
+                    "type": "double"
+                  },
+                  "show_submit_button": false
+                }
+              }
+            ]
+          }
+        ],
         "containers": [
           {
             "title": "shooterSpeed",
@@ -264,6 +308,166 @@
             "type": "Text Display",
             "properties": {
               "topic": "/DraftHood/targetPosition",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "isCalibrated",
+            "x": 896.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Hood/isCalibrated",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "position",
+            "x": 768.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Hood/position",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "setTargetPosition",
+            "x": 640.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Hood/setTargetPosition",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "shotIsLegal",
+            "x": 512.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/shotIsLegal",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "wheelSpeed",
+            "x": 512.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Robot/wheelSpeed",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Climber",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "DutyCycle",
+            "x": 512.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Climber/DutyCycle",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "isCalibrated",
+            "x": 768.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Climber/isCalibrated",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "isDown",
+            "x": 768.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Climber/isDown",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "position",
+            "x": 512.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Climber/position",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "velocity",
+            "x": 512.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Climber/velocity",
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": false

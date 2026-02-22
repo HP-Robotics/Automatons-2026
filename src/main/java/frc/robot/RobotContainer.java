@@ -11,6 +11,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.Matrix;
@@ -120,11 +121,12 @@ public class RobotContainer {
 	public double m_dynamicTurretAngle;
 
 	public RobotContainer() {
-		autoChooser = AutoBuilder.buildAutoChooser();
 
 		// Another option that allows you to specify the default auto by its name
 		// autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 		configurePathPlannerCommands();
+
+		autoChooser = AutoBuilder.buildAutoChooser();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		configureBindings();
 
@@ -141,6 +143,8 @@ public class RobotContainer {
 		if (SubsystemConstants.useClimber) {
 			new EventTrigger("Climber up").onTrue(m_climberSubsystem.ClimbUp());
 			new EventTrigger("Climber down").onTrue(m_climberSubsystem.ClimbDown());
+			NamedCommands.registerCommand("CommandClimberUp", m_climberSubsystem.ClimbUp().asProxy());
+			NamedCommands.registerCommand("CommandClimberDown", m_climberSubsystem.ClimbDown().asProxy());
 		}
 		if (SubsystemConstants.useShooter) {
 			new EventTrigger("Shoot").onTrue(m_shooterSubsystem.MagicShooter());
@@ -151,7 +155,6 @@ public class RobotContainer {
 			new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
 			new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
 		}
-
 	}
 
 	private void configureBindings() {

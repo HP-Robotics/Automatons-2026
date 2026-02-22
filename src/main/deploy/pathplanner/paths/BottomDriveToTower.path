@@ -63,7 +63,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.814107883817413,
-      "rotationDegrees": -93.7055323607779
+      "rotationDegrees": -93.70553236077791
     },
     {
       "waypointRelativePos": 1.585892116182555,
@@ -89,22 +89,16 @@
   "eventMarkers": [
     {
       "name": "Climber up",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 0.7712158808932579,
-      "command": null
-    },
-    {
-      "name": "Climber down",
-      "waypointRelativePos": 3.0,
+      "waypointRelativePos": 1.6481481481481008,
       "endWaypointRelativePos": null,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -118,5 +112,5 @@
     "velocity": 0.0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
