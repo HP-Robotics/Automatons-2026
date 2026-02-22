@@ -11,7 +11,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -27,19 +27,17 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
@@ -92,6 +90,7 @@ public class RobotContainer {
 	public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
 	public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Robot");
+	private final SendableChooser<Command> autoChooser;
 	StructPublisher<Pose2d> m_posePublisher = m_table.getStructTopic("targetPose", Pose2d.struct).publish();
 	StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
 			.publish();
@@ -122,7 +121,14 @@ public class RobotContainer {
 	public double m_dynamicTurretAngle;
 
 	public RobotContainer() {
+		autoChooser = AutoBuilder.buildAutoChooser();
+
+		// Another option that allows you to specify the default auto by its name
+		// autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+		configurePathPlannerCommands();
+		SmartDashboard.putData("Auto Chooser", autoChooser);
 		configureBindings();
+
 		SmartDashboard.putData("field", m_field);
 		// m_velocityInterpolator.draw("/media/sda1/draws/xVelcoty.png",
 		// 1000,
@@ -130,6 +136,16 @@ public class RobotContainer {
 		// m_velocityInterpolator.draw("/media/sda1/draws/yVelcoty.png",
 		// 1000,
 		// 1000, 45, 90, 2.7, 0, 1, 0, 10);
+	}
+
+	private void configurePathPlannerCommands() {
+		new EventTrigger("Climber up").onTrue(m_climberSubsystem.ClimbUp());
+		new EventTrigger("Climber down").onTrue(m_climberSubsystem.ClimbDown());
+		new EventTrigger("Shoot").onTrue(m_shooterSubsystem.MagicShooter());
+		new EventTrigger("Start Intake").onTrue(m_intakeSubsystem.StartIntake());
+		new EventTrigger("Stop Intake").onTrue(m_intakeSubsystem.StopIntake());
+		new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
+		new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
 	}
 
 	private void configureBindings() {
@@ -331,19 +347,7 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		// Simple drive forward auton
-		final var idle = new SwerveRequest.Idle();
-		return Commands.sequence(
-				// Reset our field centric heading to match the robot
-				// facing away from our alliance station wall (0 deg).
-				m_drivetrain.runOnce(() -> m_drivetrain.seedFieldCentric(Rotation2d.kZero)),
-				// Then slowly drive forward (away from us) for 5 seconds.
-				m_drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
-						.withVelocityY(0)
-						.withRotationalRate(0))
-						.withTimeout(5.0),
-				// Finally idle for the rest of auton
-				m_drivetrain.applyRequest(() -> idle));
+		return autoChooser.getSelected();
 	}
 
 	public void periodic() {

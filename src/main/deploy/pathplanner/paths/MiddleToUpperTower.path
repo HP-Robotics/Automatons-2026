@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 3.571,
+        "y": 4.00221686746988
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 2.5329518072289163,
+        "y": 5.007566265060241
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DHStart"
     },
     {
       "anchor": {
-        "x": 2.3581084337349396,
-        "y": 2.887590361445783
+        "x": 1.058803661700389,
+        "y": 4.63222706211353
       },
       "prevControl": {
-        "x": 1.3581084337349396,
-        "y": 2.887590361445783
+        "x": 0.3922133002546061,
+        "y": 5.823347544041241
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "UpperTower"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.98776039940002
   },
   "reversed": false,
-  "folder": null,
+  "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

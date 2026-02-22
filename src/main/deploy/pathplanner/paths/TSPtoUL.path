@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.6203282203502427,
+        "y": 7.248792356861759
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.3289815288170317,
+        "y": 6.93316006477498
+      },
+      "isLocked": false,
+      "linkedName": "DT Start"
+    },
+    {
+      "anchor": {
+        "x": 2.1504819277072587,
+        "y": 5.947349397595162
+      },
+      "prevControl": {
+        "x": 2.286294452638768,
+        "y": 6.1572421275114895
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "UL of Field"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 3.0,
+    "rotation": -91.76239102351013
+  },
+  "reversed": false,
+  "folder": "Movement Throughout the Field",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

@@ -3,19 +3,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDConstants;
 
@@ -118,4 +115,31 @@ public class IntakeSubsystem extends SubsystemBase {
                 }, this);
     }
 
+    public Command StartIntake() {
+        return new InstantCommand(
+                () -> {
+                    this.runIntake(IntakeConstants.speed);
+                }, this);
+    }
+
+    public Command StopIntake() {
+        return new InstantCommand(
+                () -> {
+                    this.stopIntake();
+                }, this);
+    }
+
+    public Command ExtendIntake() {
+        return new InstantCommand(
+                () -> {
+                    this.extendIntake();
+                }, this);
+    }
+
+    public Command RetractIntake() {
+        return new InstantCommand(
+                () -> {
+                    this.retractIntake();
+                }, this);
+    }
 }

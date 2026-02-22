@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.4894698795180723,
+        "y": 6.756
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.48950860144073743,
+        "y": 5.891825207657651
+      },
+      "isLocked": false,
+      "linkedName": "DepotTop"
+    },
+    {
+      "anchor": {
+        "x": 0.4894698795180723,
+        "y": 5.017099451531216
+      },
+      "prevControl": {
+        "x": 0.4854259747091471,
+        "y": 5.953110988271242
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "DepotLower"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -89.94972680129587
+  },
+  "useDefaultConstraints": true
+}

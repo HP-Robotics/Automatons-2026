@@ -1,0 +1,88 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.6203282203502427,
+        "y": 7.248792356861759
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.599997657615684,
+        "y": 7.584057619172893
+      },
+      "isLocked": false,
+      "linkedName": "DT Start"
+    },
+    {
+      "anchor": {
+        "x": 1.034311587007557,
+        "y": 7.358882521965829
+      },
+      "prevControl": {
+        "x": 1.4131347694434448,
+        "y": 7.524927086239575
+      },
+      "nextControl": {
+        "x": 0.8053409842614903,
+        "y": 7.25852086057014
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.4894698795180723,
+        "y": 6.756
+      },
+      "prevControl": {
+        "x": 0.6976453929296338,
+        "y": 6.946775310260543
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "DepotTop"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -89.34078120963498
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Extend Intake",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 1.9014179608372421,
+      "command": null
+    },
+    {
+      "name": "Start Intake",
+      "waypointRelativePos": 0.96,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": -89.94972680129587
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

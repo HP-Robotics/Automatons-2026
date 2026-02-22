@@ -19,7 +19,6 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -64,7 +63,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-    private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
     private SwerveSetpointGenerator setpointGenerator;
     private SwerveSetpoint previousSetpoint;
     public RobotConfig ppConfig;
@@ -440,12 +438,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller
                                                     // for holonomic drive trains
                             new PIDConstants(9.0, 0.0, 0.0), // Translation PID constants
-                            new PIDConstants(7.0, 0.0, 0.0) // Rotation PID constants
-                    ),
-                    config, // The robot configuration
+                            new PIDConstants(7.0, 0.0, 0.0)), // Rotation PID constants
+                    config,
                     () -> {
-                        // Boolean supplier that controls when the path will be mirrored for the red
-                        // alliance
+                        // Boolean supplier that controls when the path will be mirrored for the red alliance
                         // This will flip the path being followed to the red side of the field.
                         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
