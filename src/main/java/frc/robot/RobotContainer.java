@@ -360,9 +360,6 @@ public class RobotContainer {
 	}
 
 	public void periodic() {
-		if (!SubsystemConstants.useDrive) {
-			return;
-		}
 		double rot = m_drivetrain.getState().Pose.getRotation().getDegrees();
 		m_limelightSubsystem.updateRobotOrientation(rot);
 

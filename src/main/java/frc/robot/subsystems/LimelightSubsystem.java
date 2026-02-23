@@ -131,14 +131,15 @@ public class LimelightSubsystem extends SubsystemBase {
       Pose2d visionPose = new Pose2d(botPosX, botPosY, new Rotation2d(Math.toRadians(botRotZ)));
       if (0 <= targetAprilTagID
           && targetAprilTagID < LimelightConstants.aprilTagList.length) {
-        limelightTable.putValue("botPosX", NetworkTableValue.makeDouble(botPosX));
-        limelightTable.putValue("botPosY", NetworkTableValue.makeDouble(botPosY));
-        limelightTable.putValue("botPosZ", NetworkTableValue.makeDouble(botRotZ));
+        // limelightTable.putValue("botPosX", NetworkTableValue.makeDouble(botPosX));
+        // limelightTable.putValue("botPosY", NetworkTableValue.makeDouble(botPosY));
+        // limelightTable.putValue("botPosZ", NetworkTableValue.makeDouble(botRotZ));
         if (botPosX != 0 || botPosY != 0 || botRotZ != 0) {
           Rotation2d aprilTagToRobotAngle = Rotation2d.fromDegrees(
               getAngleToPose(visionPose, LimelightConstants.aprilTagList[targetAprilTagID]) - 180);
-          limelightTable.putValue("Angle to pose", NetworkTableValue
-              .makeDouble(getAngleToPose(visionPose, LimelightConstants.aprilTagList[targetAprilTagID]) - 180));
+          // limelightTable.putValue("Angle to pose", NetworkTableValue
+          // .makeDouble(getAngleToPose(visionPose,
+          // LimelightConstants.aprilTagList[targetAprilTagID]) - 180));
           double angleDiff = Math.abs(LimelightConstants.aprilTagList[targetAprilTagID].getRotation()
               .minus(aprilTagToRobotAngle)
               .getRadians());

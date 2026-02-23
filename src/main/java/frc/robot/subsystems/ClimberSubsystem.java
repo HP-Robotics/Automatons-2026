@@ -38,13 +38,15 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        m_table.putValue("position",
-                NetworkTableValue.makeDouble(m_climberMotor.getRotorPosition().getValueAsDouble()));
-        m_table.putValue("velocity", NetworkTableValue.makeDouble(m_climberMotor.getVelocity().getValueAsDouble()));
-        m_table.putValue("isDown", NetworkTableValue.makeBoolean(isDown()));
-        m_table.putValue("isCalibrated", NetworkTableValue.makeBoolean(m_isCalibrated));
-        m_table.putValue("DutyCycle",
-                NetworkTableValue.makeDouble(m_climberMotor.getDutyCycle().getValueAsDouble()));
+        // m_table.putValue("position",
+        // NetworkTableValue.makeDouble(m_climberMotor.getRotorPosition().getValueAsDouble()));
+        // m_table.putValue("velocity",
+        // NetworkTableValue.makeDouble(m_climberMotor.getVelocity().getValueAsDouble()));
+        // m_table.putValue("isDown", NetworkTableValue.makeBoolean(isDown()));
+        // m_table.putValue("isCalibrated",
+        // NetworkTableValue.makeBoolean(m_isCalibrated));
+        // m_table.putValue("DutyCycle",
+        // NetworkTableValue.makeDouble(m_climberMotor.getDutyCycle().getValueAsDouble()));
     }
 
     public void climberUp() {
