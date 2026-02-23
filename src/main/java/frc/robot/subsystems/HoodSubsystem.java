@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -59,6 +60,10 @@ public class HoodSubsystem extends SubsystemBase {
                 () -> {
                     this.setHood(position);
                 }, this);
+    }
+
+    public void hoodDown() {
+        m_hoodMotor.setControl(new PositionVoltage(0).withPosition(HoodConstants.hoodBottom));
     }
 
     public void startCalibration() {

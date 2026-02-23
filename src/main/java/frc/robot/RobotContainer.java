@@ -235,6 +235,7 @@ public class RobotContainer {
 
 		if (SubsystemConstants.useHood) {
 			ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(m_hoodSubsystem.hoodFromNetworkTables());
+
 		}
 
 		if (SubsystemConstants.useTurret) {
@@ -260,8 +261,12 @@ public class RobotContainer {
 							}, m_shooterSubsystem, m_hoodSubsystem).finallyDo(m_shooterSubsystem::stopMotor),
 							new SequentialCommandGroup(
 									new WaitUntilCommand(m_shooterSubsystem::atSpeed),
-									m_hopperSubsystem.RunHopper())));
+									m_hopperSubsystem.RunHopper())))
+					.onFalse(new RunCommand(() -> {
+						m_hoodSubsystem.hoodDown();
+					}));
 		}
+
 	}
 
 	public double[] calculateStaticShot(Translation2d target, Pose2d robotPose) {
