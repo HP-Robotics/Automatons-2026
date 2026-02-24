@@ -185,6 +185,16 @@ public class RobotContainer {
 			RobotModeTriggers.disabled().whileTrue(
 					m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
+			ControllerConstants.trenchOrientation.whileTrue(
+					// Drivetrain will execute this command periodically
+					m_drivetrain.applyRequest(() -> new SwerveRequest.FieldCentricFacingAngle()
+							.withDriveRequestType(DriveRequestType.Velocity)
+							.withDeadband(0.1 * m_maxSpeed)
+							.withRotationalDeadband(0.1 * m_maxAngularRate)
+							.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
+							.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
+							.withTargetDirection(Rotation2d.fromDegrees(0))));
+
 			// These are neat but we probably don't need them
 			// joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
 			// m_joystick.b().whileTrue(m_drivetrain.applyRequest(
