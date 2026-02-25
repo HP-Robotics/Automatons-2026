@@ -99,6 +99,7 @@ public final class Constants {
         public static final DoubleSupplier m_rightAxisX = () -> Math
                 .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 3);
 
+        public static final Trigger trenchOrientation = new Trigger(() -> false);
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
