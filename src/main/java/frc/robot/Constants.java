@@ -212,9 +212,9 @@ public final class Constants {
         public static final double spinnerSpeed = .5;
         public static final double uplifterSpeed = 80; // rotations per second
 
-        public static final double kP = 10;
-        public static final double kS = 3.4;
-        public static final double kV = 0.006;
+        public static final double uplifterkP = 10;
+        public static final double uplifterkS = 3.4;
+        public static final double uplifterkV = 0.006;
     }
 
     public static class ClimberConstants {

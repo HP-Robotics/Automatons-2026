@@ -21,9 +21,9 @@ public class HopperSubsystem extends SubsystemBase {
             .withMotorOutput(new MotorOutputConfigs()
                     .withInverted(InvertedValue.Clockwise_Positive))
             .withSlot0(new Slot0Configs()
-                    .withKP(HopperConstants.kP)
-                    .withKS(HopperConstants.kS)
-                    .withKV(HopperConstants.kV));
+                    .withKP(HopperConstants.uplifterkP)
+                    .withKS(HopperConstants.uplifterkS)
+                    .withKV(HopperConstants.uplifterkV));
 
     public HopperSubsystem() {
         m_hopperMotor = new TalonFX(MotorIDConstants.HopperMotorSpinner);
