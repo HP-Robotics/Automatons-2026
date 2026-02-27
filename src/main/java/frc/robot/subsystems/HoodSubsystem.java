@@ -76,6 +76,9 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     public Command Calibrate() {
+if (m_isCalibrated) {
+            return new WaitCommand(0);
+        }
         return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))
                 .finallyDo(() -> {
                     resetMotorEncoders();
