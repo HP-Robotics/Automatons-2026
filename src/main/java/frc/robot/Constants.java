@@ -167,7 +167,19 @@ public final class Constants {
         public static final double lookAheadTime = 0.1;
 
         public static final double shooterErrorThreshold = 1;
-
+        /*
+         * Lob shot static shot data (Targets floor instead of hub)
+         * 
+         * 2.8 40 1.1
+         * 4.3 50 1.1
+         * 5.57 55 1.1
+         * 6.4 60 1.1
+         * 7.3 65 1.1
+         * 8.6 70 1.1
+         * 9.6 75 1.1
+         * 10.6 80 1.1
+         * 11.7 85 1.1
+         */
     }
 
     public static class LimelightConstants {
