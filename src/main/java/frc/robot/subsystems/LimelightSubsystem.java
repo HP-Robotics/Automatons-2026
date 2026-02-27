@@ -59,8 +59,8 @@ public class LimelightSubsystem extends SubsystemBase {
     m_loadingPose = LimelightConstants.aprilTagList[1];
 
     m_cameras = new ArrayList<LimelightCamera>();
-    m_cameras.add(new LimelightCamera("limelight-shpwrte"));
-    // m_cameras.add(new LimelightCamera("limelight-kite"));
+    // m_cameras.add(new LimelightCamera("limelight-shpwrte"));
+    m_cameras.add(new LimelightCamera("limelight-kite"));
   }
 
   public double getDistanceToPose(Pose2d robot, Pose2d fieldPose) {
