@@ -128,8 +128,8 @@ public class RobotContainer {
 		configurePathPlannerCommands();
 
 		if (SubsystemConstants.useDrive) {
-		autoChooser = AutoBuilder.buildAutoChooser();
-		SmartDashboard.putData("Auto Chooser", autoChooser);
+			autoChooser = AutoBuilder.buildAutoChooser();
+			SmartDashboard.putData("Auto Chooser", autoChooser);
 		}
 		configureBindings();
 
@@ -375,7 +375,7 @@ public class RobotContainer {
 
 	public Command getAutonomousCommand() {
 		if (SubsystemConstants.useDrive) {
-		return autoChooser.getSelected();
+			return autoChooser.getSelected();
 		} else {
 			return new WaitCommand(0);
 		}
