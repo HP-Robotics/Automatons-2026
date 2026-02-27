@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -90,7 +91,7 @@ public class RobotContainer {
 	public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
 
 	public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Robot");
-	private final SendableChooser<Command> autoChooser;
+	private SendableChooser<Command> autoChooser = null;
 	StructPublisher<Pose2d> m_posePublisher = m_table.getStructTopic("targetPose", Pose2d.struct).publish();
 	StructPublisher<Pose2d> m_turretPosePublisher = m_table.getStructTopic("turretPose", Pose2d.struct)
 			.publish();
@@ -126,8 +127,10 @@ public class RobotContainer {
 		// autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 		configurePathPlannerCommands();
 
+		if (SubsystemConstants.useDrive) {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		}
 		configureBindings();
 
 		SmartDashboard.putData("field", m_field);
@@ -371,7 +374,11 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
+		if (SubsystemConstants.useDrive) {
 		return autoChooser.getSelected();
+		} else {
+			return new WaitCommand(0);
+		}
 	}
 
 	public void periodic() {
