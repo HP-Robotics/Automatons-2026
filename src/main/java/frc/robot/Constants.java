@@ -145,9 +145,10 @@ public final class Constants {
         public static final double defaultShootingSpeed = 75; // rotations per second
         public static final double idleSpeed = 10; // rotations per second
         // TODO: pick this
-        public static final double kP = 10;
-        public static final double kS = 5.8;
-        public static final double kV = 0.009;
+        public static final double kP = 7.75;
+        public static final double kD = 0.1;
+        public static final double kS = 6;
+        public static final double kV = 0.011;
 
         public static final InterpolatingMatrixTreeMap<Double, N2, N1> distanceToStaticShot = fillTreeMap();
 

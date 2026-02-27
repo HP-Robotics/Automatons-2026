@@ -31,6 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
         final TalonFXConfiguration leftMotorConfigs = new TalonFXConfiguration()
                 .withSlot0(new Slot0Configs()
                         .withKP(ShooterConstants.kP)
+                        .withKD(ShooterConstants.kD)
                         .withKS(ShooterConstants.kS)
                         .withKV(ShooterConstants.kV));
         m_shooterMotor1.getConfigurator().apply(leftMotorConfigs);
