@@ -415,7 +415,7 @@ public class RobotContainer {
 
 			}
 
-			if (Constants.SubsystemConstants.useShooter) {
+			if (SubsystemConstants.useShooter && SubsystemConstants.useTurret) {
 				movingShot(
 						calculateStaticShot(
 								m_shootingTarget,
