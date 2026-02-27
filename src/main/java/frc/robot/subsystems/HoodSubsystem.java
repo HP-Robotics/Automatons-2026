@@ -8,6 +8,8 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.MotorIDConstants;
@@ -37,7 +40,8 @@ public class HoodSubsystem extends SubsystemBase {
                         .withKD(HoodConstants.kD))
                 .withMotorOutput(new MotorOutputConfigs()
                         .withPeakForwardDutyCycle(HoodConstants.maxSpeed)
-                        .withPeakReverseDutyCycle(-HoodConstants.maxSpeed));
+                        .withPeakReverseDutyCycle(-HoodConstants.maxSpeed)
+                        .withInverted(InvertedValue.Clockwise_Positive));
         m_hoodMotor.getConfigurator().apply(hoodMotorConfigs);
     }
 
@@ -76,7 +80,7 @@ public class HoodSubsystem extends SubsystemBase {
     }
 
     public Command Calibrate() {
-if (m_isCalibrated) {
+        if (m_isCalibrated) {
             return new WaitCommand(0);
         }
         return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))

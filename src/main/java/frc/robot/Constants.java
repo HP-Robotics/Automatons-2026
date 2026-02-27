@@ -232,11 +232,11 @@ public final class Constants {
 
     public static class HoodConstants {
         public static final double hoodBottom = 0.1;
-        public static final double hoodTop = 2.56;
+        public static final double hoodTop = 1.3;
         public static final double kP = 1.5;
         public static final double kD = 0.01;
         public static final double maxSpeed = 0.2;
-        public static final double hoodCalibrateSpeed = -0.05;
+        public static final double hoodCalibrateSpeed = -0.2;
 
         // hood speed 0.04 was safe.
     }
