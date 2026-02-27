@@ -155,11 +155,12 @@ public final class Constants {
         public static InterpolatingMatrixTreeMap<Double, N2, N1> fillTreeMap() {
             // TreeMap.put(double) use this function to add to tree map
             InterpolatingMatrixTreeMap<Double, N2, N1> output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
-            output.put(1.36, MatBuilder.fill(Nat.N2(), Nat.N1(), 50, 1.15));
-            output.put(2.54, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 2.05));
-            output.put(3.68, MatBuilder.fill(Nat.N2(), Nat.N1(), 62, 2.5));
-            output.put(4.36, MatBuilder.fill(Nat.N2(), Nat.N1(), 68, 2.5));
-            output.put(5.49, MatBuilder.fill(Nat.N2(), Nat.N1(), 74, 2.5));
+            output.put(1.09, MatBuilder.fill(Nat.N2(), Nat.N1(), 47, 0.0));
+            output.put(1.815, MatBuilder.fill(Nat.N2(), Nat.N1(), 52, 0.15));
+            output.put(2.785, MatBuilder.fill(Nat.N2(), Nat.N1(), 53, 0.35));
+            output.put(3.985, MatBuilder.fill(Nat.N2(), Nat.N1(), 58, 0.5));
+            output.put(4.725, MatBuilder.fill(Nat.N2(), Nat.N1(), 61, 0.7));
+            output.put(5.745, MatBuilder.fill(Nat.N2(), Nat.N1(), 66, 0.7));
             return output;
         }
 
