@@ -211,7 +211,7 @@ public final class Constants {
         public static final double kD = 0.025;
         public static final double maxForwardDutyCycle = 0.5;
         public static final double maxReverseDutyCycle = -0.5;
-        public static final Translation2d centerPosition = new Translation2d(-6.5 * .0254, 6.5 * .0254);
+        public static final Translation2d centerPosition = new Translation2d(-5.563 * .0254, 4.889 * .0254);
     }
 
     public static class FieldConstants {
