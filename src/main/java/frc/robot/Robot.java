@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -44,6 +47,15 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledExit() {
         m_robotContainer.m_limelightSubsystem.setThrottle(0);
+        try {
+            if (new File("/dev/shm/calibrated").createNewFile()) {
+                m_robotContainer.calibrateTurret();
+            }
+        } catch (IOException e) {
+            System.out.println("failed to touch file");
+            System.out.println(e.getStackTrace());
+            m_robotContainer.calibrateTurret();
+        }
     }
 
     @Override

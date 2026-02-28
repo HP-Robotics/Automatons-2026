@@ -194,7 +194,7 @@ public final class Constants {
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0;
-        public static final double limitSwitchDegrees = 171.0;
+        public static final double limitSwitchDegrees = 180.0;
         public static final double bottomLimitPosition = 93.0;
         public static final double topLimitPosition = 363.0;
         public static final double errorTolerance = 0.0; // TODO: find real value
