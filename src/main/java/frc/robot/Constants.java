@@ -27,11 +27,11 @@ import frc.robot.subsystems.LimelightSubsystem;
 public final class Constants {
     public static class SubsystemConstants {
         public static final boolean useDrive = true;
-        public static final boolean useTurret = false;
+        public static final boolean useTurret = true;
         public static final boolean useHopper = true;
-        public static final boolean useIntake = false;
+        public static final boolean useIntake = true;
         public static final boolean useShooter = true;
-        public static final boolean useClimber = false;
+        public static final boolean useClimber = true;
         public static final boolean useHood = true;
     }
 
