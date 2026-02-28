@@ -216,6 +216,7 @@ public class RobotContainer {
 		}
 		if (SubsystemConstants.useIntake) {
 			ControllerConstants.intakeTrigger.toggleOnTrue(m_intakeSubsystem.Intake());
+			ControllerConstants.yuckTrigger.toggleOnTrue(m_intakeSubsystem.Yuck());
 		}
 
 		if (SubsystemConstants.useShooter) {

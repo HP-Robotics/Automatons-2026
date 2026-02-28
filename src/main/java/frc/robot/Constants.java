@@ -106,10 +106,11 @@ public final class Constants {
         public static final Trigger magicShooterTrigger = m_opJoystick.axisGreaterThan(3, 0.2);
         public static final Trigger ShooterNetworkTablesModeTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
         // public static final Trigger runTurretTrigger = new
-        // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
+        // Trigger(m_driveJoystick.getHID()::[]); (USED)
         public static final Trigger calibrateTurretTrigger = new Trigger(
                 m_driveJoystick.getHID()::getRightBumperButton);
         public static final Trigger setFieldCentricTrigger = new Trigger(m_driveJoystick.getHID()::getBackButton);
+        public static final Trigger yuckTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
         public static final Trigger climbUpTrigger = m_opJoystick.povUp();
         public static final Trigger climbDownTrigger = m_opJoystick.povDown();

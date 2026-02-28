@@ -115,6 +115,16 @@ public class IntakeSubsystem extends SubsystemBase {
                 }, this);
     }
 
+    public Command Yuck() {
+        return new StartEndCommand(
+                () -> {
+                    this.runIntake(-IntakeConstants.speed);
+                },
+                () -> {
+                    this.stopIntake();
+                }, this);
+    }
+
     public Command StartIntake() {
         return new InstantCommand(
                 () -> {
