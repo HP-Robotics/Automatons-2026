@@ -153,7 +153,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 },
                 () -> {
                     this.stopIntake();
-                }, this);
+                });
     }
 
     public Command StartIntake() {
