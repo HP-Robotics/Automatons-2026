@@ -49,7 +49,7 @@ public final class Constants {
         public static final double leftkS = 0; // Add 0.25 V output to overcome static friction
         public static final double leftkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double leftkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double leftkP = 2; // A position error of 2.5 rotations results in 12 V output
+        public static final double leftkP = 12; // A position error of 2.5 rotations results in 12 V output
         public static final double leftkI = 0; // no output for integrated error
         public static final double leftkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
@@ -60,18 +60,23 @@ public final class Constants {
         public static final double leftRetractPosition = 0;
 
         // set slot 0 gains
-        public static final double rightkS = 0; // Add 0.25 V output to overcome static friction
+        public static final double rightkS = 6; // Add 0.25 V output to overcome static friction
         public static final double rightkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double rightkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double rightkP = 2; // A position error of 2.5 rotations results in 12 V output
+        public static final double rightkP = 12; // A position error of 2.5 rotations results in 12 V output
         public static final double rightkI = 0; // no output for integrated error
         public static final double rightkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
         public static final double rightMotionMagicCruiseVelocity = 1; // Target cruise velocity of 80 rps
         public static final double rightMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
         public static final double rightMotionMagicJerk = 1; // Target jerk of 1600 rps/s/s (0.1 seconds)
-        public static final double rightExtendPosition = -3.08;
+        public static final double rightExtendPosition = 3.08;
         public static final double rightRetractPosition = 0;
+
+        public static final double extendCruiseVelocity = 12;
+        public static final double extendAcceleration = 24;
+        public static final double extendJerk = 480;
+
     }
 
     public static class DriveConstants {
@@ -195,7 +200,7 @@ public final class Constants {
     public static class TurretConstants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0;
-        public static final double limitSwitchDegrees = 171.0;
+        public static final double limitSwitchDegrees = 180.0;
         public static final double bottomLimitPosition = 93.0;
         public static final double topLimitPosition = 363.0;
         public static final double errorTolerance = 0.0; // TODO: find real value
@@ -207,7 +212,7 @@ public final class Constants {
         public static final double kD = 0.025;
         public static final double maxForwardDutyCycle = 0.5;
         public static final double maxReverseDutyCycle = -0.5;
-        public static final Translation2d centerPosition = new Translation2d(-6.5 * .0254, 6.5 * .0254);
+        public static final Translation2d centerPosition = new Translation2d(-5.563 * .0254, 4.889 * .0254);
     }
 
     public static class FieldConstants {

@@ -256,7 +256,7 @@ public class RobotContainer {
 			// ControllerConstants.runTurretTrigger.whileTrue(new
 			// StartEndCommand(m_turretSubsystem::runTurret,
 			// m_turretSubsystem::stopTurret, m_turretSubsystem));
-			ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
+			// ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
 			ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(m_turretSubsystem.RotateTurret());
 
 		}
@@ -372,6 +372,12 @@ public class RobotContainer {
 		m_table.putValue("turretAngle", NetworkTableValue.makeDouble(m_dynamicTurretAngle));
 
 		m_shotIsLegal = true;
+	}
+
+	public void calibrateTurret() {
+		if (m_turretSubsystem != null) {
+			m_turretSubsystem.resetMotorEncoders();
+		}
 	}
 
 	public Command getAutonomousCommand() {
