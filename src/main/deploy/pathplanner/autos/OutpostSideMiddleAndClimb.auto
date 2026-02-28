@@ -13,13 +13,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OCtoOT"
+            "pathName": "OC Grab a Few"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a few to OT"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "BottomDriveToTower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
           }
         }
       ]

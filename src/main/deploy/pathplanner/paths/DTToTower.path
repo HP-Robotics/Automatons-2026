@@ -53,7 +53,7 @@
   "constraintZones": [
     {
       "name": "Climb Zone",
-      "minWaypointRelativePos": 1.3288318703578574,
+      "minWaypointRelativePos": 0.8670465337132015,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -66,7 +66,14 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Climber up",
+      "waypointRelativePos": 1.554605887939212,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

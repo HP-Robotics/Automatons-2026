@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TSPtoUL"
+            "pathName": "DT to D Side"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ULtoBL"
+            "pathName": "D Side to O Side"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "BLtoLowerTower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
           }
         }
       ]

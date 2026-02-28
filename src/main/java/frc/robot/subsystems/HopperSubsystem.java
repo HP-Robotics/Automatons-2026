@@ -32,12 +32,12 @@ public class HopperSubsystem extends SubsystemBase {
     }
 
     public void runHopper(double spinnerSpeed, double uplifterSpeed) {
-        m_hopperMotor.set(spinnerSpeed);
+        // m_hopperMotor.set(spinnerSpeed);
         m_uplifterMotor.setControl(new VelocityTorqueCurrentFOC(uplifterSpeed));
     }
 
     public void stopHopper() {
-        m_hopperMotor.set(0);
+        // m_hopperMotor.set(0);
         m_uplifterMotor.set(0);
     }
 

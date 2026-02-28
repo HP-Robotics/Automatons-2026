@@ -40,6 +40,12 @@
           "data": {
             "pathName": "DepotLowerToTower"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
+          }
         }
       ]
     }

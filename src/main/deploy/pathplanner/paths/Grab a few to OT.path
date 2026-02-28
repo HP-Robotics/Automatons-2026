@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 7.8001084337322855,
+        "y": 2.387
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 8.030382431823936,
+        "y": 0.39589861563683293
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "OC Pop-In"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 3.635360353366873,
+        "y": 0.8111266710979339
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 4.751972353319874,
+        "y": 0.4479368708511834
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "OT Start"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5622188905547133,
+      "rotationDegrees": 6.293455898530414
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -45,10 +50,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Movement Throughout the Field",
+  "folder": "Middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.98776039940002
   },
   "useDefaultConstraints": true
 }
