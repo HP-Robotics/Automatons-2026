@@ -27,11 +27,11 @@ import frc.robot.subsystems.LimelightSubsystem;
 public final class Constants {
     public static class SubsystemConstants {
         public static final boolean useDrive = true;
-        public static final boolean useTurret = false;
+        public static final boolean useTurret = true;
         public static final boolean useHopper = true;
-        public static final boolean useIntake = false;
+        public static final boolean useIntake = true;
         public static final boolean useShooter = true;
-        public static final boolean useClimber = false;
+        public static final boolean useClimber = true;
         public static final boolean useHood = true;
     }
 
@@ -49,7 +49,7 @@ public final class Constants {
         public static final double leftkS = 0; // Add 0.25 V output to overcome static friction
         public static final double leftkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double leftkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double leftkP = 12; // A position error of 2.5 rotations results in 12 V output
+        public static final double leftkP = 24; // A position error of 2.5 rotations results in 12 V output
         public static final double leftkI = 0; // no output for integrated error
         public static final double leftkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
@@ -63,7 +63,7 @@ public final class Constants {
         public static final double rightkS = 6; // Add 0.25 V output to overcome static friction
         public static final double rightkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double rightkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double rightkP = 12; // A position error of 2.5 rotations results in 12 V output
+        public static final double rightkP = 24; // A position error of 2.5 rotations results in 12 V output
         public static final double rightkI = 0; // no output for integrated error
         public static final double rightkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
@@ -73,8 +73,8 @@ public final class Constants {
         public static final double rightExtendPosition = 3.08;
         public static final double rightRetractPosition = 0;
 
-        public static final double extendCruiseVelocity = 12;
-        public static final double extendAcceleration = 24;
+        public static final double extendCruiseVelocity = 1; // 12
+        public static final double extendAcceleration = 2; // 24
         public static final double extendJerk = 480;
 
     }
@@ -200,15 +200,15 @@ public final class Constants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0;
         public static final double limitSwitchDegrees = 180.0;
-        public static final double bottomLimitPosition = 93.0;
-        public static final double topLimitPosition = 363.0;
+        public static final double bottomLimitPosition = 0.0;
+        public static final double topLimitPosition = 359.0;
         public static final double errorTolerance = 0.0; // TODO: find real value
         public static final double encoderCPR = 1.0;
         public static final double gearRatio = 10.4167;
         public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
-        public static final double kP = 0.4;
-        public static final double kI = 0;
-        public static final double kD = 0.025;
+        public static final double kP = 0.6;
+        public static final double kI = 0.001;
+        public static final double kD = 0.03;
         public static final double maxForwardDutyCycle = 0.5;
         public static final double maxReverseDutyCycle = -0.5;
         public static final Translation2d centerPosition = new Translation2d(-5.563 * .0254, 4.889 * .0254);
