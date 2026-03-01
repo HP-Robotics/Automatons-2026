@@ -46,7 +46,8 @@ public class IntakeSubsystem extends SubsystemBase {
         ExtendProfile(TalonFX motor, double goalPos) {
             m_motor = motor;
             m_timer = new Timer();
-            m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(IntakeConstants.extendCruiseVelocity, IntakeConstants.extendAcceleration));
+            m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(IntakeConstants.extendCruiseVelocity,
+                    IntakeConstants.extendAcceleration));
             m_goal = new TrapezoidProfile.State(goalPos, 0);
             m_setpoint = new TrapezoidProfile.State();
         }
@@ -143,6 +144,16 @@ public class IntakeSubsystem extends SubsystemBase {
                     this.retractIntake();
                     this.stopIntake();
                 }, this);
+    }
+
+    public Command Yuck() {
+        return new StartEndCommand(
+                () -> {
+                    this.runIntake(-IntakeConstants.speed);
+                },
+                () -> {
+                    this.stopIntake();
+                });
     }
 
     public Command StartIntake() {
