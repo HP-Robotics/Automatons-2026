@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -57,7 +58,6 @@ public class IntakeSubsystem extends SubsystemBase {
             request.Position = m_setpoint.position;
             request.Velocity = m_setpoint.velocity;
             m_motor.setControl(request);
-
             return m_profile.isFinished(t);
         }
     }
@@ -116,11 +116,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake(double speed) {
-        // m_intakeMotor.set(speed);
+        m_intakeMotor.set(-speed);
     }
 
     public void stopIntake() {
-        // m_intakeMotor.set(0);
+        m_intakeMotor.set(0);
     }
 
     public void extendIntake() {
