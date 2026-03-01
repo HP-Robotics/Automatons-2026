@@ -158,9 +158,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void resetMotorEncoders() {
-    if (atLimit()) {
       m_turretMotor.setPosition(0.0);
       m_offset = 0.0; //m_turretMotor.getRotorPosition().getValueAsDouble();
-    }
   }
 }
