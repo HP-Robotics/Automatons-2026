@@ -6,10 +6,12 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -33,6 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
         final TalonFXConfiguration leftMotorConfigs = new TalonFXConfiguration()
                 .withSlot0(new Slot0Configs()
                         .withKP(ShooterConstants.kP)
+                        .withKI(ShooterConstants.kI)
                         .withKD(ShooterConstants.kD)
                         .withKS(ShooterConstants.kS)
                         .withKV(ShooterConstants.kV));
@@ -40,6 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
         final TalonFXConfiguration rightMotorConfigs = new TalonFXConfiguration()
                 .withMotorOutput(
                         new MotorOutputConfigs()
+                        .withNeutralMode(NeutralModeValue.Coast)
                                 .withInverted(InvertedValue.Clockwise_Positive));
         m_shooterMotor2.getConfigurator().apply(rightMotorConfigs);
         m_shooterMotor2.setControl(new Follower(MotorIDConstants.shooterMotorLeft, MotorAlignmentValue.Opposed));
@@ -49,7 +53,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void setVelocity(double speed) {
         m_velocity = speed;
-        m_shooterMotor1.setControl(new VelocityTorqueCurrentFOC(speed));
+        if (speed > 1) {
+            m_shooterMotor1.setControl(new VelocityTorqueCurrentFOC(speed));
+        } else {
+            m_shooterMotor1.setControl(new NeutralOut());
+        }
         m_table.putValue("shooterSpeed", NetworkTableValue.makeDouble(speed));
         // shooterMotor2.set(speed);
     }
