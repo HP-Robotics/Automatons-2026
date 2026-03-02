@@ -82,7 +82,7 @@ public class HoodSubsystem extends SubsystemBase {
 
     public void hoodDown() {
         m_targetPosition = HoodConstants.hoodBottom;
-        m_hoodMotor.setControl(new PositionVoltage(HoodConstants.hoodBottom));
+        m_hoodMotor.setControl(new PositionDutyCycle(HoodConstants.hoodBottom));
     }
 
     public void startCalibration() {
