@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -106,8 +108,11 @@ public class ShooterSubsystem extends SubsystemBase {
         return new RunCommand(this::networkTablesSpeed, this).finallyDo(this::stopMotor);
     }
 
-    public Command MagicShooter() {
-        return new StartEndCommand(this::magicSpeed, this::idleMotor, this);
+    public Command MagicShooter(DoubleSupplier getMagicWheelSpeed) {
+        return new RunCommand(() -> {
+            setVelocity(getMagicWheelSpeed.getAsDouble());
+
+        }, this).finallyDo(this::stopMotor);
     }
 
 }

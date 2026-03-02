@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
@@ -27,6 +29,8 @@ public class HoodSubsystem extends SubsystemBase {
     TalonFX m_hoodMotor = new TalonFX(MotorIDConstants.hoodMotor);
     boolean m_isCalibrated = false;
     Timer m_timer = new Timer();
+    double m_targetPosition = 0;
+    
 
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("Hood");
 
@@ -49,11 +53,14 @@ public class HoodSubsystem extends SubsystemBase {
     public void periodic() {
         table.putValue("position", NetworkTableValue.makeDouble(m_hoodMotor.getPosition().getValueAsDouble()));
         table.putValue("isCalibrated", NetworkTableValue.makeBoolean(m_isCalibrated));
+        table.putValue("isShotLegal", NetworkTableValue.makeBoolean(isHoodAimed()));
+        table.putValue("targetPosition", NetworkTableValue.makeDouble(m_targetPosition));
     }
 
     public void setHood(double position) {
 
         if (m_isCalibrated && position > 0) {
+            m_targetPosition = position;
             m_hoodMotor.setControl(new PositionDutyCycle(position));
         }
 
@@ -66,8 +73,16 @@ public class HoodSubsystem extends SubsystemBase {
                 }, this);
     }
 
+    public boolean isHoodAimed() {
+        if ( Math.abs(m_targetPosition - m_hoodMotor.getRotorPosition().getValueAsDouble()) < HoodConstants.hoodErrorThreshold) {
+            return m_isCalibrated; 
+        }
+        return false;
+    }
+
     public void hoodDown() {
-        m_hoodMotor.setControl(new PositionVoltage(0).withPosition(HoodConstants.hoodBottom));
+        m_targetPosition = HoodConstants.hoodBottom;
+        m_hoodMotor.setControl(new PositionVoltage(HoodConstants.hoodBottom));
     }
 
     public void startCalibration() {
@@ -77,6 +92,13 @@ public class HoodSubsystem extends SubsystemBase {
         m_timer.reset();
         m_hoodMotor.setControl(new DutyCycleOut(HoodConstants.hoodCalibrateSpeed));
         m_timer.start();
+    }
+
+    public Command MagicHood(DoubleSupplier magicHoodPosition) {
+        return new RunCommand(() -> {
+
+            setHood(magicHoodPosition.getAsDouble());
+        }, this).finallyDo(this::hoodDown);
     }
 
     public Command Calibrate() {

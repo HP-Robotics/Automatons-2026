@@ -261,24 +261,10 @@ public class RobotContainer {
 
 		}
 
-		if (SubsystemConstants.useShooter && SubsystemConstants.useTurret && SubsystemConstants.useHood) {
-			ControllerConstants.magicShooterTrigger.whileTrue(
-					new ParallelCommandGroup(
-							new RunCommand(() -> {
-								if (m_shotIsLegal) {
-									m_shooterSubsystem.setVelocity(m_dynamicWheelSpeed);
-
-									m_hoodSubsystem.setHood(m_dynamicHoodAngle);
-									m_turretSubsystem.setTargetPosition(m_dynamicTurretAngle);
-									m_turretSubsystem.rotateTurretToTarget();
-								}
-							}, m_shooterSubsystem, m_hoodSubsystem).finallyDo(m_shooterSubsystem::stopMotor),
-							new SequentialCommandGroup(
-									new WaitUntilCommand(m_shooterSubsystem::atSpeed),
-									m_hopperSubsystem.RunHopper())))
-					.onFalse(new RunCommand(() -> {
-						m_hoodSubsystem.hoodDown();
-					}));
+		ControllerConstants.magicShooterTrigger.onTrue(startShooter());
+		if (SubsystemConstants.useHopper) {
+			ControllerConstants.magicShooterTrigger.onFalse(cancelHopper());
+			// TODO:allow canceling if there is no hopper
 		}
 
 	}
@@ -380,6 +366,34 @@ public class RobotContainer {
 		}
 	}
 
+	public Command startShooter() {
+		ParallelCommandGroup output = new ParallelCommandGroup();
+		if (SubsystemConstants.useShooter) {
+			output.addCommands(m_shooterSubsystem.MagicShooter(this::getMagicShooterSpeed));
+		}
+		if (SubsystemConstants.useTurret) {
+			output.addCommands(m_turretSubsystem.MagicTurret(this::getMagicTurretAngle));
+		}
+		if (SubsystemConstants.useHood) {
+			output.addCommands(m_hoodSubsystem.MagicHood(this::getMagicHoodPosition));
+		}
+		if (SubsystemConstants.useHopper) {
+			output.addCommands(m_hopperSubsystem.MagicHopper(this::readyToShoot));
+		}
+		return output;
+
+	}
+
+	public Command cancelHopper() {
+		return new InstantCommand(
+				() -> {
+					m_hopperSubsystem.getCurrentCommand().cancel();
+				}
+
+		);
+
+	}
+
 	public Command getAutonomousCommand() {
 		if (SubsystemConstants.useDrive) {
 			return autoChooser.getSelected();
@@ -452,5 +466,43 @@ public class RobotContainer {
 		if (SubsystemConstants.useHood) {
 			CommandScheduler.getInstance().schedule(m_hoodSubsystem.Calibrate());
 		}
+	}
+
+	public double getMagicTurretAngle() {
+		if (m_shotIsLegal) {
+			return m_dynamicTurretAngle;
+
+		} else {
+			return m_turretToHub;
+		}
+	}
+
+	public double getMagicHoodPosition() {
+		if (m_shotIsLegal) {
+			return m_dynamicHoodAngle;
+		} else {
+			return m_staticHoodPosition;
+		}
+	}
+
+	public double getMagicShooterSpeed() {
+		double fudge = 0.0;
+		if (SubsystemConstants.useTurret) {
+			fudge = ShooterConstants.turretAngleFudge.get(Math.abs(m_turretSubsystem.getAngle().in(Degrees)));
+		}
+		if (m_shotIsLegal) {
+			return m_dynamicWheelSpeed * (1.0 + fudge);
+		} else {
+			return m_staticWheelSpeed * (1.0 + fudge);
+
+		}
+	}
+
+	public boolean readyToShoot() {
+		return (m_hoodSubsystem.isHoodAimed()
+				&& m_shooterSubsystem.atSpeed()
+				&& m_turretSubsystem.atPosition()
+				&& m_shotIsLegal);
+
 	}
 }

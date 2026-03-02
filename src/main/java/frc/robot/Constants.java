@@ -172,7 +172,8 @@ public final class Constants {
 
         public static final double lookAheadTime = 0.1;
 
-        public static final double shooterErrorThreshold = 1;
+        public static final double shooterErrorThreshold = 2;
+
         /*
          * Lob shot static shot data (Targets floor instead of hub)
          * 
@@ -203,13 +204,14 @@ public final class Constants {
         public static final double limitSwitchDegrees = 180.0;
         public static final double bottomLimitPosition = 0.0;
         public static final double topLimitPosition = 359.0;
-        public static final double errorTolerance = 0.0; // TODO: find real value
+        public static final double errorTolerance = 0.15; // TODO: find real value
         public static final double encoderCPR = 1.0;
         public static final double gearRatio = 10.4167;
         public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
         public static final double kP = 0.6;
-        public static final double kI = 0.001;
+        public static final double kI = 1;
         public static final double kD = 0.03;
+        public static final double kS = 0.113;
         public static final double maxForwardDutyCycle = 0.5;
         public static final double maxReverseDutyCycle = -0.5;
         public static final Translation2d centerPosition = new Translation2d(-5.563 * .0254, 4.889 * .0254);
@@ -230,6 +232,7 @@ public final class Constants {
     public static class HopperConstants {
         public static final double spinnerSpeed = .5;
         public static final double uplifterSpeed = 80; // rotations per second
+        public static final double reverseUplifterSpeed = -20;
 
         public static final double uplifterkP = 10;
         public static final double uplifterkS = 3.4;
@@ -251,12 +254,13 @@ public final class Constants {
     }
 
     public static class HoodConstants {
-        public static final double hoodBottom = 0.1;
+        public static final double hoodBottom = 0.2;
         public static final double hoodTop = 1.3;
         public static final double kP = 1.5;
         public static final double kD = 0.01;
         public static final double maxSpeed = 0.2;
         public static final double hoodCalibrateSpeed = -0.2;
+        public static final double hoodErrorThreshold = 0.05;
 
         // hood speed 0.04 was safe.
     }

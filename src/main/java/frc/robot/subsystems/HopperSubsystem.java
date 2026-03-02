@@ -1,6 +1,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -9,6 +12,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HopperConstants;
@@ -31,6 +35,18 @@ public class HopperSubsystem extends SubsystemBase {
         m_uplifterMotor.getConfigurator().apply(m_uplifterMotorConfigs);
     }
 
+    public Command MagicHopper(BooleanSupplier readyToShoot) {
+        return new RunCommand(() -> {
+            if (readyToShoot.getAsBoolean()) {
+                runHopper(HopperConstants.spinnerSpeed, HopperConstants.uplifterSpeed);
+            }
+            else {
+                runHopper(0.0, HopperConstants.reverseUplifterSpeed);
+            }
+
+        }, this).finallyDo(this::stopHopper);
+
+    }
     public void runHopper(double spinnerSpeed, double uplifterSpeed) {
         m_hopperMotor.set(spinnerSpeed);
         m_uplifterMotor.setControl(new VelocityTorqueCurrentFOC(uplifterSpeed));

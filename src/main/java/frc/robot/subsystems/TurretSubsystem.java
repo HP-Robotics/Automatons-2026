@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Degrees;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -20,7 +22,6 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,8 +47,11 @@ public class TurretSubsystem extends SubsystemBase {
     m_turretConfig.kP = TurretConstants.kP;
     m_turretConfig.kI = TurretConstants.kI;
     m_turretConfig.kD = TurretConstants.kD;
+    m_turretConfig.kS = TurretConstants.kS;
     m_turretOutputConfig.PeakForwardDutyCycle = TurretConstants.maxForwardDutyCycle;
     m_turretOutputConfig.PeakReverseDutyCycle = TurretConstants.maxReverseDutyCycle;
+    m_turretMotor.getConfigurator().apply(m_turretConfig);
+    m_turretMotor.getConfigurator().apply(m_turretOutputConfig);
   }
 
   public void runTurret() {
@@ -78,12 +82,12 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void getFromNetworkTables() {
     this.m_turretSpeed = m_table.getEntry("turretSpeed").getDouble(TurretConstants.turretSpeed);
-    setTargetPosition(m_table.getEntry("targetPosition").getDouble(m_targetPosition));
+    //setTargetPosition(m_table.getEntry("targetPosition").getDouble(m_targetPosition));
   }
 
   public boolean atPosition() {
-    return (Math.abs(m_turretMotor.getRotorPosition().getValueAsDouble()
-        - m_targetPosition) <= TurretConstants.errorTolerance);
+    return (Math.abs(m_turretMotor.getPosition().getValueAsDouble()
+        - degreesToMotorTicks(m_targetPosition)) <= TurretConstants.errorTolerance);
     // return (turretMotor.getControlMode())
   }
 
@@ -117,6 +121,15 @@ public class TurretSubsystem extends SubsystemBase {
     return new RunCommand(() -> {
       rotateTurretToTarget();
     });
+  }
+
+  public Command MagicTurret(DoubleSupplier magicTurretAngle) {
+    return new RunCommand(() -> {
+
+      setTargetPosition(magicTurretAngle.getAsDouble());
+      rotateTurretToTarget();
+
+    }, this);
   }
 
   public void rotateTurretToTarget() {
@@ -154,11 +167,13 @@ public class TurretSubsystem extends SubsystemBase {
     m_table.putValue("turretDegrees",
         NetworkTableValue.makeDouble(motorTicksToDegrees(m_turretMotor.getPosition().getValueAsDouble())));
     m_table.putValue("realTargetPosition", NetworkTableValue.makeDouble(m_targetPosition));
+    m_table.putValue("inPosition", NetworkTableValue.makeBoolean(atPosition()));
+    m_table.putValue("targetPositionMotorTicks", NetworkTableValue.makeDouble(degreesToMotorTicks(m_targetPosition)));
 
   }
 
   public void resetMotorEncoders() {
-      m_turretMotor.setPosition(0.0);
-      m_offset = 0.0; //m_turretMotor.getRotorPosition().getValueAsDouble();
+    m_turretMotor.setPosition(0.0);
+    m_offset = 0.0; // m_turretMotor.getRotorPosition().getValueAsDouble();
   }
 }
