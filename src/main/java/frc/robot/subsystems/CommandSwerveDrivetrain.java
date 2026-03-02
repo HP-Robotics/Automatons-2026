@@ -439,7 +439,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     // optionally outputs individual module feedforwards
                     new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller
                                                     // for holonomic drive trains
-                            new PIDConstants(9.0, 0.0, 0.0), // Translation PID constants
+                            new PIDConstants(4, 0.0, 0.0), // Translation PID constants
                             new PIDConstants(7.0, 0.0, 0.0)), // Rotation PID constants
                     config,
                     () -> {
