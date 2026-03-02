@@ -23,15 +23,41 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BottomDriveToTower"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CommandClimberDown"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CommandShoot"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 5.0
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "BottomDriveToTower"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "CommandClimberDown"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

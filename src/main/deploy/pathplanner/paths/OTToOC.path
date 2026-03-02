@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.635360353366873,
-        "y": 0.8111266710979339
+        "x": 3.625722891566265,
+        "y": 0.733
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.684420594333383,
-        "y": 0.5379339000180949
+        "x": 4.674783132532775,
+        "y": 0.459807228920161
       },
       "isLocked": false,
       "linkedName": "OT Start"
@@ -59,8 +59,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 3.0,
-    "rotation": 88.63607246839723
+    "velocity": 1.0,
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Middle",

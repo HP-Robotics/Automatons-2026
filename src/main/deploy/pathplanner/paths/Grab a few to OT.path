@@ -8,30 +8,30 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.030382431823936,
-        "y": 0.39589861563683293
+        "x": 8.062373493975903,
+        "y": 0.7457590361445794
       },
       "isLocked": false,
       "linkedName": "OC Pop-In"
     },
     {
       "anchor": {
-        "x": 3.635360353366873,
-        "y": 0.8111266710979339
+        "x": 3.625722891566265,
+        "y": 0.733
       },
       "prevControl": {
-        "x": 4.751970206213249,
-        "y": 0.4479302697271207
+        "x": 4.784060240963856,
+        "y": 0.6783614457831327
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "OT Start"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5622188905547133,
-      "rotationDegrees": -170.58079757253398
+      "rotationDegrees": 6.293455898530414
     }
   ],
   "constraintZones": [],
@@ -47,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 176.95042465393564
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Middle",
