@@ -23,41 +23,27 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "CommandShoot"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 5.0
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "BottomDriveToTower"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "CommandClimberDown"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "name": "CommandShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomDriveToTower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
           }
         }
       ]
