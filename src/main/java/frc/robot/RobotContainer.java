@@ -151,6 +151,7 @@ public class RobotContainer {
 		}
 
 		new EventTrigger("Shoot").onTrue(startShooter());
+		NamedCommands.registerCommand("CommandShoot", startShooter().asProxy());
 
 		if (SubsystemConstants.useHopper) {
 			new EventTrigger("CancelShooter").onTrue(cancelHopper());
