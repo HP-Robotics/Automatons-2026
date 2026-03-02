@@ -27,7 +27,7 @@ public final class Constants {
         public static final boolean useDrive = true;
         public static final boolean useTurret = true;
         public static final boolean useHopper = true;
-        public static final boolean useIntake = false;
+        public static final boolean useIntake = true;
         public static final boolean useShooter = true;
         public static final boolean useClimber = true;
         public static final boolean useHood = true;
@@ -44,7 +44,7 @@ public final class Constants {
         public static final double kD = 0;
 
         // set slot 0 gains
-        public static final double leftkS = 0; // Add 0.25 V output to overcome static friction
+        public static final double leftkS = 9; // Add 0.25 V output to overcome static friction
         public static final double leftkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double leftkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
         public static final double leftkP = 24; // A position error of 2.5 rotations results in 12 V output
@@ -58,7 +58,7 @@ public final class Constants {
         public static final double leftRetractPosition = 0;
 
         // set slot 0 gains
-        public static final double rightkS = 6; // Add 0.25 V output to overcome static friction
+        public static final double rightkS = 9; // Add 0.25 V output to overcome static friction
         public static final double rightkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double rightkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
         public static final double rightkP = 24; // A position error of 2.5 rotations results in 12 V output
@@ -71,8 +71,8 @@ public final class Constants {
         public static final double rightExtendPosition = 3.08;
         public static final double rightRetractPosition = 0;
 
-        public static final double extendCruiseVelocity = 1; // 12
-        public static final double extendAcceleration = 2; // 24
+        public static final double extendCruiseVelocity = 10; // 12
+        public static final double extendAcceleration = 20; // 24
         public static final double extendJerk = 480;
 
     }
