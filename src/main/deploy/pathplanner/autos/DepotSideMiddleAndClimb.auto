@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DTToDC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DC Grab a Few"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a Few to DT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DTToTower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

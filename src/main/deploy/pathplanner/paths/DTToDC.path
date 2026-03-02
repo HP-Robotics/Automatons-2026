@@ -8,30 +8,48 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4243726258687808,
-        "y": 7.3457343570054014
+        "x": 5.319518072289156,
+        "y": 7.411662650602409
       },
       "isLocked": false,
       "linkedName": "DT Start"
     },
     {
       "anchor": {
-        "x": 0.5973751783166898,
-        "y": 7.24909027131468
+        "x": 7.8001084337322855,
+        "y": 6.887132530120482
       },
       "prevControl": {
-        "x": 1.3846076856197485,
-        "y": 7.234470479463995
+        "x": 7.089807228915663,
+        "y": 7.44444578313253
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DC"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3247244094488218,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Extend Intake",
+      "waypointRelativePos": 0.4507795100222709,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Start Intake",
+      "waypointRelativePos": 0.718040089086863,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -41,11 +59,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 179.8708604892268
+    "velocity": 1.0,
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Test Paths",
+  "folder": "Middle",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

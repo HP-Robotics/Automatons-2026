@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6203282203502427,
-        "y": 7.248792356861759
+        "x": 3.636650602409638,
+        "y": 7.348
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.599997657615684,
-        "y": 7.584057619172893
+        "x": 2.5438795180722895,
+        "y": 7.44444578313253
       },
       "isLocked": false,
       "linkedName": "DT Start"
@@ -82,7 +82,7 @@
   "folder": "Depot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

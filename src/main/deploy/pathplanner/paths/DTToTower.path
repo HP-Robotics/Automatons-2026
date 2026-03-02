@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6203282203502427,
-        "y": 7.248792356861759
+        "x": 3.636650602409638,
+        "y": 7.348
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3706121005214267,
-        "y": 7.048243141455197
+        "x": 2.8170722891566267,
+        "y": 7.269602409638554
       },
       "isLocked": false,
       "linkedName": "DT Start"
@@ -69,7 +69,7 @@
   "eventMarkers": [
     {
       "name": "Climber up",
-      "waypointRelativePos": 1.554605887939212,
+      "waypointRelativePos": 0.9870824053452153,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -90,7 +90,7 @@
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

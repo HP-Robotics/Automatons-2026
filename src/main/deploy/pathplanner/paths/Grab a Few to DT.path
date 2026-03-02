@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 7.8001084337322855,
+        "y": 5.280759036144579
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.964481927710943,
-        "y": 7.641144578318176
+        "x": 7.373927710845094,
+        "y": 6.788783132525858
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DC Pop-In"
     },
     {
       "anchor": {
-        "x": 6.9586746987951775,
-        "y": 2.767385542175481
+        "x": 3.636650602409638,
+        "y": 7.348
       },
       "prevControl": {
-        "x": 7.210012048192767,
-        "y": 5.444674698801986
+        "x": 5.800337349399312,
+        "y": 7.815987951802967
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "DT Start"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5969696969696967,
+      "rotationDegrees": -1.2242378776714349
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -45,10 +50,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

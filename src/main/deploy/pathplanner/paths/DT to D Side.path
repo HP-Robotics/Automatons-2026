@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6203282203502427,
-        "y": 7.248792356861759
+        "x": 3.636650602409638,
+        "y": 7.348
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3289815288170317,
-        "y": 6.93316006477498
+        "x": 2.345303910876427,
+        "y": 7.032367707913221
       },
       "isLocked": false,
       "linkedName": "DT Start"
@@ -48,7 +48,7 @@
   "folder": "Movement Throughout the Field",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
