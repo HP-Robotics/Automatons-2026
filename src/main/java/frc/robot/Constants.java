@@ -6,12 +6,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
@@ -29,7 +27,7 @@ public final class Constants {
         public static final boolean useDrive = true;
         public static final boolean useTurret = true;
         public static final boolean useHopper = true;
-        public static final boolean useIntake = true;
+        public static final boolean useIntake = false;
         public static final boolean useShooter = true;
         public static final boolean useClimber = true;
         public static final boolean useHood = true;
@@ -188,6 +186,18 @@ public final class Constants {
          * 10.6 80 1.1
          * 11.7 85 1.1
          */
+        public static InterpolatingDoubleTreeMap createTurretAngleFudge() {
+            InterpolatingDoubleTreeMap output = new InterpolatingDoubleTreeMap();
+            output.put(0.0, 0.0);
+            output.put(5.0, 0.05);
+            output.put(175.0, 0.05);
+            output.put(180.0, 0.025);
+            output.put(185.0, 0.05);
+            output.put(355.0, 0.05);
+            output.put(360.0, 0.0);
+            return output;
+        };
+        public static final InterpolatingDoubleTreeMap turretAngleFudge = createTurretAngleFudge();
     }
 
     public static class LimelightConstants {
