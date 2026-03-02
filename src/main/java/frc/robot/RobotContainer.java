@@ -34,8 +34,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -149,9 +149,13 @@ public class RobotContainer {
 			NamedCommands.registerCommand("CommandClimberUp", m_climberSubsystem.ClimbUp().asProxy());
 			NamedCommands.registerCommand("CommandClimberDown", m_climberSubsystem.ClimbDown().asProxy());
 		}
-		if (SubsystemConstants.useShooter) {
-			new EventTrigger("Shoot").onTrue(m_shooterSubsystem.MagicShooter());
+
+		new EventTrigger("Shoot").onTrue(startShooter());
+
+		if (SubsystemConstants.useHopper) {
+			new EventTrigger("CancelShooter").onTrue(cancelHopper());
 		}
+
 		if (SubsystemConstants.useIntake) {
 			new EventTrigger("Start Intake").onTrue(m_intakeSubsystem.StartIntake());
 			new EventTrigger("Stop Intake").onTrue(m_intakeSubsystem.StopIntake());
@@ -392,6 +396,14 @@ public class RobotContainer {
 
 		);
 
+	}
+
+	public Command cancelHood() {
+		return new InstantCommand(
+				() -> {
+					m_hoodSubsystem.getCurrentCommand().cancel();
+				}
+		);
 	}
 
 	public Command getAutonomousCommand() {
