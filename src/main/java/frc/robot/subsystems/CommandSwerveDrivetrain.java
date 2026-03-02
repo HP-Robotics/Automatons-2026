@@ -431,7 +431,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
                     this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     (speeds, feedforwards) -> setControl(
-                            ((ApplyRobotSpeeds) applySetpointGenerator(speeds))
+                            new SwerveRequest.ApplyRobotSpeeds().withSpeeds(speeds).withDriveRequestType(DriveRequestType.Velocity)
+                            // ((ApplyRobotSpeeds) applySetpointGenerator(speeds))
                                     .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
                     // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
