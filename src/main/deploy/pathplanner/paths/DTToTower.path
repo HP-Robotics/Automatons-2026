@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.636650602409638,
+        "x": 4.38,
         "y": 7.348
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8170722891566267,
-        "y": 7.269602409638554
+        "x": 3.4645341088180315,
+        "y": 7.308315406437708
       },
       "isLocked": false,
       "linkedName": "DT Start"
@@ -17,15 +17,31 @@
     {
       "anchor": {
         "x": 2.809885877318117,
+        "y": 7.0729036144578314
+      },
+      "prevControl": {
+        "x": 3.047450771941611,
+        "y": 7.347971647501342
+      },
+      "nextControl": {
+        "x": 2.4078664322496066,
+        "y": 6.607419443593715
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.809885877318117,
         "y": 4.960114122681883
       },
       "prevControl": {
-        "x": 3.330685746646501,
-        "y": 5.343570761679836
+        "x": 3.012985264149912,
+        "y": 5.138523989492452
       },
       "nextControl": {
-        "x": 2.2173805876336474,
-        "y": 4.523861926106049
+        "x": 2.504764757633464,
+        "y": 4.6920846659060516
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +52,8 @@
         "y": 4.63222706211353
       },
       "prevControl": {
-        "x": 1.4238620290025523,
-        "y": 4.643286399121055
+        "x": 1.2826256784610361,
+        "y": 4.743598983230105
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,20 +62,33 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
+      "waypointRelativePos": 2.0,
       "rotationDegrees": 90.7358397426438
     }
   ],
   "constraintZones": [
     {
       "name": "Climb Zone",
-      "minWaypointRelativePos": 0.8670465337132015,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 1.75,
+      "maxWaypointRelativePos": 3.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.3543424317617782,
+      "maxWaypointRelativePos": 1.5037220843672388,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 180.0,
+        "maxAngularAcceleration": 180.0,
         "nominalVoltage": 12.0,
         "unlimited": false
       }
@@ -69,7 +98,7 @@
   "eventMarkers": [
     {
       "name": "Climber up",
-      "waypointRelativePos": 0.9870824053452153,
+      "waypointRelativePos": 1.95,
       "endWaypointRelativePos": null,
       "command": null
     }
