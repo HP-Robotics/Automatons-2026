@@ -1,14 +1,10 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Amps;
-
 import java.util.Optional;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -19,9 +15,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDConstants;
 
@@ -31,6 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX m_rightMotor = new TalonFX(MotorIDConstants.intakeExtendRightMotor);
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("IntakeSubsystem");
     Slot0Configs m_intakeConfig = new Slot0Configs();
+    boolean m_isIntaking = false;
 
     private Optional<ExtendProfile> m_currentLeftProfile = Optional.empty();
     private Optional<ExtendProfile> m_currentRightProfile = Optional.empty();
@@ -125,25 +125,33 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void extendIntake() {
-        m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor, IntakeConstants.leftExtendPosition));
-        m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor, IntakeConstants.rightExtendPosition));
+        // m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
+        // IntakeConstants.leftExtendPosition));
+        // m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
+        // IntakeConstants.rightExtendPosition));
     }
 
     public void retractIntake() {
-        m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor, IntakeConstants.leftRetractPosition));
-        m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor, IntakeConstants.rightRetractPosition));
+        // m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
+        // IntakeConstants.leftRetractPosition));
+        // m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
+        // IntakeConstants.rightRetractPosition));
     }
 
-    public Command Intake() {
-        return new StartEndCommand(
-                () -> {
-                    this.runIntake(IntakeConstants.speed);
-                    this.extendIntake();
-                },
-                () -> {
-                    this.retractIntake();
-                    this.stopIntake();
-                }, this);
+    public Command ToggleIntake() {
+        if (m_isIntaking) {
+            m_isIntaking = false;
+            return new RunCommand(() -> {
+                this.retractIntake();
+                this.stopIntake();
+            }, this);
+        } else {
+            m_isIntaking = true;
+            return new RunCommand(() -> {
+                this.runIntake(IntakeConstants.speed);
+                this.extendIntake();
+            }, this);
+        }
     }
 
     public Command Yuck() {
@@ -152,13 +160,15 @@ public class IntakeSubsystem extends SubsystemBase {
                     this.runIntake(-IntakeConstants.speed);
                 },
                 () -> {
-                    this.stopIntake();
+                    m_isIntaking = !m_isIntaking;
+                    CommandScheduler.getInstance().schedule(ToggleIntake());
                 });
     }
 
     public Command StartIntake() {
         return new InstantCommand(
                 () -> {
+                    m_isIntaking = true;
                     this.runIntake(IntakeConstants.speed);
                 }, this);
     }
@@ -166,6 +176,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command StopIntake() {
         return new InstantCommand(
                 () -> {
+                    m_isIntaking = false;
                     this.stopIntake();
                 }, this);
     }
