@@ -94,6 +94,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         m_table.putValue("motorSpeed",
                 NetworkTableValue.makeDouble(m_shooterMotor1.getRotorVelocity().getValueAsDouble()));
+        m_table.putValue("atSpeed", NetworkTableValue.makeBoolean(atSpeed()));
     }
 
     public Command FixedShooter() {
@@ -119,8 +120,6 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command MagicShooter(DoubleSupplier getMagicWheelSpeed) {
         return new RunCommand(() -> {
             setVelocity(getMagicWheelSpeed.getAsDouble());
-
         }, this).finallyDo(this::stopMotor);
     }
-
 }

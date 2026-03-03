@@ -151,7 +151,8 @@ public class RobotContainer {
 		}
 
 		new EventTrigger("Shoot").onTrue(startShooter());
-		NamedCommands.registerCommand("CommandShoot", new InstantCommand(() -> CommandScheduler.getInstance().schedule(startShooter())));
+		NamedCommands.registerCommand("CommandShoot",
+				new InstantCommand(() -> CommandScheduler.getInstance().schedule(startShooter())));
 
 		if (SubsystemConstants.useHopper) {
 			new EventTrigger("CancelShooter").onTrue(cancelHopper());
@@ -358,9 +359,9 @@ public class RobotContainer {
 		m_dynamicTurretAngle = dynamicShotSpherical.yaw.in(Degrees);
 		// Step 5: set the motors for the wheel speed, hood angle, and turret angle
 
-		m_table.putValue("wheelSpeed", NetworkTableValue.makeDouble(m_dynamicWheelSpeed));
-		m_table.putValue("hoodAngle", NetworkTableValue.makeDouble(m_dynamicHoodAngle));
-		m_table.putValue("turretAngle", NetworkTableValue.makeDouble(m_dynamicTurretAngle));
+		m_table.putValue("dynamicWheelSpeed", NetworkTableValue.makeDouble(m_dynamicWheelSpeed));
+		m_table.putValue("dynamicHoodAngle", NetworkTableValue.makeDouble(m_dynamicHoodAngle));
+		m_table.putValue("dynamiCurretAngle", NetworkTableValue.makeDouble(m_dynamicTurretAngle));
 
 		m_shotIsLegal = true;
 	}
@@ -403,8 +404,7 @@ public class RobotContainer {
 		return new InstantCommand(
 				() -> {
 					m_hoodSubsystem.getCurrentCommand().cancel();
-				}
-		);
+				});
 	}
 
 	public Command getAutonomousCommand() {
@@ -503,6 +503,8 @@ public class RobotContainer {
 		if (SubsystemConstants.useTurret) {
 			fudge = ShooterConstants.turretAngleFudge.get(Math.abs(m_turretSubsystem.getAngle().in(Degrees)));
 		}
+
+		m_table.putValue("turretFudge", NetworkTableValue.makeDouble(fudge));
 		if (m_shotIsLegal) {
 			return m_dynamicWheelSpeed * (1.0 + fudge);
 		} else {
