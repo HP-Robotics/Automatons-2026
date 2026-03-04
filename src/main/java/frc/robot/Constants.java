@@ -169,23 +169,27 @@ public final class Constants {
             return output;
         }
 
+        public static final InterpolatingMatrixTreeMap<Double, N2, N1> distanceToStaticLobShot = fillLobTreeMap();
+
+        public static InterpolatingMatrixTreeMap<Double, N2, N1> fillLobTreeMap() {
+            // TreeMap.put(double) use this function to add to tree map
+            InterpolatingMatrixTreeMap<Double, N2, N1> output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
+            output.put(2.8, MatBuilder.fill(Nat.N2(), Nat.N1(), 40, 1.1));
+            output.put(4.3, MatBuilder.fill(Nat.N2(), Nat.N1(), 50, 1.1));
+            output.put(5.57, MatBuilder.fill(Nat.N2(), Nat.N1(), 55, 1.1));
+            output.put(6.4, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 1.1));
+            output.put(7.3, MatBuilder.fill(Nat.N2(), Nat.N1(), 65, 1.1));
+            output.put(8.6, MatBuilder.fill(Nat.N2(), Nat.N1(), 70, 1.1));
+            output.put(9.6, MatBuilder.fill(Nat.N2(), Nat.N1(), 75, 1.1));
+            output.put(10.6, MatBuilder.fill(Nat.N2(), Nat.N1(), 80, 1.1));
+            output.put(11.7, MatBuilder.fill(Nat.N2(), Nat.N1(), 85, 1.1));
+            return output;
+        }
+
         public static final double lookAheadTime = 0.1;
 
         public static final double shooterErrorThreshold = 2;
 
-        /*
-         * Lob shot static shot data (Targets floor instead of hub)
-         * 
-         * 2.8 40 1.1
-         * 4.3 50 1.1
-         * 5.57 55 1.1
-         * 6.4 60 1.1
-         * 7.3 65 1.1
-         * 8.6 70 1.1
-         * 9.6 75 1.1
-         * 10.6 80 1.1
-         * 11.7 85 1.1
-         */
         public static InterpolatingDoubleTreeMap createTurretAngleFudge() {
             InterpolatingDoubleTreeMap output = new InterpolatingDoubleTreeMap();
             output.put(0.0, 0.0);
