@@ -16,6 +16,7 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -125,33 +126,33 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void extendIntake() {
-        // m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
-        // IntakeConstants.leftExtendPosition));
-        // m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
-        // IntakeConstants.rightExtendPosition));
+        m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
+                IntakeConstants.leftExtendPosition));
+        m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
+                IntakeConstants.rightExtendPosition));
+
     }
 
     public void retractIntake() {
-        // m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
-        // IntakeConstants.leftRetractPosition));
-        // m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
-        // IntakeConstants.rightRetractPosition));
+        m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
+                IntakeConstants.leftRetractPosition));
+        m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
+                IntakeConstants.rightRetractPosition));
     }
 
     public Command ToggleIntake() {
-        if (m_isIntaking) {
-            m_isIntaking = false;
-            return new RunCommand(() -> {
-                this.retractIntake();
-                this.stopIntake();
-            }, this);
-        } else {
-            m_isIntaking = true;
-            return new RunCommand(() -> {
-                this.runIntake(IntakeConstants.speed);
-                this.extendIntake();
-            }, this);
-        }
+        return new ConditionalCommand(
+                new InstantCommand(() -> {
+                    this.retractIntake();
+                    this.stopIntake();
+                    m_isIntaking = false;
+                }, this),
+                new InstantCommand(() -> {
+                    this.runIntake(IntakeConstants.speed);
+                    this.extendIntake();
+                    m_isIntaking = true;
+                }, this),
+                () -> m_isIntaking);
     }
 
     public Command Yuck() {
