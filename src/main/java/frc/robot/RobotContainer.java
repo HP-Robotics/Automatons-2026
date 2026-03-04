@@ -120,6 +120,7 @@ public class RobotContainer {
 	public double m_dynamicWheelSpeed;
 	public double m_dynamicHoodAngle;
 	public double m_dynamicTurretAngle;
+	public boolean m_useNetworkTableShooter = false;
 
 	public RobotContainer() {
 
@@ -238,9 +239,7 @@ public class RobotContainer {
 		if (SubsystemConstants.useHopper && SubsystemConstants.useShooter) {
 
 			ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(
-					new ParallelCommandGroup(m_shooterSubsystem.AdjustableShooter(),
-							new SequentialCommandGroup(new WaitUntilCommand(m_shooterSubsystem::atSpeed),
-									m_hopperSubsystem.RunHopper())));
+					m_hopperSubsystem.MagicHopper(this::readyToShoot));
 			// First, spin up the shooter
 			// Wait until shoot is spinning
 			// Run hopper
@@ -272,6 +271,10 @@ public class RobotContainer {
 			ControllerConstants.magicShooterTrigger.onFalse(cancelHopper());
 			// TODO:allow canceling if there is no hopper
 		}
+
+		ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(
+				new InstantCommand(() -> m_useNetworkTableShooter = true)
+						.finallyDo(() -> m_useNetworkTableShooter = false));
 
 	}
 
@@ -509,15 +512,13 @@ public class RobotContainer {
 			return m_dynamicWheelSpeed * (1.0 + fudge);
 		} else {
 			return m_staticWheelSpeed * (1.0 + fudge);
-
 		}
 	}
 
 	public boolean readyToShoot() {
-		return (m_hoodSubsystem.isHoodAimed()
-				&& m_shooterSubsystem.atSpeed()
-				&& m_turretSubsystem.atPosition()
-				&& m_shotIsLegal);
-
+		return ((!SubsystemConstants.useHood || m_hoodSubsystem.isHoodAimed())
+				&& (!SubsystemConstants.useShooter || m_shooterSubsystem.atSpeed())
+				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
+				&& (m_useNetworkTableShooter || m_shotIsLegal));
 	}
 }
