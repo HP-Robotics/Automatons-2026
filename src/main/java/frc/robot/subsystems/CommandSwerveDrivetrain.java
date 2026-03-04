@@ -431,16 +431,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
                     this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     (speeds, feedforwards) -> setControl(
-                            new SwerveRequest.ApplyRobotSpeeds().withSpeeds(speeds).withDriveRequestType(DriveRequestType.Velocity)
-                            // ((ApplyRobotSpeeds) applySetpointGenerator(speeds))
+                            new SwerveRequest.ApplyRobotSpeeds().withSpeeds(speeds)
+                                    .withDriveRequestType(DriveRequestType.Velocity)
+                                    // ((ApplyRobotSpeeds) applySetpointGenerator(speeds))
                                     .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
                     // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also
                     // optionally outputs individual module feedforwards
                     new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller
                                                     // for holonomic drive trains
-                            new PIDConstants(4, 0.0, 0.0), // Translation PID constants
-                            new PIDConstants(7.0, 0.0, 0.0)), // Rotation PID constants
+                            new PIDConstants(4.0, 0.0, 0.0), // Translation PID constants
+                            new PIDConstants(3.5, 0.0, 0.0)), // Rotation PID constants
                     config,
                     () -> {
                         // Boolean supplier that controls when the path will be mirrored for the red
