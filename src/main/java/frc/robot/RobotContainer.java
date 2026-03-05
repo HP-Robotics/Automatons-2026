@@ -302,7 +302,12 @@ public class RobotContainer {
 		m_turretPosePublisher.set(new Pose2d(turretPosition,
 				new Rotation2d(m_turretSubsystem.getAngle().plus(robotPose.getRotation().getMeasure()))));
 
-		Matrix<N2, N1> staticShot = ShooterConstants.distanceToStaticShot.get(distance);
+		Matrix<N2, N1> staticShot;
+		if (target == FieldConstants.blueHub || target == FieldConstants.redHub) {
+			staticShot = ShooterConstants.distanceToStaticShot.get(distance);
+		} else {
+			staticShot = ShooterConstants.distanceToStaticLobShot.get(distance);
+		}
 		m_staticWheelSpeed = staticShot.get(0, 0);
 		m_staticHoodPosition = staticShot.get(1, 0);
 
