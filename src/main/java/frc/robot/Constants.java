@@ -249,7 +249,7 @@ public final class Constants {
     }
 
     public static class HopperConstants {
-        public static final double spinnerSpeed = .5;
+        public static final double spinnerSpeed = .7;
         public static final double uplifterSpeed = 80; // rotations per second
         public static final double reverseUplifterSpeed = -20;
 
