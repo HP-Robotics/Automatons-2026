@@ -24,6 +24,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -123,6 +124,7 @@ public class RobotContainer {
 	public boolean m_useNetworkTableShooter = false;
 
 	public RobotContainer() {
+		DataLogManager.start();
 
 		// Another option that allows you to specify the default auto by its name
 		// autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
