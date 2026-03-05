@@ -41,7 +41,7 @@ public class HopperSubsystem extends SubsystemBase {
                 runHopper(HopperConstants.spinnerSpeed, HopperConstants.uplifterSpeed);
             }
             else {
-                runHopper(0.0, HopperConstants.reverseUplifterSpeed);
+                runHopper(HopperConstants.spinnerSpeed, HopperConstants.reverseUplifterSpeed);
             }
 
         }, this).finallyDo(this::stopHopper);
