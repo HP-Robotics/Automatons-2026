@@ -185,8 +185,8 @@ public class RobotContainer {
 					// Drivetrain will execute this command periodically
 					m_drivetrain.applyRequest(() -> new SwerveRequest.FieldCentric()
 							.withDriveRequestType(DriveRequestType.Velocity)
-							.withDeadband(0.001 * m_maxSpeed)
-							.withRotationalDeadband(0.001 * m_maxAngularRate)
+							.withDeadband(0.01 * m_maxSpeed)
+							.withRotationalDeadband(0.01 * m_maxAngularRate)
 							.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
 							.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
 

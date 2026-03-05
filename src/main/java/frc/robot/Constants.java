@@ -96,12 +96,11 @@ public final class Constants {
         public static final CommandXboxController m_opJoystick = new CommandXboxController(1);
 
         public static final DoubleSupplier m_leftAxisY = () -> Math
-                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(1), 0.1), 3);
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(1), 0.1), 2) * Math.signum(m_driveJoystick.getRawAxis(1));
         public static final DoubleSupplier m_leftAxisX = () -> Math
-                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(0),
-                        0.1), 3);
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(0), 0.1), 2) * Math.signum(m_driveJoystick.getRawAxis(0));
         public static final DoubleSupplier m_rightAxisX = () -> Math
-                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 3);
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2) * Math.signum(m_driveJoystick.getRawAxis(4));
 
         public static final Trigger trenchOrientation = new Trigger(() -> false);
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
@@ -205,6 +204,7 @@ public final class Constants {
         };
 
         public static final InterpolatingDoubleTreeMap turretAngleFudge = createTurretAngleFudge();
+        
         public static final double shotIsLegalBonusFrames = 20;
     }
 
