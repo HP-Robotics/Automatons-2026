@@ -38,8 +38,8 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
-        public static final double speed = -45;
-        public static final double kP = 5;
+        public static final double speed = -55;
+        public static final double kP = 10;
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kS = 10;
