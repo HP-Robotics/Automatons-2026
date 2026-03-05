@@ -71,6 +71,9 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeConfig.kP = IntakeConstants.kP;
         m_intakeConfig.kI = IntakeConstants.kI;
         m_intakeConfig.kD = IntakeConstants.kD;
+        m_intakeConfig.kS = IntakeConstants.kS;
+
+        m_intakeMotor.getConfigurator().apply(m_intakeConfig);
 
         m_rightMotor.setPosition(0);
         m_leftMotor.setPosition(0);
@@ -118,7 +121,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake(double speed) {
-        m_intakeMotor.set(speed);
+        m_intakeMotor.setControl(new VelocityTorqueCurrentFOC(speed));
     }
 
     public void stopIntake() {
