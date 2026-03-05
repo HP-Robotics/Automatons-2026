@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 5.433485516070135,
-        "y": 0.444907228920161
+        "y": 0.44490722892016105
       },
       "isLocked": false,
       "linkedName": "OT Start"
@@ -52,7 +52,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -68,5 +68,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
