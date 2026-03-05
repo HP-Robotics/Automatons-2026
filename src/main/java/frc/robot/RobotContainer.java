@@ -517,7 +517,7 @@ public class RobotContainer {
 
 	public boolean readyToShoot() {
 		return ((!SubsystemConstants.useHood || m_hoodSubsystem.isHoodAimed())
-				&& (!SubsystemConstants.useShooter || m_shooterSubsystem.atSpeed())
+				&& (!SubsystemConstants.useShooter || m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
 				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
 				&& (m_useNetworkTableShooter || m_shotIsLegal));
 	}

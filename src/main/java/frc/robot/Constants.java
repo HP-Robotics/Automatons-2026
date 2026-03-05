@@ -188,7 +188,8 @@ public final class Constants {
 
         public static final double lookAheadTime = 0.1;
 
-        public static final double shooterErrorThreshold = 2;
+        public static final double shooterErrorThreshold = 3;
+        public static final double shooterStableErrorThreshold = 2;
 
         public static InterpolatingDoubleTreeMap createTurretAngleFudge() {
             InterpolatingDoubleTreeMap output = new InterpolatingDoubleTreeMap();

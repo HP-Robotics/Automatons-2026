@@ -77,10 +77,10 @@ public class ShooterSubsystem extends SubsystemBase {
         setVelocity(speed);
     }
 
-    public boolean atSpeed() {
+    public boolean atSpeed(double threshold) {
         return (m_velocity > 0 && (Math
                 .abs(m_velocity - m_shooterMotor1.getVelocity()
-                        .getValueAsDouble()) < ShooterConstants.shooterErrorThreshold));
+                        .getValueAsDouble()) < threshold));
     }
 
     public void magicSpeed() {
@@ -94,7 +94,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         m_table.putValue("motorSpeed",
                 NetworkTableValue.makeDouble(m_shooterMotor1.getRotorVelocity().getValueAsDouble()));
-        m_table.putValue("atSpeed", NetworkTableValue.makeBoolean(atSpeed()));
+        m_table.putValue("atSpeed", NetworkTableValue.makeBoolean(atSpeed(ShooterConstants.shooterErrorThreshold)));
+        m_table.putValue("atStableSpeed", NetworkTableValue.makeBoolean(atSpeed(ShooterConstants.shooterStableErrorThreshold)));
     }
 
     public Command FixedShooter() {
