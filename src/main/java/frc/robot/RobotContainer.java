@@ -118,6 +118,7 @@ public class RobotContainer {
 	public Translation2d m_shootingTarget;
 	public Field2d m_field = new Field2d();
 	public boolean m_shotIsLegal = false;
+	public double m_shotIsLegalFrameCounter = ShooterConstants.shotIsLegalBonusFrames;
 	public double m_dynamicWheelSpeed;
 	public double m_dynamicHoodAngle;
 	public double m_dynamicTurretAngle;
@@ -328,6 +329,7 @@ public class RobotContainer {
 		Optional<double[]> staticShotVelocities = m_velocityInterpolator.getTriangulatedOutput(staticShot[0],
 				staticShot[1]);
 		if (staticShotVelocities.isEmpty()) {
+			m_shotIsLegalFrameCounter++;
 			m_shotIsLegal = false;
 			return;
 		}
@@ -361,8 +363,11 @@ public class RobotContainer {
 		m_dynamicShotVelocityPublisher.set(dynamicShotVector);
 		m_robotVelocityPublisher.set(driveTranslation);
 		if (dynamicShotMotorOutputs.isEmpty()) {
-			m_shotIsLegal = false;
+			m_shotIsLegalFrameCounter++;
+				m_shotIsLegal = false;
 			return;
+		} else {
+			m_shotIsLegalFrameCounter = 0;
 		}
 		m_dynamicWheelSpeed = dynamicShotMotorOutputs.get()[0];
 		m_dynamicHoodAngle = dynamicShotMotorOutputs.get()[1];
@@ -476,7 +481,6 @@ public class RobotContainer {
 			}
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
-
 	}
 
 	public void CalibrateClimber() {
@@ -492,16 +496,15 @@ public class RobotContainer {
 	}
 
 	public double getMagicTurretAngle() {
-		if (m_shotIsLegal) {
+		if (m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames) {
 			return m_dynamicTurretAngle;
-
 		} else {
 			return m_turretToHub;
 		}
 	}
 
 	public double getMagicHoodPosition() {
-		if (m_shotIsLegal) {
+		if (m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames) {
 			return m_dynamicHoodAngle;
 		} else {
 			return m_staticHoodPosition;
@@ -515,10 +518,10 @@ public class RobotContainer {
 		}
 
 		m_table.putValue("turretFudge", NetworkTableValue.makeDouble(fudge));
-		if (m_shotIsLegal) {
-			return m_dynamicWheelSpeed * (1.0 + fudge);
+		if (m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames) {
+			return m_dynamicWheelSpeed * (1.0);
 		} else {
-			return m_staticWheelSpeed * (1.0 + fudge);
+			return m_staticWheelSpeed * (1.0);
 		}
 	}
 
@@ -526,6 +529,6 @@ public class RobotContainer {
 		return ((!SubsystemConstants.useHood || m_hoodSubsystem.isHoodAimed())
 				&& (!SubsystemConstants.useShooter || m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
 				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
-				&& (m_useNetworkTableShooter || m_shotIsLegal));
+				&& (m_useNetworkTableShooter || m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames));
 	}
 }
