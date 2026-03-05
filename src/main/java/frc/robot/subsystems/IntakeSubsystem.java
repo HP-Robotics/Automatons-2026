@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
@@ -18,10 +19,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDConstants;
 
@@ -44,10 +43,10 @@ public class IntakeSubsystem extends SubsystemBase {
         TrapezoidProfile.State m_setpoint;
         TrapezoidProfile.State m_goal;
 
-        ExtendProfile(TalonFX motor, double goalPos) {
+        ExtendProfile(TalonFX motor, double goalPos, double cruiseVelocity) {
             m_motor = motor;
             m_timer = new Timer();
-            m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(IntakeConstants.extendCruiseVelocity,
+            m_profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(cruiseVelocity,
                     IntakeConstants.extendAcceleration));
             m_goal = new TrapezoidProfile.State(goalPos, 0);
             m_setpoint = new TrapezoidProfile.State();
@@ -130,17 +129,17 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void extendIntake() {
         m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
-                IntakeConstants.leftExtendPosition));
+                IntakeConstants.leftExtendPosition, IntakeConstants.extendCruiseVelocity));
         m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
-                IntakeConstants.rightExtendPosition));
+                IntakeConstants.rightExtendPosition, IntakeConstants.extendCruiseVelocity));
 
     }
 
     public void retractIntake() {
         m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
-                IntakeConstants.leftRetractPosition));
+                IntakeConstants.leftRetractPosition, IntakeConstants.retractCruiseVelocity));
         m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
-                IntakeConstants.rightRetractPosition));
+                IntakeConstants.rightRetractPosition, IntakeConstants.retractCruiseVelocity));
     }
 
     public Command ToggleIntake() {
