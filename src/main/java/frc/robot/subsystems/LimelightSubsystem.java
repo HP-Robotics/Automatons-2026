@@ -157,6 +157,7 @@ public class LimelightSubsystem extends SubsystemBase {
     for (LimelightCamera camera : m_cameras) {
       Optional<VisionMeasurement> data = getLimelightData(camera.m_table, camera.m_sub);
       if (data.isPresent()) {
+        camera.m_posePublisher.set(data.get().m_visionPose);
         allLimelightData.add(data.get());
       }
     }
