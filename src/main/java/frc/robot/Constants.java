@@ -205,6 +205,7 @@ public final class Constants {
         };
 
         public static final InterpolatingDoubleTreeMap turretAngleFudge = createTurretAngleFudge();
+        public static final double shotIsLegalBonusFrames = 20;
     }
 
     public static class LimelightConstants {
