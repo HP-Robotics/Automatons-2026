@@ -408,7 +408,10 @@ public class RobotContainer {
 	public Command cancelHopper() {
 		return new InstantCommand(
 				() -> {
-					m_hopperSubsystem.getCurrentCommand().cancel();
+					Command current = m_hopperSubsystem.getCurrentCommand();
+					if (current != null) {
+						current.cancel();
+					}
 				}
 
 		);
@@ -418,7 +421,10 @@ public class RobotContainer {
 	public Command cancelHood() {
 		return new InstantCommand(
 				() -> {
-					m_hoodSubsystem.getCurrentCommand().cancel();
+					Command current = m_hoodSubsystem.getCurrentCommand();
+					if (current != null) {
+						current.cancel();
+					}
 				});
 	}
 
