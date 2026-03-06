@@ -124,9 +124,9 @@ public class HoodSubsystem extends SubsystemBase {
     public Command hoodFromNetworkTables() {
         return new RunCommand(
                 () -> {
-                    setHood(table.getEntry("setTargetPosition").getDouble(HoodConstants.hoodBottom));
+                    setHood(table.getEntry("setTargetPosition").getDouble(HoodConstants.defaultHoodPosition));
 
-                }, this);
+                }, this).finallyDo(this::hoodDown);
     }
 
     public boolean isDown() {

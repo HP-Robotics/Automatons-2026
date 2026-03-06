@@ -146,7 +146,7 @@ public final class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double defaultShootingSpeed = 75; // rotations per second
+        public static final double defaultShootingSpeed = 54.2; // rotations per second
         public static final double idleSpeed = 10; // rotations per second
         // TODO: pick this
         public static final double kP = 12;
@@ -275,6 +275,7 @@ public final class Constants {
     public static class HoodConstants {
         public static final double hoodBottom = 0.05;
         public static final double hoodTop = 1.3;
+        public static final double defaultHoodPosition = 0.3927;
         public static final double kP = 1.5;
         public static final double kD = 0.01;
         public static final double maxSpeed = 0.2;

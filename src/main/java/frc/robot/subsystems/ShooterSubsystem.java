@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void networkTablesSpeed() {
-        double speed = m_table.getEntry("speedToSet").getDouble(ShooterConstants.idleSpeed);
+        double speed = m_table.getEntry("speedToSet").getDouble(ShooterConstants.defaultShootingSpeed);
         setVelocity(speed);
     }
 
