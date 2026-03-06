@@ -38,14 +38,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Extend Intake",
-      "waypointRelativePos": 0.4507795100222709,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Start Intake",
-      "waypointRelativePos": 0.718040089086863,
+      "waypointRelativePos": 0.24549819927970842,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -53,8 +47,8 @@
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 1.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 180.0,
+    "maxAngularAcceleration": 180.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

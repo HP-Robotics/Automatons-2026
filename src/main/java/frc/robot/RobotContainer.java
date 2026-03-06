@@ -167,6 +167,7 @@ public class RobotContainer {
 			new EventTrigger("Stop Intake").onTrue(m_intakeSubsystem.StopIntake());
 			new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
 			new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
+			NamedCommands.registerCommand("Extend Intake", m_intakeSubsystem.ExtendIntake().asProxy());
 		}
 	}
 
@@ -364,7 +365,7 @@ public class RobotContainer {
 		m_robotVelocityPublisher.set(driveTranslation);
 		if (dynamicShotMotorOutputs.isEmpty()) {
 			m_shotIsLegalFrameCounter++;
-				m_shotIsLegal = false;
+			m_shotIsLegal = false;
 			return;
 		} else {
 			m_shotIsLegalFrameCounter = 0;
@@ -533,7 +534,8 @@ public class RobotContainer {
 
 	public boolean readyToShoot() {
 		return ((!SubsystemConstants.useHood || m_hoodSubsystem.isHoodAimed())
-				&& (!SubsystemConstants.useShooter || m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
+				&& (!SubsystemConstants.useShooter
+						|| m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
 				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
 				&& (m_useNetworkTableShooter || m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames));
 	}
