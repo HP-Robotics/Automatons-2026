@@ -132,7 +132,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 IntakeConstants.leftExtendPosition, IntakeConstants.extendCruiseVelocity));
         m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
                 IntakeConstants.rightExtendPosition, IntakeConstants.extendCruiseVelocity));
-
+        
     }
 
     public void retractIntake() {
@@ -145,11 +145,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command ToggleIntake() {
         return new ConditionalCommand(
                 new InstantCommand(() -> {
-                    this.retractIntake();
+                    //this.retractIntake();
                     this.stopIntake();
                     m_isIntaking = false;
                 }, this),
-                new InstantCommand(() -> {
+                new InstantCommand(() -> { 
                     this.runIntake(IntakeConstants.speed);
                     this.extendIntake();
                     m_isIntaking = true;
