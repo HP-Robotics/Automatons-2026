@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -128,18 +130,27 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void extendIntake() {
-        m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
-                IntakeConstants.leftExtendPosition, IntakeConstants.extendCruiseVelocity));
-        m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
-                IntakeConstants.rightExtendPosition, IntakeConstants.extendCruiseVelocity));
-        
+        // m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
+        //         IntakeConstants.leftExtendPosition, IntakeConstants.extendCruiseVelocity));
+        // m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
+        //         IntakeConstants.rightExtendPosition, IntakeConstants.extendCruiseVelocity));
+        m_leftMotor.setControl(new PositionVoltage(IntakeConstants.leftExtendPosition));
+        m_rightMotor.setControl(new PositionVoltage(IntakeConstants.rightExtendPosition));
     }
 
     public void retractIntake() {
-        m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
-                IntakeConstants.leftRetractPosition, IntakeConstants.retractCruiseVelocity));
-        m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
-                IntakeConstants.rightRetractPosition, IntakeConstants.retractCruiseVelocity));
+        // m_currentLeftProfile = Optional.of(new ExtendProfile(m_leftMotor,
+        //         IntakeConstants.leftRetractPosition, IntakeConstants.retractCruiseVelocity));
+        // m_currentRightProfile = Optional.of(new ExtendProfile(m_rightMotor,
+        //         IntakeConstants.rightRetractPosition, IntakeConstants.retractCruiseVelocity));
+
+        // if (m_leftMotor.getPosition().getValueAsDouble() < m_rightMotor.getPosition().getValueAsDouble()) {
+        //     m_rightMotor.setControl(new PositionDutyCycle(m_leftMotor.getPosition().getValueAsDouble()));
+        //     m_leftMotor.setControl(new PositionDutyCycle(m_leftMotor.getPosition().getValueAsDouble()));
+        // } else {
+        //     m_leftMotor.setControl(new PositionDutyCycle(m_rightMotor.getPosition().getValueAsDouble()));
+        //     m_rightMotor.setControl(new PositionDutyCycle(m_rightMotor.getPosition().getValueAsDouble()));
+        // }
     }
 
     public Command ToggleIntake() {
