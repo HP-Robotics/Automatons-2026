@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 4.38,
+        "x": 4.25,
         "y": 7.348
       },
       "prevControl": {
-        "x": 5.255292439372324,
+        "x": 5.125292439372324,
         "y": 7.327888730385164
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "DT Start"
+      "linkedName": "DT From Middle"
     }
   ],
   "rotationTargets": [
@@ -76,7 +76,7 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0.0
   },
   "reversed": false,

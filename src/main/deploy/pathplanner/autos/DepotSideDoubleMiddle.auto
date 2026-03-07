@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Extend Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DTToDC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DC Grab a Few"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a Few to DT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CancelShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DTToDoubleDC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DC Grab a Few"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a Few to DT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandShoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

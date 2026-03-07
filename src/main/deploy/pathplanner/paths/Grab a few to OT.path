@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 4.3844252751036255,
+        "x": 4.25,
         "y": 0.7181
       },
       "prevControl": {
-        "x": 5.199248599256941,
+        "x": 5.064823324153315,
         "y": 0.7169556209984053
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "OT Start"
+      "linkedName": "OT From Middle"
     }
   ],
   "rotationTargets": [

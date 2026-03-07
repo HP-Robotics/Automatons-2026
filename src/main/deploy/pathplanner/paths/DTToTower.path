@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.38,
+        "x": 4.25,
         "y": 7.348
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4645341088180315,
+        "x": 3.3345341088180316,
         "y": 7.308315406437708
       },
       "isLocked": false,
-      "linkedName": "DT Start"
+      "linkedName": "DT From Middle"
     },
     {
       "anchor": {

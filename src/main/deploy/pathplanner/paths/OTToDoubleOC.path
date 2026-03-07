@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.384,
+        "x": 4.25,
         "y": 0.7181
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.43306024096651,
-        "y": 0.4449072289201611
+        "x": 5.29906024096651,
+        "y": 0.44490722892016116
       },
       "isLocked": false,
-      "linkedName": "OT Start"
+      "linkedName": "OT From Middle"
     },
     {
       "anchor": {
