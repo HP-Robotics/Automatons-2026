@@ -164,8 +164,8 @@ public final class Constants {
             output.put(1.815, MatBuilder.fill(Nat.N2(), Nat.N1(), 52, 0.15));
             output.put(2.785, MatBuilder.fill(Nat.N2(), Nat.N1(), 53, 0.35));
             output.put(3.985, MatBuilder.fill(Nat.N2(), Nat.N1(), 58, 0.5));
-            output.put(4.725, MatBuilder.fill(Nat.N2(), Nat.N1(), 61, 0.7));
-            output.put(5.745, MatBuilder.fill(Nat.N2(), Nat.N1(), 66, 0.7));
+            output.put(4.725, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 0.7));
+            output.put(5.745, MatBuilder.fill(Nat.N2(), Nat.N1(), 64, 0.7));
             return output;
         }
 
