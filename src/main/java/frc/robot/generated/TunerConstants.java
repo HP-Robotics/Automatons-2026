@@ -81,7 +81,7 @@ public class TunerConstants {
                                                         // relatively low
                                                         // stator current limit to help avoid brownouts without
                                                         // impacting performance.
-                                                        .withStatorCurrentLimit(Amps.of(20))
+                                                        .withStatorCurrentLimit(Amps.of(40))
                                                         .withStatorCurrentLimitEnable(true))
                         .withClosedLoopRamps(new ClosedLoopRampsConfigs().withTorqueClosedLoopRampPeriod(0.01));
         private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
