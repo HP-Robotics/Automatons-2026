@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import java.util.Optional;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -26,6 +27,7 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -42,6 +44,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
@@ -65,6 +68,13 @@ public class RobotContainer {
 																							// speed
 	private double m_maxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second
 																						// max angular velocity
+
+	Pigeon2 m_pigeon = new Pigeon2(24);
+	double m_lastCollisionTs = 0.0;
+	double m_xAccel = 0.0;
+	double m_yAccel = 0.0;
+	double m_prevXAccel = 0.0;
+	double m_prevYAccel = 0.0;
 
 	/* Setting up bindings for necessary control of the swerve drive platform */
 	private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -117,6 +127,7 @@ public class RobotContainer {
 	public Translation2d m_shootingTarget;
 	public Field2d m_field = new Field2d();
 	public boolean m_shotIsLegal = false;
+	public boolean m_isCollided = false;
 	public double m_dynamicWheelSpeed;
 	public double m_dynamicHoodAngle;
 	public double m_dynamicTurretAngle;
@@ -265,7 +276,7 @@ public class RobotContainer {
 			ControllerConstants.magicShooterTrigger.whileTrue(
 					new ParallelCommandGroup(
 							new RunCommand(() -> {
-								if (m_shotIsLegal) {
+								if (m_shotIsLegal && !m_isCollided) {
 									m_shooterSubsystem.setVelocity(m_dynamicWheelSpeed);
 
 									m_hoodSubsystem.setHood(m_dynamicHoodAngle);
@@ -438,6 +449,16 @@ public class RobotContainer {
 				m_table.putValue("shotIsLegal", NetworkTableValue.makeBoolean(m_shotIsLegal));
 			}
 		}
+		m_xAccel = m_pigeon.getAccelerationX().getValueAsDouble();
+		m_yAccel = m_pigeon.getAccelerationY().getValueAsDouble();
+		detectCollision(m_xAccel, m_yAccel, m_prevXAccel, m_prevYAccel);
+		m_prevXAccel = m_xAccel;
+		m_prevYAccel = m_yAccel;
+
+		if (Timer.getFPGATimestamp() - m_lastCollisionTs >= ShooterConstants.collisionStopTime) {
+			m_isCollided = false;
+		}
+
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
 
 	}
@@ -451,6 +472,17 @@ public class RobotContainer {
 	public void CalibrateHood() {
 		if (SubsystemConstants.useHood) {
 			CommandScheduler.getInstance().schedule(m_hoodSubsystem.Calibrate());
+		}
+	}
+
+	public void detectCollision(double xAccel, double yAccel, double prevXAccel, double prevYAccel) {
+		double accel = Math.sqrt(Math.pow(xAccel, 2) + Math.pow(yAccel, 2));
+		double prevAccel = Math.sqrt(Math.pow(prevXAccel, 2) + Math.pow(prevYAccel, 2));
+
+		double jerk = Math.abs(accel - prevAccel);
+		if (jerk > DriveConstants.collisionJerk) {
+			m_isCollided = true;
+			m_lastCollisionTs = Timer.getFPGATimestamp();
 		}
 	}
 }

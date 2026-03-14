@@ -90,6 +90,8 @@ public final class Constants {
         public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
         public static final double moduleMaxRotationPerSecond = 4.8;
         public static final SelectedSysIdRoutine sysIdRoutine = SelectedSysIdRoutine.STEER;
+
+        public static final double collisionJerk = 1.0; // TODO: This is probably not a sane value
     }
 
     public static class ControllerConstants {
@@ -186,6 +188,8 @@ public final class Constants {
          * 10.6 80 1.1
          * 11.7 85 1.1
          */
+
+        public static final double collisionStopTime = 0.5;
     }
 
     public static class LimelightConstants {
