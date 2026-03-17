@@ -59,7 +59,7 @@ public class LimelightSubsystem extends SubsystemBase {
       double distanceToTag = Math.abs(LimelightConstants.aprilTagList[targetAprilTagID]
           .minus(visionPose)
           .getTranslation().getNorm());
-      m_stdevsVector = VecBuilder.fill(distanceToTag, distanceToTag, 999999);
+      m_stdevsVector = VecBuilder.fill(distanceToTag * 0.3, distanceToTag * 0.3, 999999);
     }
   }
 
