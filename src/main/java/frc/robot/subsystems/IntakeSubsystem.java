@@ -151,12 +151,14 @@ public class IntakeSubsystem extends SubsystemBase {
         //     m_leftMotor.setControl(new PositionDutyCycle(m_rightMotor.getPosition().getValueAsDouble()));
         //     m_rightMotor.setControl(new PositionDutyCycle(m_rightMotor.getPosition().getValueAsDouble()));
         // }
+        m_leftMotor.setControl(new PositionVoltage(IntakeConstants.leftRetractPosition));
+        m_rightMotor.setControl(new PositionVoltage(IntakeConstants.rightRetractPosition));
     }
 
     public Command ToggleIntake() {
         return new ConditionalCommand(
                 new InstantCommand(() -> {
-                    //this.retractIntake();
+                    this.retractIntake();
                     this.stopIntake();
                     m_isIntaking = false;
                 }, this),

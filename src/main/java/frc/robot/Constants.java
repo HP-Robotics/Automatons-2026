@@ -45,10 +45,10 @@ public final class Constants {
         public static final double kS = 10;
 
         // set slot 0 gains
-        public static final double leftkS = 2.25; // Add 0.25 V output to overcome static friction
+        public static final double leftkS = 0.5; // Add 0.25 V output to overcome static friction
         public static final double leftkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double leftkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double leftkP = 20; // A position error of 2.5 rotations results in 12 V output
+        public static final double leftkP = 10; // A position error of 2.5 rotations results in 12 V output
         public static final double leftkI = 0; // no output for integrated error
         public static final double leftkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
@@ -59,10 +59,10 @@ public final class Constants {
         public static final double leftRetractPosition = 0;
 
         // set slot 0 gains
-        public static final double rightkS = 2.25; // Add 0.25 V output to overcome static friction
+        public static final double rightkS = 0.5; // Add 0.25 V output to overcome static friction
         public static final double rightkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double rightkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double rightkP = 20; // A position error of 2.5 rotations results in 12 V output
+        public static final double rightkP = 10; // A position error of 2.5 rotations results in 12 V output
         public static final double rightkI = 0; // no output for integrated error
         public static final double rightkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
