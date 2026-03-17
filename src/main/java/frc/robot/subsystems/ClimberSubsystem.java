@@ -90,12 +90,10 @@ public class ClimberSubsystem extends SubsystemBase {
         return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))
                 .finallyDo(() -> {
                     resetMotorEncoders();
-                    if (isDown()) {
                         m_isCalibrated = true;
-                    }
                     ;
                     m_climberMotor.stopMotor();
-                }).withTimeout(3.0);
+                }).withTimeout(10.0);
 
     }
 

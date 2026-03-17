@@ -260,7 +260,7 @@ public final class Constants {
 
     public static class ClimberConstants {
         public static final double climberTopPosition = 28 * (25.0/9.0); // for 25:1 gear
-        public static final double climberBottomPosition = 1;
+        public static final double climberBottomPosition = 3;
         public static final double kP = 5;
         public static final double kI = 0;
         public static final double kD = 0;
