@@ -445,7 +445,8 @@ public class RobotContainer {
 		m_limelightSubsystem.updateRobotOrientation(rot);
 
 		for (VisionMeasurement visionMeasurement : m_limelightSubsystem.getAllLimelightData()) {
-			m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp);
+			m_drivetrain.addVisionMeasurement(visionMeasurement.m_visionPose, visionMeasurement.m_timeStamp,
+					visionMeasurement.m_stdevsVector);
 		}
 		if (DriverStation.getAlliance().isPresent()) {
 			if (DriverStation.getAlliance().get() == Alliance.Red) {
