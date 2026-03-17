@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.TimestampedDoubleArray;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -48,10 +50,16 @@ public class LimelightSubsystem extends SubsystemBase {
   public class VisionMeasurement {
     public Pose2d m_visionPose;
     public double m_timeStamp;
+    public Vector<N3> m_stdevsVector;
 
     public VisionMeasurement(Pose2d visionPose, double timeStamp, int targetAprilTagID, double angleDiff) {
       m_visionPose = visionPose;
       m_timeStamp = timeStamp;
+
+      double distanceToTag = Math.abs(LimelightConstants.aprilTagList[targetAprilTagID]
+          .minus(visionPose)
+          .getTranslation().getNorm());
+      m_stdevsVector = VecBuilder.fill(distanceToTag * 0.3, distanceToTag * 0.3, 999999);
     }
   }
 
