@@ -27,6 +27,7 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -459,6 +460,10 @@ public class RobotContainer {
 			m_isCollided = false;
 		}
 
+		if (m_limelightSubsystem.getAllLimelightData().size() > 0) {
+			ControllerConstants.m_driveJoystick.setRumble(GenericHID.RumbleType.kBothRumble, 0);
+		}
+
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
 
 	}
@@ -481,6 +486,7 @@ public class RobotContainer {
 
 		double jerk = Math.abs(accel - prevAccel);
 		if (jerk > DriveConstants.collisionJerk) {
+			ControllerConstants.m_driveJoystick.setRumble(GenericHID.RumbleType.kBothRumble, 1);
 			m_isCollided = true;
 			m_lastCollisionTs = Timer.getFPGATimestamp();
 		}
