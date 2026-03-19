@@ -29,7 +29,7 @@ public final class Constants {
         public static final boolean useHopper = true;
         public static final boolean useIntake = true;
         public static final boolean useShooter = true;
-        public static final boolean useClimber = false;
+        public static final boolean useClimber = true;
         public static final boolean useHood = true;
     }
 
@@ -259,8 +259,8 @@ public final class Constants {
     }
 
     public static class ClimberConstants {
-        public static final double climberTopPosition = 28 * (25.0/9.0); // for 25:1 gear
-        public static final double climberBottomPosition = 3;
+        public static final double climberTopPosition = 65;
+        public static final double climberBottomPosition = 1.75;
         public static final double kP = 5;
         public static final double kI = 0;
         public static final double kD = 0;

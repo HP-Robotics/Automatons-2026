@@ -93,7 +93,7 @@ public class ClimberSubsystem extends SubsystemBase {
                         m_isCalibrated = true;
                     ;
                     m_climberMotor.stopMotor();
-                }).withTimeout(10.0);
+                }).withTimeout(15.0);
 
     }
 
