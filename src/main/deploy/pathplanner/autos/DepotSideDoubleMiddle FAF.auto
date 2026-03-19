@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DTToDC FAF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DC Grab a Few FAF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a Few to DT FAF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CancelShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DT Middle hook FAF"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
