@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.571,
-        "y": 4.00221686746988
+        "x": 3.5492289156660197,
+        "y": 4.232791566270957
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5329518072289163,
-        "y": 5.007566265060241
+        "x": 3.2059793669663454,
+        "y": 4.557984276498372
       },
       "isLocked": false,
-      "linkedName": "DHStart"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,18 +20,44 @@
         "y": 4.63222706211353
       },
       "prevControl": {
-        "x": 0.3922133002546061,
-        "y": 5.823347544041241
+        "x": 1.6389155948128984,
+        "y": 4.683078907313336
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "UpperTower"
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 90.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.3,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Climber up",
+      "waypointRelativePos": 0.4,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -48,7 +74,7 @@
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }
