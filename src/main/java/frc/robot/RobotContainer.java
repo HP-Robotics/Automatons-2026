@@ -160,6 +160,7 @@ public class RobotContainer {
 
 		if (SubsystemConstants.useHopper) {
 			new EventTrigger("CancelShooter").onTrue(cancelHopper());
+			NamedCommands.registerCommand("CommandCancelShooter", cancelHopper().asProxy());
 		}
 
 		if (SubsystemConstants.useIntake) {
