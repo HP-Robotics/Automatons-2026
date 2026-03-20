@@ -74,6 +74,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Duluth Autos",
   "choreoAuto": false
 }
