@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.MotorIDConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class HoodSubsystem extends SubsystemBase {
     TalonFX m_hoodMotor = new TalonFX(MotorIDConstants.hoodMotor);
@@ -47,6 +48,8 @@ public class HoodSubsystem extends SubsystemBase {
                         .withPeakReverseDutyCycle(-HoodConstants.maxSpeed)
                         .withInverted(InvertedValue.Clockwise_Positive));
         m_hoodMotor.getConfigurator().apply(hoodMotorConfigs);
+
+        table.putValue("setTargetPosition", NetworkTableValue.makeDouble(HoodConstants.defaultHoodPosition));
     }
 
     @Override
