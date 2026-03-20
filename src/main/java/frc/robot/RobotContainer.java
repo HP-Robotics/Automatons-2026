@@ -266,7 +266,9 @@ public class RobotContainer {
 			// StartEndCommand(m_turretSubsystem::runTurret,
 			// m_turretSubsystem::stopTurret, m_turretSubsystem));
 			// ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
-			ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(m_turretSubsystem.RotateTurret());
+			ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(new SequentialCommandGroup(
+				new InstantCommand(() -> m_turretSubsystem.getFromNetworkTables()), 
+				m_turretSubsystem.RotateTurret()));
 
 		}
 

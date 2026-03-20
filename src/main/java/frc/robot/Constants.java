@@ -160,12 +160,13 @@ public final class Constants {
         public static InterpolatingMatrixTreeMap<Double, N2, N1> fillTreeMap() {
             // TreeMap.put(double) use this function to add to tree map
             InterpolatingMatrixTreeMap<Double, N2, N1> output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
-            output.put(1.09, MatBuilder.fill(Nat.N2(), Nat.N1(), 47, 0.0));
-            output.put(1.815, MatBuilder.fill(Nat.N2(), Nat.N1(), 52, 0.15));
-            output.put(2.785, MatBuilder.fill(Nat.N2(), Nat.N1(), 53, 0.35));
-            output.put(3.985, MatBuilder.fill(Nat.N2(), Nat.N1(), 58, 0.5));
-            output.put(4.725, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 0.7));
-            output.put(5.745, MatBuilder.fill(Nat.N2(), Nat.N1(), 64, 0.7));
+            output.put(1.05, MatBuilder.fill(Nat.N2(), Nat.N1(), 50, 0.1));
+            output.put(1.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 52, 0.3));
+            output.put(2.5, MatBuilder.fill(Nat.N2(), Nat.N1(), 53, 0.45));
+            output.put(3.9, MatBuilder.fill(Nat.N2(), Nat.N1(), 58, 0.6));
+            output.put(4.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 0.8));
+
+            output.put(5.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 66, 0.75));
             return output;
         }
 
@@ -275,7 +276,7 @@ public final class Constants {
     public static class HoodConstants {
         public static final double hoodBottom = 0.05;
         public static final double hoodTop = 1.3;
-        public static final double defaultHoodPosition = 0.3927;
+        public static final double defaultHoodPosition = 0.5;
         public static final double kP = 1.5;
         public static final double kD = 0.01;
         public static final double maxSpeed = 0.2;

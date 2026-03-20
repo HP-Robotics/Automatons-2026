@@ -82,7 +82,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void getFromNetworkTables() {
     this.m_turretSpeed = m_table.getEntry("turretSpeed").getDouble(TurretConstants.turretSpeed);
-    //setTargetPosition(m_table.getEntry("targetPosition").getDouble(m_targetPosition));
+    setTargetPosition(m_table.getEntry("targetPosition").getDouble(m_targetPosition));
   }
 
   public boolean atPosition() {
@@ -161,7 +161,6 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    getFromNetworkTables();
     m_table.putValue("limitSwitchOn", NetworkTableValue.makeBoolean(atLimit()));
     m_table.putValue("motorPosition", NetworkTableValue.makeDouble(m_turretMotor.getPosition().getValueAsDouble()));
     m_table.putValue("turretDegrees",
