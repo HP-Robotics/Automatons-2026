@@ -43,19 +43,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CommandCancelShooter"
+            "waitTime": 4.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DT Middle hook FAF"
+            "pathName": "DTToDepot"
           }
         }
       ]
