@@ -38,7 +38,7 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
-        public static final double speed = -55;
+        public static final double speed = -40;
         public static final double kP = 10;
         public static final double kI = 0;
         public static final double kD = 0;
@@ -52,7 +52,7 @@ public final class Constants {
         public static final double leftkI = 0; // no output for integrated error
         public static final double leftkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
-        public static final double leftMotionMagicCruiseVelocity = 1; // Target cruise velocity of 80 rps
+        public static final double leftMotionMaicCruiseVelocity = 1; // Target cruise velocity of 80 rps
         public static final double leftMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
         public static final double leftMotionMagicJerk = 1; // Target jerk of 1600 rps/s/s (0.1 seconds)
         public static final double leftExtendPosition = 3.08;
@@ -62,7 +62,7 @@ public final class Constants {
         public static final double rightkS = 0.5; // Add 0.25 V output to overcome static friction
         public static final double rightkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double rightkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double rightkP = 10; // A position error of 2.5 rotations results in 12 V output
+        public static final double rightkP = 1; // A position error of 2.5 rotations results in 12 V output
         public static final double rightkI = 0; // no output for integrated error
         public static final double rightkD = 0; // A velocity error of 1 rps results in 0.1 V output
         // set Motion Magic settings
