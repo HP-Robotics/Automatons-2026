@@ -13,6 +13,7 @@ import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.MathUtil;
@@ -45,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
@@ -209,6 +211,7 @@ public class RobotContainer {
 								double targetAngle = 0;
 								double robotAngle = MathUtil
 										.inputModulus(m_drivetrain.getState().Pose.getRotation().getDegrees(), 0, 360);
+								double trenchError = m_drivetrain.getCloseTrench() - m_drivetrain.getPose().getY();
 								if (robotAngle % 90 > 45) {
 									targetAngle = robotAngle + 90 - (robotAngle % 90);
 								} else {
@@ -217,10 +220,10 @@ public class RobotContainer {
 								return new SwerveRequest.FieldCentricFacingAngle()
 										.withDriveRequestType(DriveRequestType.Velocity)
 										.withDeadband(0.1 * m_maxSpeed)
-										.withRotationalDeadband(0.1 * m_maxAngularRate)
 										.withHeadingPID(3.5, 0.0, 0.0)
 										.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
-										.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
+										.withVelocityY(MathUtil.clamp(trenchError * DriveConstants.trenchAutoP,
+												-m_maxSpeed, m_maxSpeed))
 										.withTargetDirection(Rotation2d.fromDegrees(targetAngle));
 							}));
 

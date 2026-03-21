@@ -94,6 +94,8 @@ public final class Constants {
         public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
         public static final double moduleMaxRotationPerSecond = 4.8;
         public static final SelectedSysIdRoutine sysIdRoutine = SelectedSysIdRoutine.STEER;
+        public static final double trenchAutoP = 4.0; // TODO: Tune me
+
     }
 
     public static class ControllerConstants {
@@ -110,7 +112,7 @@ public final class Constants {
                 .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2)
                 * Math.signum(m_driveJoystick.getRawAxis(4));
 
-        public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.povDown());
+        public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.getHID()::getAButton);
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
@@ -253,6 +255,9 @@ public final class Constants {
         public static final double blueAllianceZoneX = 4.61;
         public static final double redAllianceZoneX = 11.91;
         public static final double centerLineY = 4.02;
+
+        public static final double topTrenchAlignLine = centerLineY + 3.35;
+        public static final double bottomTrenchAlignLine = centerLineY - 3.35;
         public static final Translation2d redDepotSide = FlippingUtil.flipFieldPosition(blueDepotSide);
         public static final Translation2d redOutpostSide = FlippingUtil.flipFieldPosition(blueOutpostSide);
     }
