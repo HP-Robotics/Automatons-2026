@@ -253,6 +253,15 @@ public final class Constants {
         public static final double centerLineY = 4.02;
         public static final Translation2d redDepotSide = FlippingUtil.flipFieldPosition(blueDepotSide);
         public static final Translation2d redOutpostSide = FlippingUtil.flipFieldPosition(blueOutpostSide);
+        public static enum activeShiftType {
+            UNKNOWN,
+            REDACTIVE,
+            BLUEACTIVE,
+            BOTHACTIVE
+        };
+        public static final double warningTimeToOppShift = 5;
+        public static final double warningTimeToOurShift = 10;
+
     }
 
     public static class HopperConstants {

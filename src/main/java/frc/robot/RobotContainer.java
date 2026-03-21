@@ -29,12 +29,14 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -49,11 +51,13 @@ import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.Constants.FieldConstants.activeShiftType;
 import frc.robot.GeometryUtil.SphericalCoordinate;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -92,6 +96,7 @@ public class RobotContainer {
 	public final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 	public final ClimberSubsystem m_climberSubsystem = (SubsystemConstants.useClimber) ? new ClimberSubsystem() : null;
 	public final HoodSubsystem m_hoodSubsystem = SubsystemConstants.useHood ? new HoodSubsystem() : null;
+	public final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
 	public final NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Robot");
 	private SendableChooser<Command> autoChooser = null;
@@ -509,6 +514,35 @@ public class RobotContainer {
 			}
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
+
+		if (readyToShoot()) {
+			m_ledSubsystem.setShooterPattern(LEDSubsystem.m_readyToShootPattern);
+		} else {
+			m_ledSubsystem.setShooterPattern(LEDSubsystem.m_offPattern);
+		}
+
+		Optional<Alliance> alliance = DriverStation.getAlliance();
+		if (alliance.isPresent()) {
+			if (alliance.get() == Alliance.Blue) {
+				if (getActiveAlliance() == activeShiftType.BLUEACTIVE
+						&& timeBeforeShift() <= FieldConstants.warningTimeToOppShift) {
+					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_redShiftWarningPattern);
+				} else if (getActiveAlliance() == activeShiftType.REDACTIVE
+						&& timeBeforeShift() <= FieldConstants.warningTimeToOurShift) {
+					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_blueShiftWarningPattern);
+				}
+			} else if (alliance.get() == Alliance.Red) {
+				if (getActiveAlliance() == activeShiftType.BLUEACTIVE
+						&& timeBeforeShift() <= FieldConstants.warningTimeToOurShift) {
+					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_redShiftWarningPattern);
+				} else if (getActiveAlliance() == activeShiftType.REDACTIVE
+						&& timeBeforeShift() <= FieldConstants.warningTimeToOppShift) {
+					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_blueShiftWarningPattern);
+				}
+			} else {
+				m_ledSubsystem.setTimerPattern(LEDSubsystem.m_offPattern);
+			}
+		}
 	}
 
 	public void CalibrateClimber() {
@@ -559,5 +593,64 @@ public class RobotContainer {
 						|| m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
 				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
 				&& (m_useNetworkTableShooter || m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames));
+	}
+
+	public double timeBeforeShift() {
+		double matchTime = DriverStation.getMatchTime();
+		if (matchTime > 130) {
+			// Transition shift, hub is active.
+			return matchTime - 130;
+		} else if (matchTime > 105) {
+			// Shift 1
+			return matchTime - 105;
+		} else if (matchTime > 80) {
+			// Shift 2
+			return matchTime - 80;
+		} else if (matchTime > 55) {
+			// Shift 3
+			return matchTime - 55;
+		} else if (matchTime > 30) {
+			// Shift 4
+			return matchTime - 30;
+		} else {
+			// End game, hub always active.
+			return matchTime;
+		}
+	}
+
+	public FieldConstants.activeShiftType getActiveAlliance() {
+		String gameData = DriverStation.getGameSpecificMessage();
+		if (gameData.isEmpty()) {
+			return activeShiftType.UNKNOWN;
+		}
+		boolean redInactiveFirst = false;
+		switch (gameData.charAt(0)) {
+			case 'R' -> redInactiveFirst = true;
+			case 'B' -> redInactiveFirst = false;
+			default -> {
+				// If we have invalid game data, assume hub is active.
+				return activeShiftType.UNKNOWN;
+			}
+		}
+		double matchTime = DriverStation.getMatchTime();
+		if (matchTime > 130) {
+			// Transition shift, hub is active.
+			return activeShiftType.BOTHACTIVE;
+		} else if (matchTime > 105) {
+			// Shift 1
+			return redInactiveFirst ? activeShiftType.BLUEACTIVE : activeShiftType.REDACTIVE;
+		} else if (matchTime > 80) {
+			// Shift 2
+			return redInactiveFirst ? activeShiftType.REDACTIVE : activeShiftType.BLUEACTIVE;
+		} else if (matchTime > 55) {
+			// Shift 3
+			return redInactiveFirst ? activeShiftType.BLUEACTIVE : activeShiftType.REDACTIVE;
+		} else if (matchTime > 30) {
+			// Shift 4
+			return redInactiveFirst ? activeShiftType.REDACTIVE : activeShiftType.BLUEACTIVE;
+		} else {
+			// End game, hub always active.
+			return activeShiftType.BOTHACTIVE;
+		}
 	}
 }
