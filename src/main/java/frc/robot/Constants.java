@@ -51,7 +51,7 @@ public final class Constants {
         public static final double leftkP = 3; // A position error of 2.5 rotations results in 12 V output
         public static final double leftkI = 0; // no output for integrated error
         public static final double leftkD = 0; // A velocity error of 1 rps results in 0.1 V output
-        public static final double slowLeftkP = 0.5;
+        public static final double slowLeftkP = 3;
         // set Motion Magic settings
         public static final double leftMotionMaicCruiseVelocity = 1; // Target cruise velocity of 80 rps
         public static final double leftMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
@@ -67,7 +67,7 @@ public final class Constants {
         public static final double rightkP = 3; // A position error of 2.5 rotations results in 12 V output
         public static final double rightkI = 0; // no output for integrated error
         public static final double rightkD = 0; // A velocity error of 1 rps results in 0.1 V output
-        public static final double slowRightKp = 0.5;
+        public static final double slowRightKp = 3;
         // set Motion Magic settings
         public static final double rightMotionMagicCruiseVelocity = 1; // Target cruise velocity of 80 rps
         public static final double rightMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)

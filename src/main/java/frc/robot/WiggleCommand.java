@@ -18,7 +18,7 @@ public class WiggleCommand extends Command {
 
   @Override
   public void initialize() {
-    // m_subsystem.slowExtend();
+    m_subsystem.slowExtend();
     m_subsystem.extendIntake();
     m_extended = true;
     m_timer.start();
