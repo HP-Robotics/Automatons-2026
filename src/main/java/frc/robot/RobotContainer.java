@@ -267,8 +267,8 @@ public class RobotContainer {
 			// m_turretSubsystem::stopTurret, m_turretSubsystem));
 			// ControllerConstants.calibrateTurretTrigger.whileTrue(m_turretSubsystem.Calibrate());
 			ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(new SequentialCommandGroup(
-				new InstantCommand(() -> m_turretSubsystem.getFromNetworkTables()), 
-				m_turretSubsystem.RotateTurret()));
+					new InstantCommand(() -> m_turretSubsystem.getFromNetworkTables()),
+					m_turretSubsystem.RotateTurret()));
 
 		}
 
@@ -403,6 +403,9 @@ public class RobotContainer {
 		}
 		if (SubsystemConstants.useHopper) {
 			output.addCommands(m_hopperSubsystem.MagicHopper(this::readyToShoot));
+		}
+		if (SubsystemConstants.useIntake) {
+			output.addCommands(new WiggleCommand(m_intakeSubsystem));
 		}
 		return output;
 
