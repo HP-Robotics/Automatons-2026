@@ -419,6 +419,9 @@ public class RobotContainer {
 		if (SubsystemConstants.useHopper) {
 			output.addCommands(m_hopperSubsystem.MagicHopper(this::readyToShoot));
 		}
+		if (SubsystemConstants.useIntake) {
+			output.addCommands(new WiggleCommand(m_intakeSubsystem));
+		}
 		return output;
 
 	}

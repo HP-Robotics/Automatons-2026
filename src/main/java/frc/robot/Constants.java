@@ -56,6 +56,7 @@ public final class Constants {
         public static final double leftMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
         public static final double leftMotionMagicJerk = 1; // Target jerk of 1600 rps/s/s (0.1 seconds)
         public static final double leftExtendPosition = 3.08;
+        public static final double leftWigglePosition = 2.02;
         public static final double leftRetractPosition = 0;
 
         // set slot 0 gains
@@ -70,12 +71,14 @@ public final class Constants {
         public static final double rightMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
         public static final double rightMotionMagicJerk = 1; // Target jerk of 1600 rps/s/s (0.1 seconds)
         public static final double rightExtendPosition = 3.08;
+        public static final double rightWigglePosition = 2.02;
         public static final double rightRetractPosition = 0;
 
         public static final double extendCruiseVelocity = 8; // 12
         public static final double extendAcceleration = 20; // 24
         public static final double extendJerk = 480;
         public static final double retractCruiseVelocity = 10;
+        public static final double wiggleTime = 0.5;
     }
 
     public static class DriveConstants {
@@ -96,11 +99,14 @@ public final class Constants {
         public static final CommandXboxController m_opJoystick = new CommandXboxController(1);
 
         public static final DoubleSupplier m_leftAxisY = () -> Math
-                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(1), 0.1), 2) * Math.signum(m_driveJoystick.getRawAxis(1));
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(1), 0.1), 2)
+                * Math.signum(m_driveJoystick.getRawAxis(1));
         public static final DoubleSupplier m_leftAxisX = () -> Math
-                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(0), 0.1), 2) * Math.signum(m_driveJoystick.getRawAxis(0));
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(0), 0.1), 2)
+                * Math.signum(m_driveJoystick.getRawAxis(0));
         public static final DoubleSupplier m_rightAxisX = () -> Math
-                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2) * Math.signum(m_driveJoystick.getRawAxis(4));
+                .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2)
+                * Math.signum(m_driveJoystick.getRawAxis(4));
 
         public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.povDown());
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
@@ -205,7 +211,7 @@ public final class Constants {
         };
 
         public static final InterpolatingDoubleTreeMap turretAngleFudge = createTurretAngleFudge();
-        
+
         public static final double shotIsLegalBonusFrames = 20;
     }
 
