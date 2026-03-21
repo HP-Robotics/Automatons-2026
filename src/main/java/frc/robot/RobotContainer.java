@@ -530,6 +530,8 @@ public class RobotContainer {
 				} else if (getActiveAlliance() == activeShiftType.REDACTIVE
 						&& timeBeforeShift() <= FieldConstants.warningTimeToOurShift) {
 					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_blueShiftWarningPattern);
+				} else {
+					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_offPattern);
 				}
 			} else if (alliance.get() == Alliance.Red) {
 				if (getActiveAlliance() == activeShiftType.BLUEACTIVE
@@ -538,9 +540,9 @@ public class RobotContainer {
 				} else if (getActiveAlliance() == activeShiftType.REDACTIVE
 						&& timeBeforeShift() <= FieldConstants.warningTimeToOppShift) {
 					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_blueShiftWarningPattern);
+				} else {
+					m_ledSubsystem.setTimerPattern(LEDSubsystem.m_offPattern);
 				}
-			} else {
-				m_ledSubsystem.setTimerPattern(LEDSubsystem.m_offPattern);
 			}
 		}
 	}
