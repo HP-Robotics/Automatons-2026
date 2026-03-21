@@ -1,0 +1,85 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Extend Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Start Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OTToOC FAF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OC Grab a Few FAF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab A Few To OT FAF"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandCancelShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OTToDoubleOC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OC Grab a Few"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a few to OT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandShoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

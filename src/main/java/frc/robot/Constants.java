@@ -110,7 +110,7 @@ public final class Constants {
                 .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2)
                 * Math.signum(m_driveJoystick.getRawAxis(4));
 
-        public static final Trigger trenchOrientation = new Trigger(() -> false);
+        public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.povDown());
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);

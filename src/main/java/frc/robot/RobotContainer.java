@@ -9,11 +9,13 @@ import static edu.wpi.first.units.Units.*;
 import java.util.Optional;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.events.EventTrigger;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -202,13 +204,25 @@ public class RobotContainer {
 
 			ControllerConstants.trenchOrientation.whileTrue(
 					// Drivetrain will execute this command periodically
-					m_drivetrain.applyRequest(() -> new SwerveRequest.FieldCentricFacingAngle()
-							.withDriveRequestType(DriveRequestType.Velocity)
-							.withDeadband(0.1 * m_maxSpeed)
-							.withRotationalDeadband(0.1 * m_maxAngularRate)
-							.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
-							.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
-							.withTargetDirection(Rotation2d.fromDegrees(0))));
+					m_drivetrain.applyRequest(
+							() -> {
+								double targetAngle = 0;
+								double robotAngle = MathUtil
+										.inputModulus(m_drivetrain.getState().Pose.getRotation().getDegrees(), 0, 360);
+								if (robotAngle % 90 > 45) {
+									targetAngle = robotAngle + 90 - (robotAngle % 90);
+								} else {
+									targetAngle = robotAngle - (robotAngle % 90);
+								}
+								return new SwerveRequest.FieldCentricFacingAngle()
+										.withDriveRequestType(DriveRequestType.Velocity)
+										.withDeadband(0.1 * m_maxSpeed)
+										.withRotationalDeadband(0.1 * m_maxAngularRate)
+										.withHeadingPID(3.5, 0.0, 0.0)
+										.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
+										.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
+										.withTargetDirection(Rotation2d.fromDegrees(targetAngle));
+							}));
 
 			// These are neat but we probably don't need them
 			// joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
