@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4894698795180723,
-        "y": 5.017099451531216
+        "x": 0.4785421686746987,
+        "y": 5.455602409638555
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9956403209399727,
-        "y": 5.604172931353041
+        "x": 2.183740380912415,
+        "y": 6.0554552290663555
       },
       "isLocked": false,
-      "linkedName": "DepotLower"
+      "linkedName": "DepotBottom"
+    },
+    {
+      "anchor": {
+        "x": 2.1754662784293095,
+        "y": 4.63222706211353
+      },
+      "prevControl": {
+        "x": 2.346892693649155,
+        "y": 4.81419679631368
+      },
+      "nextControl": {
+        "x": 2.004039863209464,
+        "y": 4.45025732791338
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,8 +36,8 @@
         "y": 4.63222706211353
       },
       "prevControl": {
-        "x": 1.954985466284862,
-        "y": 4.790252933298766
+        "x": 1.2993333295809157,
+        "y": 4.700384811997776
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,20 +46,24 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.14498933901918912,
+      "waypointRelativePos": 0.18423236514522578,
       "rotationDegrees": -89.78436013972615
+    },
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 92.60256220249975
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.22079772079772228,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 1.0337468982629603,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 0.5,
+        "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
+        "maxAngularVelocity": 270.0,
+        "maxAngularAcceleration": 270.0,
         "nominalVoltage": 12.0,
         "unlimited": false
       }
@@ -53,7 +73,7 @@
   "eventMarkers": [
     {
       "name": "Climber up",
-      "waypointRelativePos": 0.7545109211775749,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -61,8 +81,8 @@
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 270.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -74,7 +94,7 @@
   "folder": "To Tower",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -89.95
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -51,6 +51,18 @@
           "data": {
             "pathName": "DTToDepot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DepotLowerToTower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
+          }
         }
       ]
     }
