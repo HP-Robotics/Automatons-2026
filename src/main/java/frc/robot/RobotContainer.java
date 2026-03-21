@@ -9,11 +9,9 @@ import static edu.wpi.first.units.Units.*;
 import java.util.Optional;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.configs.LEDConfigs;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.MathUtil;
@@ -42,12 +40,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.Constants.TurretConstants;
@@ -127,6 +125,7 @@ public class RobotContainer {
 	public double m_dynamicHoodAngle;
 	public double m_dynamicTurretAngle;
 	public boolean m_useNetworkTableShooter = false;
+	public boolean m_trenchOverride = false;
 
 	public RobotContainer() {
 		DataLogManager.start();
@@ -225,7 +224,9 @@ public class RobotContainer {
 										.withVelocityY(MathUtil.clamp(trenchError * DriveConstants.trenchAutoP,
 												-m_maxSpeed, m_maxSpeed))
 										.withTargetDirection(Rotation2d.fromDegrees(targetAngle));
-							}));
+							}))
+					.onTrue(new InstantCommand(() -> m_trenchOverride = true))
+					.onFalse(new InstantCommand(() -> m_trenchOverride = false));
 
 			// These are neat but we probably don't need them
 			// joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
@@ -535,7 +536,9 @@ public class RobotContainer {
 	}
 
 	public double getMagicHoodPosition() {
-		if (m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames) {
+		if (m_trenchOverride) {
+			return HoodConstants.hoodBottom;
+		} else if (m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames) {
 			return m_dynamicHoodAngle;
 		} else {
 			return m_staticHoodPosition;
@@ -557,7 +560,7 @@ public class RobotContainer {
 	}
 
 	public boolean readyToShoot() {
-		return ((!SubsystemConstants.useHood || m_hoodSubsystem.isHoodAimed())
+		return ((!SubsystemConstants.useHood || (m_hoodSubsystem.isHoodAimed() && !m_trenchOverride))
 				&& (!SubsystemConstants.useShooter
 						|| m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
 				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
