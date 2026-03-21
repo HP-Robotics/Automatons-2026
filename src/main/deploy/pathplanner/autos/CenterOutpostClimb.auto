@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleDriveToLowerTower"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "CommandShoot"
@@ -13,13 +19,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 10.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleDriveToLowerTower"
+            "waitTime": 8.0
           }
         },
         {
