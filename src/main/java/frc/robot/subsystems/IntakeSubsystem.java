@@ -33,6 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("IntakeSubsystem");
     Slot0Configs m_intakeConfig = new Slot0Configs();
     boolean m_isIntaking = false;
+    TalonFXConfiguration m_leftMotorConfigs;
+    TalonFXConfiguration m_rightMotorConfigs;
 
     private Optional<ExtendProfile> m_currentLeftProfile = Optional.empty();
     private Optional<ExtendProfile> m_currentRightProfile = Optional.empty();
@@ -79,30 +81,12 @@ public class IntakeSubsystem extends SubsystemBase {
         m_rightMotor.setPosition(0);
         m_leftMotor.setPosition(0);
 
-        var leftMotorConfigs = new TalonFXConfiguration();
-        var rightMotorConfigs = new TalonFXConfiguration()
+        m_leftMotorConfigs = new TalonFXConfiguration();
+        m_rightMotorConfigs = new TalonFXConfiguration()
                 .withMotorOutput(
                         new MotorOutputConfigs()
                                 .withInverted(InvertedValue.Clockwise_Positive));
-        var leftSlot0Configs = leftMotorConfigs.Slot0;
-        leftSlot0Configs.kS = IntakeConstants.leftkS;
-        leftSlot0Configs.kV = IntakeConstants.leftkV;
-        leftSlot0Configs.kA = IntakeConstants.leftkA;
-        leftSlot0Configs.kP = IntakeConstants.leftkP;
-        leftSlot0Configs.kI = IntakeConstants.leftkI;
-        leftSlot0Configs.kD = IntakeConstants.leftkD;
-
-        m_leftMotor.getConfigurator().apply(leftMotorConfigs);
-
-        var rightSlot0Configs = rightMotorConfigs.Slot0;
-        rightSlot0Configs.kS = IntakeConstants.rightkS; // Add 0.25 V output to overcome static friction
-        rightSlot0Configs.kV = IntakeConstants.rightkV; // A velocity target of 1 rps results in 0.12 V output
-        rightSlot0Configs.kA = IntakeConstants.rightkA; // An acceleration of 1 rps/s requires 0.01 V output
-        rightSlot0Configs.kP = IntakeConstants.rightkP; // A position error of 2.5 rotations results in 12 V output
-        rightSlot0Configs.kI = IntakeConstants.rightkI; // no output for integrated error
-        rightSlot0Configs.kD = IntakeConstants.rightkD; // A velocity error of 1 rps results in 0.1 V output
-
-        m_rightMotor.getConfigurator().apply(rightMotorConfigs);
+        fastExtend();
     }
 
     public void periodic() {
@@ -141,6 +125,50 @@ public class IntakeSubsystem extends SubsystemBase {
     public void wiggleIntake() {
         m_leftMotor.setControl(new PositionVoltage(IntakeConstants.leftWigglePosition));
         m_rightMotor.setControl(new PositionVoltage(IntakeConstants.rightWigglePosition));
+    }
+
+    public void slowExtend() {
+        var leftSlot0Configs = m_leftMotorConfigs.Slot0;
+        leftSlot0Configs.kS = IntakeConstants.leftkS;
+        leftSlot0Configs.kV = IntakeConstants.leftkV;
+        leftSlot0Configs.kA = IntakeConstants.leftkA;
+        leftSlot0Configs.kP = IntakeConstants.slowLeftkP;
+        leftSlot0Configs.kI = IntakeConstants.leftkI;
+        leftSlot0Configs.kD = IntakeConstants.leftkD;
+
+        m_leftMotor.getConfigurator().apply(m_leftMotorConfigs);
+
+        var rightSlot0Configs = m_rightMotorConfigs.Slot0;
+        rightSlot0Configs.kS = IntakeConstants.rightkS; // Add 0.25 V output to overcome static friction
+        rightSlot0Configs.kV = IntakeConstants.rightkV; // A velocity target of 1 rps results in 0.12 V output
+        rightSlot0Configs.kA = IntakeConstants.rightkA; // An acceleration of 1 rps/s requires 0.01 V output
+        rightSlot0Configs.kP = IntakeConstants.slowRightKp; // A position error of 2.5 rotations results in 12 V output
+        rightSlot0Configs.kI = IntakeConstants.rightkI; // no output for integrated error
+        rightSlot0Configs.kD = IntakeConstants.rightkD; // A velocity error of 1 rps results in 0.1 V output
+
+        m_rightMotor.getConfigurator().apply(m_rightMotorConfigs);
+    }
+
+    public void fastExtend() {
+        var leftSlot0Configs = m_leftMotorConfigs.Slot0;
+        leftSlot0Configs.kS = IntakeConstants.leftkS;
+        leftSlot0Configs.kV = IntakeConstants.leftkV;
+        leftSlot0Configs.kA = IntakeConstants.leftkA;
+        leftSlot0Configs.kP = IntakeConstants.leftkP;
+        leftSlot0Configs.kI = IntakeConstants.leftkI;
+        leftSlot0Configs.kD = IntakeConstants.leftkD;
+
+        m_leftMotor.getConfigurator().apply(m_leftMotorConfigs);
+
+        var rightSlot0Configs = m_rightMotorConfigs.Slot0;
+        rightSlot0Configs.kS = IntakeConstants.rightkS; // Add 0.25 V output to overcome static friction
+        rightSlot0Configs.kV = IntakeConstants.rightkV; // A velocity target of 1 rps results in 0.12 V output
+        rightSlot0Configs.kA = IntakeConstants.rightkA; // An acceleration of 1 rps/s requires 0.01 V output
+        rightSlot0Configs.kP = IntakeConstants.rightkP; // A position error of 2.5 rotations results in 12 V output
+        rightSlot0Configs.kI = IntakeConstants.rightkI; // no output for integrated error
+        rightSlot0Configs.kD = IntakeConstants.rightkD; // A velocity error of 1 rps results in 0.1 V output
+
+        m_rightMotor.getConfigurator().apply(m_rightMotorConfigs);
     }
 
     public void retractIntake() {
