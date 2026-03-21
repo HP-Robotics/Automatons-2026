@@ -7,7 +7,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class WiggleCommand extends Command {
   private final IntakeSubsystem m_subsystem;
-  private Timer m_timer;
+  private Timer m_timer = new Timer();
   private boolean m_extended;
 
   public WiggleCommand(IntakeSubsystem subsystem) {
@@ -18,6 +18,7 @@ public class WiggleCommand extends Command {
 
   @Override
   public void initialize() {
+    m_subsystem.slowExtend();
     m_subsystem.extendIntake();
     m_extended = true;
     m_timer.start();
@@ -40,6 +41,7 @@ public class WiggleCommand extends Command {
 
   @Override
   public void end(boolean interupted) {
+    m_subsystem.fastExtend();
     m_subsystem.extendIntake();
   }
 }

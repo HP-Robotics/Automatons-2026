@@ -70,6 +70,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // m_cameras.add(new LimelightCamera("limelight-shpwrte"));
     m_cameras.add(new LimelightCamera("limelight-kite"));
     m_cameras.add(new LimelightCamera("limelight-delight"));
+    m_cameras.add(new LimelightCamera("limelight-bright"));
   }
 
   public double getDistanceToPose(Pose2d robot, Pose2d fieldPose) {

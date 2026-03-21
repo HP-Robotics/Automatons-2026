@@ -48,9 +48,10 @@ public final class Constants {
         public static final double leftkS = 0.5; // Add 0.25 V output to overcome static friction
         public static final double leftkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double leftkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double leftkP = 10; // A position error of 2.5 rotations results in 12 V output
+        public static final double leftkP = 3; // A position error of 2.5 rotations results in 12 V output
         public static final double leftkI = 0; // no output for integrated error
         public static final double leftkD = 0; // A velocity error of 1 rps results in 0.1 V output
+        public static final double slowLeftkP = 3;
         // set Motion Magic settings
         public static final double leftMotionMaicCruiseVelocity = 1; // Target cruise velocity of 80 rps
         public static final double leftMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
@@ -63,9 +64,10 @@ public final class Constants {
         public static final double rightkS = 0.5; // Add 0.25 V output to overcome static friction
         public static final double rightkV = 0; // A velocity target of 1 rps results in 0.12 V output
         public static final double rightkA = 0; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double rightkP = 1; // A position error of 2.5 rotations results in 12 V output
+        public static final double rightkP = 3; // A position error of 2.5 rotations results in 12 V output
         public static final double rightkI = 0; // no output for integrated error
         public static final double rightkD = 0; // A velocity error of 1 rps results in 0.1 V output
+        public static final double slowRightKp = 3;
         // set Motion Magic settings
         public static final double rightMotionMagicCruiseVelocity = 1; // Target cruise velocity of 80 rps
         public static final double rightMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
@@ -92,6 +94,8 @@ public final class Constants {
         public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
         public static final double moduleMaxRotationPerSecond = 4.8;
         public static final SelectedSysIdRoutine sysIdRoutine = SelectedSysIdRoutine.STEER;
+        public static final double trenchAutoP = 4.0; // TODO: Tune me
+
     }
 
     public static class ControllerConstants {
@@ -108,7 +112,7 @@ public final class Constants {
                 .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2)
                 * Math.signum(m_driveJoystick.getRawAxis(4));
 
-        public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.povDown());
+        public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.getHID()::getAButton);
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
@@ -251,6 +255,9 @@ public final class Constants {
         public static final double blueAllianceZoneX = 4.61;
         public static final double redAllianceZoneX = 11.91;
         public static final double centerLineY = 4.02;
+
+        public static final double topTrenchAlignLine = centerLineY + 3.35;
+        public static final double bottomTrenchAlignLine = centerLineY - 3.35;
         public static final Translation2d redDepotSide = FlippingUtil.flipFieldPosition(blueDepotSide);
         public static final Translation2d redOutpostSide = FlippingUtil.flipFieldPosition(blueOutpostSide);
     }
