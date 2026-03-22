@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -54,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setVelocity(double speed) {
         m_velocity = speed;
         if (speed > 1) {
-            m_shooterMotor1.setControl(new VelocityTorqueCurrentFOC(speed));
+            m_shooterMotor1.setControl(new VelocityVoltage(speed));
         } else {
             m_shooterMotor1.setControl(new NeutralOut());
         }
