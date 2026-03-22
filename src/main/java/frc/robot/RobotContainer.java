@@ -247,6 +247,7 @@ public class RobotContainer {
 		if (SubsystemConstants.useIntake) {
 			ControllerConstants.intakeTrigger.onTrue(m_intakeSubsystem.ToggleIntake());
 			ControllerConstants.yuckTrigger.whileTrue(m_intakeSubsystem.Yuck());
+			ControllerConstants.wiggleTrigger.whileTrue(new WiggleCommand(m_intakeSubsystem));
 		}
 
 		if (SubsystemConstants.useShooter) {
@@ -422,9 +423,6 @@ public class RobotContainer {
 		}
 		if (SubsystemConstants.useHopper) {
 			output.addCommands(m_hopperSubsystem.MagicHopper(this::readyToShoot));
-		}
-		if (SubsystemConstants.useIntake) {
-			// output.addCommands(new WiggleCommand(m_intakeSubsystem));
 		}
 		return output;
 

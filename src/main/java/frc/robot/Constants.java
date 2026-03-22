@@ -114,6 +114,7 @@ public final class Constants {
 
         public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.getHID()::getAButton);
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
+        public static final Trigger wiggleTrigger = new Trigger(m_opJoystick.axisGreaterThan(2, 0.2));
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
         public static final Trigger magicShooterTrigger = m_opJoystick.axisGreaterThan(3, 0.2);
