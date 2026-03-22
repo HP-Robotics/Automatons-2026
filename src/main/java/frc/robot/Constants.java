@@ -118,7 +118,7 @@ public final class Constants {
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
         public static final Trigger magicShooterTrigger = m_opJoystick.axisGreaterThan(3, 0.2);
-        public static final Trigger ShooterNetworkTablesModeTrigger = new Trigger(m_driveJoystick.getHID()::getYButton);
+        public static final Trigger ShooterNetworkTablesModeTrigger = new Trigger(m_opJoystick.getHID()::getYButton);
         // public static final Trigger runTurretTrigger = new
         // Trigger(m_driveJoystick.getHID()::[]); (USED)
         public static final Trigger calibrateTurretTrigger = new Trigger(
@@ -160,11 +160,11 @@ public final class Constants {
         public static final double defaultShootingSpeed = 54.2; // rotations per second
         public static final double idleSpeed = 10; // rotations per second
         // TODO: pick this
-        public static final double kP = 12;
-        public static final double kI = 1;
+        public static final double kP = 0.8;
+        public static final double kI = 0.2;
         public static final double kD = 0.0;
-        public static final double kS = 3.8;
-        public static final double kV = 0.001;
+        public static final double kS = 0.25;
+        public static final double kV = 0.123;
 
         public static final InterpolatingMatrixTreeMap<Double, N2, N1> distanceToStaticShot = fillTreeMap();
 
@@ -274,7 +274,7 @@ public final class Constants {
     }
 
     public static class ClimberConstants {
-        public static final double climberTopPosition = 65;
+        public static final double climberTopPosition = 68; //temporary, normal is 65
         public static final double climberBottomPosition = 1.75;
         public static final double kP = 5;
         public static final double kI = 0;
