@@ -32,12 +32,28 @@
     },
     {
       "anchor": {
-        "x": 1.1123493975931276,
-        "y": 2.8220240963819014
+        "x": 0.6273220019898655,
+        "y": 2.6749179008354975
       },
       "prevControl": {
-        "x": 0.2826023564796101,
-        "y": 2.659228916984879
+        "x": 0.5276722783822578,
+        "y": 2.4456365614619564
+      },
+      "nextControl": {
+        "x": 0.7269717255974752,
+        "y": 2.904199240209043
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.235168933204165,
+        "y": 2.9791221267162586
+      },
+      "prevControl": {
+        "x": 0.9153006310264822,
+        "y": 2.9811713131687942
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +65,7 @@
     {
       "name": "Climb Zone",
       "minWaypointRelativePos": 0.6094292803970559,
-      "maxWaypointRelativePos": 2.0,
+      "maxWaypointRelativePos": 3.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 1.0,
@@ -70,8 +86,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -87,5 +103,5 @@
     "velocity": 0,
     "rotation": -90.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
