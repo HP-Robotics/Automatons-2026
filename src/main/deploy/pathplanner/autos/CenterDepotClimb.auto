@@ -11,9 +11,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Wiggle Intake"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 10.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Extend Intake"
           }
         },
         {
