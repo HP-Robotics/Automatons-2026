@@ -172,6 +172,9 @@ public class RobotContainer {
 			new EventTrigger("Extend Intake").onTrue(m_intakeSubsystem.ExtendIntake());
 			new EventTrigger("Retract Intake").onTrue(m_intakeSubsystem.RetractIntake());
 			NamedCommands.registerCommand("Extend Intake", m_intakeSubsystem.ExtendIntake().asProxy());
+			NamedCommands.registerCommand("Wiggle Intake",
+					new InstantCommand(() -> CommandScheduler.getInstance()
+							.schedule(new WiggleCommand(m_intakeSubsystem).asProxy())));
 		}
 	}
 
