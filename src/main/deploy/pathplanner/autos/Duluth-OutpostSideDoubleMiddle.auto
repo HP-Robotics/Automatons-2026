@@ -35,9 +35,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Wiggle Intake"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 5.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Extend Intake"
           }
         },
         {
@@ -68,6 +80,12 @@
           "type": "named",
           "data": {
             "name": "CommandShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Wiggle Intake"
           }
         }
       ]

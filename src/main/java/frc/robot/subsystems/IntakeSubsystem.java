@@ -225,7 +225,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 () -> {
                     m_isIntaking = true;
                     this.runIntake(IntakeConstants.speed);
-                }, this);
+                });
     }
 
     public Command StopIntake() {
@@ -233,7 +233,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 () -> {
                     m_isIntaking = false;
                     this.stopIntake();
-                }, this);
+                });
     }
 
     public Command ExtendIntake() {
