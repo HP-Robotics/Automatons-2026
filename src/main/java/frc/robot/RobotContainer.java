@@ -510,6 +510,8 @@ public class RobotContainer {
 				// new Rotation2d()))));
 
 				m_table.putValue("shotIsLegal", NetworkTableValue.makeBoolean(m_shotIsLegal));
+				m_table.putValue("readyToShoot", NetworkTableValue.makeBoolean(readyToShoot()));
+				m_table.putValue("legalFrames", NetworkTableValue.makeDouble(m_shotIsLegalFrameCounter));
 			}
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
