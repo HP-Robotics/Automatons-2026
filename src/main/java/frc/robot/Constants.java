@@ -159,8 +159,9 @@ public final class Constants {
     public static class ShooterConstants {
         public static final double defaultShootingSpeed = 54.2; // rotations per second
         public static final double idleSpeed = 10; // rotations per second
-        // TODO: pick this
-        public static final double kP = 0.7;
+        public static final double kP0 = 0.7;
+        public static final double kP1 = 0.75;
+        public static final double kP2 = 0.8;
         public static final double kI = 0.2;
         public static final double kD = 0.0;
         public static final double kS = 0.25;

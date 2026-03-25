@@ -4,10 +4,11 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
+import com.ctre.phoenix6.configs.Slot2Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -35,12 +36,26 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
         final TalonFXConfiguration leftMotorConfigs = new TalonFXConfiguration()
                 .withSlot0(new Slot0Configs()
-                        .withKP(ShooterConstants.kP)
+                        .withKP(ShooterConstants.kP0)
+                        .withKI(ShooterConstants.kI)
+                        .withKD(ShooterConstants.kD)
+                        .withKS(ShooterConstants.kS)
+                        .withKV(ShooterConstants.kV))
+                .withSlot1(new Slot1Configs()
+                        .withKP(ShooterConstants.kP1)
+                        .withKI(ShooterConstants.kI)
+                        .withKD(ShooterConstants.kD)
+                        .withKS(ShooterConstants.kS)
+                        .withKV(ShooterConstants.kV))
+                .withSlot2(new Slot2Configs()
+                        .withKP(ShooterConstants.kP2)
                         .withKI(ShooterConstants.kI)
                         .withKD(ShooterConstants.kD)
                         .withKS(ShooterConstants.kS)
                         .withKV(ShooterConstants.kV));
         m_shooterMotor1.getConfigurator().apply(leftMotorConfigs);
+        m_shooterMotor1.getClosedLoopOutput().setUpdateFrequency(50);
+        m_shooterMotor1.getClosedLoopProportionalOutput().setUpdateFrequency(50);
         final TalonFXConfiguration rightMotorConfigs = new TalonFXConfiguration()
                 .withMotorOutput(
                         new MotorOutputConfigs()
@@ -55,7 +70,13 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setVelocity(double speed) {
         m_velocity = speed;
         if (speed > 1) {
-            m_shooterMotor1.setControl(new VelocityVoltage(speed));
+            if (speed < 50) {
+                m_shooterMotor1.setControl(new VelocityVoltage(speed).withSlot(0));
+            } else if (speed < 65) {
+                m_shooterMotor1.setControl(new VelocityVoltage(speed).withSlot(1));
+            } else {
+                m_shooterMotor1.setControl(new VelocityVoltage(speed).withSlot(2));
+            }
         } else {
             m_shooterMotor1.setControl(new NeutralOut());
         }
