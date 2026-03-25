@@ -57,7 +57,7 @@ public final class Constants {
         public static final double leftMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
         public static final double leftMotionMagicJerk = 1; // Target jerk of 1600 rps/s/s (0.1 seconds)
         public static final double leftExtendPosition = 3.08;
-        public static final double leftWigglePosition = 2.02;
+        public static final double leftWigglePosition = 1.5;
         public static final double leftRetractPosition = 0;
 
         // set slot 0 gains
@@ -73,7 +73,7 @@ public final class Constants {
         public static final double rightMotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
         public static final double rightMotionMagicJerk = 1; // Target jerk of 1600 rps/s/s (0.1 seconds)
         public static final double rightExtendPosition = 3.08;
-        public static final double rightWigglePosition = 2.02;
+        public static final double rightWigglePosition = 1.5;
         public static final double rightRetractPosition = 0;
 
         public static final double extendCruiseVelocity = 8; // 12
