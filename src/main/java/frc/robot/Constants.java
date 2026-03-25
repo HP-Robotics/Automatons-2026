@@ -239,8 +239,8 @@ public final class Constants {
         public static final double encoderCPR = 1.0;
         public static final double gearRatio = 10.4167;
         public static final double distanceToLimitThreshold = 5.0; // in robot relative degrees
-        public static final double kP = 0.6;
-        public static final double kI = 1;
+        public static final double kP = 2.5;
+        public static final double kI = 0.5;
         public static final double kD = 0.03;
         public static final double kS = 0.113;
         public static final double maxForwardDutyCycle = 0.5;
