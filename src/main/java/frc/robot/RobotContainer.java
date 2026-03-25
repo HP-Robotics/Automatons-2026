@@ -301,10 +301,9 @@ public class RobotContainer {
 			// TODO:allow canceling if there is no hopper
 		}
 
-		ControllerConstants.ShooterNetworkTablesModeTrigger.whileTrue(
-				new InstantCommand(() -> m_useNetworkTableShooter = true)
-						.finallyDo(() -> m_useNetworkTableShooter = false));
-
+		ControllerConstants.ShooterNetworkTablesModeTrigger
+				.onTrue(new InstantCommand(() -> m_useNetworkTableShooter = true))
+				.onFalse(new InstantCommand(() -> m_useNetworkTableShooter = false));
 	}
 
 	public double[] calculateStaticShot(Translation2d target, Pose2d robotPose) {
