@@ -113,7 +113,7 @@ public final class Constants {
                 * Math.signum(m_driveJoystick.getRawAxis(4));
 
         public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.getHID()::getAButton);
-        public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.getHID()::getBButton);
+        public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.axisGreaterThan(2, 0.2));
         public static final Trigger wiggleTrigger = new Trigger(m_opJoystick.axisGreaterThan(2, 0.2));
         // public static final Trigger stopShooterTrigger = new
         // Trigger(m_driveJoystick.getHID()::getBButton);
@@ -127,7 +127,7 @@ public final class Constants {
         public static final Trigger yuckTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
         public static final Trigger climbUpTrigger = m_opJoystick.povUp();
-        public static final Trigger climbDownTrigger = m_driveJoystick.axisGreaterThan(3, 0.2); // RIGHT TRIGGER
+        public static final Trigger climbDownTrigger = m_opJoystick.povDown(); // RIGHT TRIGGER
         public static final Trigger calibrateClimberTrigger = new Trigger(m_opJoystick.getHID()::getXButton);
         // public static final Trigger runStaticShotTrigger = new
         // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
