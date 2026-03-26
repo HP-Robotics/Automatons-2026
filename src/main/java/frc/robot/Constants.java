@@ -39,10 +39,14 @@ public final class Constants {
 
     public static class IntakeConstants {
         public static final double speed = -40;
-        public static final double kP = 10;
+        public static final double kP = 0.7;
         public static final double kI = 0;
         public static final double kD = 0;
-        public static final double kS = 10;
+        public static final double kS = 0.3;
+        public static final double kV = 0.12;
+
+        public static final double statorCurrentLimit = 80;
+        public static final double supplyCurrentLimit = 40;
 
         // set slot 0 gains
         public static final double leftkS = 0.5; // Add 0.25 V output to overcome static friction

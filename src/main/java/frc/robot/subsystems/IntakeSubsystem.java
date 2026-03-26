@@ -2,12 +2,12 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -32,6 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX m_rightMotor = new TalonFX(MotorIDConstants.intakeExtendRightMotor);
     public NetworkTable table = NetworkTableInstance.getDefault().getTable("IntakeSubsystem");
     Slot0Configs m_intakeConfig = new Slot0Configs();
+    CurrentLimitsConfigs m_intakeCurrentLimitsConfigs = new CurrentLimitsConfigs();
     boolean m_isIntaking = false;
     TalonFXConfiguration m_leftMotorConfigs;
     TalonFXConfiguration m_rightMotorConfigs;
@@ -75,8 +75,13 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeConfig.kI = IntakeConstants.kI;
         m_intakeConfig.kD = IntakeConstants.kD;
         m_intakeConfig.kS = IntakeConstants.kS;
+        m_intakeConfig.kV = IntakeConstants.kV;
+
+        m_intakeCurrentLimitsConfigs.StatorCurrentLimit = IntakeConstants.statorCurrentLimit;
+        m_intakeCurrentLimitsConfigs.SupplyCurrentLimit = IntakeConstants.supplyCurrentLimit;
 
         m_intakeMotor.getConfigurator().apply(m_intakeConfig);
+        m_intakeMotor.getConfigurator().apply(m_intakeCurrentLimitsConfigs);
 
         m_rightMotor.setPosition(0);
         m_leftMotor.setPosition(0);
@@ -106,7 +111,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake(double speed) {
-        m_intakeMotor.setControl(new VelocityTorqueCurrentFOC(speed));
+        m_intakeMotor.setControl(new VelocityVoltage(speed).withEnableFOC(false));
     }
 
     public void stopIntake() {
