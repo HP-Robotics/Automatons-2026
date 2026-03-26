@@ -2,10 +2,13 @@ package frc.robot.subsystems;
 
 import org.opencv.dnn.Net;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
@@ -25,6 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean m_isCalibrated = false;
     public NetworkTable m_table = NetworkTableInstance.getDefault().getTable("Climber");
     Slot0Configs m_climberConfig = new Slot0Configs();
+    MotorOutputConfigs m_climberConfigs = new MotorOutputConfigs();
     Timer m_timer = new Timer();
 
     public ClimberSubsystem() {
@@ -33,7 +37,10 @@ public class ClimberSubsystem extends SubsystemBase {
         m_climberConfig.kD = ClimberConstants.kD;
         m_climberConfig.kG = ClimberConstants.kG;
 
+        m_climberConfigs.NeutralMode = NeutralModeValue.Brake;
+
         m_climberMotor.getConfigurator().apply(m_climberConfig);
+        m_climberMotor.getConfigurator().apply(m_climberConfigs);
         // TODO: get the calibration to happen at robot boot
     }
 
