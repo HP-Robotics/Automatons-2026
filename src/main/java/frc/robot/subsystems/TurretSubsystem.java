@@ -66,17 +66,17 @@ public class TurretSubsystem extends SubsystemBase {
   // this is in robot relative degrees
   public void setTargetPosition(double position) {
     m_targetPosition = position;
-    while (m_targetPosition >= TurretConstants.topLimitPosition) {
+    while (m_targetPosition > TurretConstants.topLimitPosition) {
       m_targetPosition -= 360;
     }
-    while (m_targetPosition <= TurretConstants.bottomLimitPosition) {
+    while (m_targetPosition < TurretConstants.bottomLimitPosition) {
       m_targetPosition += 360;
     }
     m_targetPosition = flipToNewTarget(); // will get targetPosition from aiming math
     if (m_targetPosition > TurretConstants.topLimitPosition) {
-      m_targetPosition = TurretConstants.topLimitPosition - TurretConstants.distanceToLimitThreshold;
+      m_targetPosition = TurretConstants.topLimitPosition;
     } else if (m_targetPosition < TurretConstants.bottomLimitPosition) {
-      m_targetPosition = TurretConstants.bottomLimitPosition + TurretConstants.distanceToLimitThreshold;
+      m_targetPosition = TurretConstants.bottomLimitPosition;
     }
   }
 
