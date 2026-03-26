@@ -515,6 +515,7 @@ public class RobotContainer {
 			}
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
+		m_table.putValue("timeBeforeActiveShift", NetworkTableValue.makeInteger((int)Math.floor(timeBeforeShift())));
 	}
 
 	public void CalibrateClimber() {
@@ -567,5 +568,28 @@ public class RobotContainer {
 						|| m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
 				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition() || m_useNetworkTableShooter)
 				&& (m_useNetworkTableShooter || m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames));
+	}
+
+	public double timeBeforeShift() {
+		double matchTime = DriverStation.getMatchTime();
+		if (matchTime > 130) {
+			// Transition shift, hub is active.
+			return matchTime - 130;
+		} else if (matchTime > 105) {
+			// Shift 1
+			return matchTime - 105;
+		} else if (matchTime > 80) {
+			// Shift 2
+			return matchTime - 80;
+		} else if (matchTime > 55) {
+			// Shift 3
+			return matchTime - 55;
+		} else if (matchTime > 30) {
+			// Shift 4
+			return matchTime - 30;
+		} else {
+			// End game, hub always active.
+			return matchTime;
+		}
 	}
 }
