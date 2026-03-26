@@ -565,7 +565,7 @@ public class RobotContainer {
 		return ((!SubsystemConstants.useHood || (m_hoodSubsystem.isHoodAimed() && !m_trenchOverride))
 				&& (!SubsystemConstants.useShooter
 						|| m_shooterSubsystem.atSpeed(ShooterConstants.shooterErrorThreshold))
-				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition())
+				&& (!SubsystemConstants.useTurret || m_turretSubsystem.atPosition() || m_useNetworkTableShooter)
 				&& (m_useNetworkTableShooter || m_shotIsLegalFrameCounter < ShooterConstants.shotIsLegalBonusFrames));
 	}
 }
