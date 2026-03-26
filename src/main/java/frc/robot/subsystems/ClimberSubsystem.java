@@ -95,11 +95,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public Command Calibrate() {
         return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))
-                .finallyDo(() -> {
+               .finallyDo(() -> {
+                if (m_isCalibrated == false) {
                     resetMotorEncoders();
                         m_isCalibrated = true;
                     ;
                     m_climberMotor.stopMotor();
+                }
                 }).withTimeout(15.0);
 
     }
