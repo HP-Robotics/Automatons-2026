@@ -245,7 +245,7 @@ public class RobotContainer {
 			ControllerConstants.sysIdQuasistaticReverse.whileTrue(m_drivetrain.sysIdQuasistatic(Direction.kReverse));
 			// Reset the field-centric heading on left bumper press.
 			ControllerConstants.setFieldCentricTrigger.onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
-			m_drivetrain.registerTelemetry(m_logger::telemeterize);
+			// m_drivetrain.registerTelemetry(m_logger::telemeterize);
 		}
 		if (SubsystemConstants.useIntake) {
 			ControllerConstants.intakeTrigger.onTrue(m_intakeSubsystem.ToggleIntake());
