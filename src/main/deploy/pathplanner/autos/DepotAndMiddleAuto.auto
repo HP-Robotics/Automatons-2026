@@ -13,12 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "Start Intake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Turret Right"
           }
         },
