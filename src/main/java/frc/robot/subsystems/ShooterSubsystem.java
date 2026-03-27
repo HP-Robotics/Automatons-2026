@@ -120,11 +120,11 @@ public class ShooterSubsystem extends SubsystemBase {
         m_table.putValue("atStableSpeed", NetworkTableValue.makeBoolean(atSpeed(ShooterConstants.shooterStableErrorThreshold)));
     }
 
-    public Command FixedShooter() {
+    public Command FixedShooter(double speed) {
         return new StartEndCommand(() -> {
-            setVelocity(ShooterConstants.defaultShootingSpeed);
+            setVelocity(speed);
         },
-                this::idleMotor,
+                this::stopMotor,
                 this);
     }
 
