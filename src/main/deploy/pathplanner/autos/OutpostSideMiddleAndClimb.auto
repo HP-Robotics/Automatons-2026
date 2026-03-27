@@ -11,21 +11,33 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "OTToOC"
+            "name": "Turret Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Warm Up Shooter"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "OC Grab a Few"
+            "pathName": "OTToOC FAF"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Grab a few to OT"
+            "pathName": "OC Grab a Few FAF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab A Few To OT FAF"
           }
         },
         {

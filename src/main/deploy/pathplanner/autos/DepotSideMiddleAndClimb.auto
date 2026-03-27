@@ -11,21 +11,33 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "DTToDC"
+            "name": "Turret Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Warm Up Shooter"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DC Grab a Few"
+            "pathName": "DTToDC FAF"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Grab a Few to DT"
+            "pathName": "DC Grab a Few FAF"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Grab a Few to DT FAF"
           }
         },
         {

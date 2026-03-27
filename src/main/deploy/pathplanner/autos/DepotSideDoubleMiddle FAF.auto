@@ -17,6 +17,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Turret Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Warm Up Shooter"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "DTToDC FAF"
