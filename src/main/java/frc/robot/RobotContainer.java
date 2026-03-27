@@ -176,6 +176,30 @@ public class RobotContainer {
 					new InstantCommand(() -> CommandScheduler.getInstance()
 							.schedule(new WiggleCommand(m_intakeSubsystem).asProxy())));
 		}
+
+		if (SubsystemConstants.useTurret) {
+			NamedCommands.registerCommand("Turret Left",
+					(new InstantCommand(() -> CommandScheduler.getInstance().schedule(
+							new SequentialCommandGroup(
+									new InstantCommand(() -> {
+										m_turretSubsystem.setTargetPosition(90);
+									}),
+									m_turretSubsystem.RotateTurret())))));
+			NamedCommands.registerCommand("Turret Right",
+					(new InstantCommand(() -> CommandScheduler.getInstance().schedule(
+							new SequentialCommandGroup(
+									new InstantCommand(() -> {
+										m_turretSubsystem.setTargetPosition(-90);
+									}),
+									m_turretSubsystem.RotateTurret())))));
+		}
+
+		if (SubsystemConstants.useShooter) {
+			NamedCommands.registerCommand("Warm Up Shooter",
+					new InstantCommand(() -> CommandScheduler.getInstance().schedule(
+							m_shooterSubsystem.FixedShooter(
+								ShooterConstants.distanceToStaticShot.get(3.5).get(0, 0)))));
+		}
 	}
 
 	private void configureBindings() {
