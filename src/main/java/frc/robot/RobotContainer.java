@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.Optional;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -129,6 +130,7 @@ public class RobotContainer {
 
 	public RobotContainer() {
 		DataLogManager.start();
+		SignalLogger.enableAutoLogging(SubsystemConstants.signalLoggerOn);
 
 		// Another option that allows you to specify the default auto by its name
 		// autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");

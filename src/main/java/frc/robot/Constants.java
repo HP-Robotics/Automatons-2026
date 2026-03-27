@@ -31,6 +31,7 @@ public final class Constants {
         public static final boolean useShooter = true;
         public static final boolean useClimber = true;
         public static final boolean useHood = true;
+        public static final boolean signalLoggerOn = false;
     }
 
     public static class PortConstants {
