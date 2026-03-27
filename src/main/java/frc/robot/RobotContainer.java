@@ -515,7 +515,7 @@ public class RobotContainer {
 			}
 		}
 		m_field.setRobotPose(m_drivetrain.getState().Pose);
-		m_table.putValue("timeBeforeActiveShift", NetworkTableValue.makeInteger((int)Math.floor(timeBeforeShift())));
+		m_table.putValue("timeBeforeActiveShift", NetworkTableValue.makeInteger((int) Math.floor(timeBeforeShift())));
 	}
 
 	public void CalibrateClimber() {
