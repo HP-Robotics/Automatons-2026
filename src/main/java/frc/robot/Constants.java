@@ -238,8 +238,8 @@ public final class Constants {
         public static final double turretSpeed = 0.042; // safe speed for now
         public static final double calibrationPosition = 0.0;
         public static final double limitSwitchDegrees = 180.0;
-        public static final double bottomLimitPosition = 0.0;
-        public static final double topLimitPosition = 359.0;
+        public static final double bottomLimitPosition = -45.0;
+        public static final double topLimitPosition = 405.0;
         public static final double errorTolerance = 0.15; // TODO: find real value
         public static final double encoderCPR = 1.0;
         public static final double gearRatio = 10.4167;
