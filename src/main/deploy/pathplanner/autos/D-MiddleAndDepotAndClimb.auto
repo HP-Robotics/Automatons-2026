@@ -55,7 +55,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 4.0
           }
         },
         {
@@ -65,21 +65,27 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "CommandCancelShooter"
+            "pathName": "DTToDepot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "DT Middle hook FAF"
+            "pathName": "DepotLowerToTower"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CommandClimberDown"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "10k Autos",
   "choreoAuto": false
 }

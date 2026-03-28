@@ -55,7 +55,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 5.0
           }
         },
         {
@@ -71,21 +71,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "DepotLowerToTower"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "CommandClimberDown"
+            "name": "Wiggle Intake"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "10k Autos",
   "choreoAuto": false
 }

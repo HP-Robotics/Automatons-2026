@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Turret Left"
+            "name": "Turret Right"
           }
         },
         {
@@ -25,19 +25,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OTToOC FAF"
+            "pathName": "DTToDC FAF"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "OC Grab a Few FAF"
+            "pathName": "DC Grab a Few FAF"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Grab A Few To OT FAF"
+            "pathName": "Grab a Few to DT FAF"
           }
         },
         {
@@ -73,37 +73,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OTToDoubleOC"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "OC Grab a Few"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Grab a few to OT"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CommandShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Wiggle Intake"
+            "pathName": "DT Middle hook FAF"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "10k Autos",
   "choreoAuto": false
 }
