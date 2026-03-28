@@ -179,11 +179,10 @@ public final class Constants {
             InterpolatingMatrixTreeMap<Double, N2, N1> output = new InterpolatingMatrixTreeMap<Double, N2, N1>();
             output.put(1.05, MatBuilder.fill(Nat.N2(), Nat.N1(), 50, 0.1));
             output.put(1.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 52, 0.3));
-            output.put(2.5, MatBuilder.fill(Nat.N2(), Nat.N1(), 53, 0.45));
-            output.put(3.9, MatBuilder.fill(Nat.N2(), Nat.N1(), 58, 0.6));
-            output.put(4.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 60, 0.8));
-
-            output.put(5.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 66, 0.75));
+            output.put(2.5, MatBuilder.fill(Nat.N2(), Nat.N1(), 52.5, 0.45)); // 53
+            output.put(3.9, MatBuilder.fill(Nat.N2(), Nat.N1(), 57.75, 0.6)); // 58
+            output.put(4.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 59, 0.8)); // 60
+            output.put(5.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 65.25, 0.75)); // 66
             return output;
         }
 
