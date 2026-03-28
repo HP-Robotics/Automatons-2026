@@ -111,9 +111,9 @@ public class HoodSubsystem extends SubsystemBase {
         return new InstantCommand(() -> startCalibration()).andThen(new WaitUntilCommand(() -> isDown()))
                 .finallyDo(() -> {
                     resetMotorEncoders();
-                    if (isDown()) {
+                    // if (isDown()) {
                         m_isCalibrated = true;
-                    }
+                    // }
                     ;
                     m_hoodMotor.stopMotor();
                 }).withTimeout(3.0);
@@ -134,7 +134,7 @@ public class HoodSubsystem extends SubsystemBase {
 
     public boolean isDown() {
         return (Math.abs(m_hoodMotor.getVelocity().getValueAsDouble()) < 0.02 // make constants
-                && m_timer.hasElapsed(0.2));
+                && m_timer.hasElapsed(0.3));
     }
 
     public void resetMotorEncoders() {
