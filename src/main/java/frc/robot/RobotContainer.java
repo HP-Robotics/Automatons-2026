@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -276,7 +277,8 @@ public class RobotContainer {
 		if (SubsystemConstants.useIntake) {
 			ControllerConstants.intakeTrigger.onTrue(m_intakeSubsystem.ToggleIntake());
 			ControllerConstants.yuckTrigger.whileTrue(m_intakeSubsystem.Yuck());
-			ControllerConstants.wiggleTrigger.whileTrue(new WiggleCommand(m_intakeSubsystem));
+			if (!SubsystemConstants.demoMode) 
+				{ControllerConstants.wiggleTrigger.whileTrue(new WiggleCommand(m_intakeSubsystem));}
 		}
 
 		if (SubsystemConstants.useShooter) {
@@ -480,7 +482,7 @@ public class RobotContainer {
 	}
 
 	public Command getAutonomousCommand() {
-		if (SubsystemConstants.useDrive) {
+		if (SubsystemConstants.useDrive && !SubsystemConstants.demoMode) {
 			return autoChooser.getSelected();
 		} else {
 			return new WaitCommand(0);
@@ -522,6 +524,9 @@ public class RobotContainer {
 
 			}
 
+			if (SubsystemConstants.demoMode) {
+				m_shootingTarget = FieldConstants.redHub;
+			}
 			if (SubsystemConstants.useShooter && SubsystemConstants.useTurret) {
 				movingShot(
 						calculateStaticShot(

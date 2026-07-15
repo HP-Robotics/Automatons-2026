@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDConstants;
+import frc.robot.Constants.SubsystemConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     TalonFX m_intakeMotor = new TalonFX(MotorIDConstants.intakeSpinMotor);

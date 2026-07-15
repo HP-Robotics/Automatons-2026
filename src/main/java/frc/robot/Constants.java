@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static edu.wpi.first.units.Units.MetersPerSecond;
@@ -32,6 +33,7 @@ public final class Constants {
         public static final boolean useClimber = true;
         public static final boolean useHood = true;
         public static final boolean signalLoggerOn = false;
+        public static final boolean demoMode = true;
     }
 
     public static class PortConstants {
@@ -96,7 +98,9 @@ public final class Constants {
             STEER
         }
 
-        public static final double maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+        public static final double maxSpeed = SubsystemConstants.demoMode
+                ? 0.3 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)
+                : 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
         public static final double moduleMaxRotationPerSecond = 4.8;
         public static final SelectedSysIdRoutine sysIdRoutine = SelectedSysIdRoutine.STEER;
         public static final double trenchAutoP = 4.0; // TODO: Tune me
@@ -117,7 +121,8 @@ public final class Constants {
                 .pow(MathUtil.applyDeadband(m_driveJoystick.getRawAxis(4), 0.1), 2)
                 * Math.signum(m_driveJoystick.getRawAxis(4));
 
-        public static final Trigger trenchOrientation = new Trigger(m_driveJoystick.getHID()::getAButton);
+        public static final Trigger trenchOrientation = SubsystemConstants.demoMode ? new Trigger(() -> false)
+                : new Trigger(m_driveJoystick.getHID()::getAButton);
         public static final Trigger intakeTrigger = new Trigger(m_driveJoystick.axisGreaterThan(2, 0.2));
         public static final Trigger wiggleTrigger = new Trigger(m_opJoystick.axisGreaterThan(2, 0.2));
         // public static final Trigger stopShooterTrigger = new
@@ -181,8 +186,10 @@ public final class Constants {
             output.put(1.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 52, 0.3));
             output.put(2.5, MatBuilder.fill(Nat.N2(), Nat.N1(), 52.5, 0.45)); // 53
             output.put(3.9, MatBuilder.fill(Nat.N2(), Nat.N1(), 57.75, 0.6)); // 58
-            output.put(4.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 59, 0.8)); // 60
-            output.put(5.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 65.5, 0.75)); // 66
+            if (!SubsystemConstants.demoMode) {
+                output.put(4.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 59, 0.8)); // 60
+                output.put(5.85, MatBuilder.fill(Nat.N2(), Nat.N1(), 65.5, 0.75)); // 66
+            }
             return output;
         }
 
@@ -279,7 +286,7 @@ public final class Constants {
     }
 
     public static class ClimberConstants {
-        public static final double climberTopPosition = 68; //temporary, normal is 65
+        public static final double climberTopPosition = 68; // temporary, normal is 65
         public static final double climberBottomPosition = 1.75;
         public static final double kP = 5;
         public static final double kI = 0;
