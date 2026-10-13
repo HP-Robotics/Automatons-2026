@@ -277,8 +277,9 @@ public class RobotContainer {
 		if (SubsystemConstants.useIntake) {
 			ControllerConstants.intakeTrigger.onTrue(m_intakeSubsystem.ToggleIntake());
 			ControllerConstants.yuckTrigger.whileTrue(m_intakeSubsystem.Yuck());
-			if (!SubsystemConstants.demoMode) 
-				{ControllerConstants.wiggleTrigger.whileTrue(new WiggleCommand(m_intakeSubsystem));}
+			if (!SubsystemConstants.demoMode) {
+				ControllerConstants.wiggleTrigger.whileTrue(new WiggleCommand(m_intakeSubsystem));
+			}
 		}
 
 		if (SubsystemConstants.useShooter) {
@@ -323,10 +324,12 @@ public class RobotContainer {
 
 		}
 
+		if (!SubsystemConstants.demoMode) {
 		ControllerConstants.magicShooterTrigger.onTrue(startShooter());
 		if (SubsystemConstants.useHopper) {
 			ControllerConstants.magicShooterTrigger.onFalse(cancelHopper());
 			// TODO:allow canceling if there is no hopper
+			}
 		}
 
 		ControllerConstants.ShooterNetworkTablesModeTrigger
