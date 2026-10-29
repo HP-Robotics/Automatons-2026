@@ -137,7 +137,9 @@ public final class Constants {
         public static final Trigger yuckTrigger = new Trigger(m_driveJoystick.getHID()::getLeftBumperButton);
         public static final Trigger manualHopperTrigger = new Trigger(m_opJoystick.getHID()::getAButton);
         public static final Trigger climbUpTrigger = m_opJoystick.povUp();
+        public static final Trigger goSteadyTrigger = m_driveJoystick.povUp();
         public static final Trigger climbDownTrigger = m_opJoystick.povDown(); // RIGHT TRIGGER
+        public static final Trigger goSteadyFullTrigger = m_driveJoystick.povLeft();
         public static final Trigger calibrateClimberTrigger = new Trigger(m_opJoystick.getHID()::getXButton);
         // public static final Trigger runStaticShotTrigger = new
         // Trigger(m_driveJoystick.getHID()::getLeftBumperButton);

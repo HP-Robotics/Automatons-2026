@@ -227,11 +227,24 @@ public class RobotContainer {
 							.withRotationalDeadband(0.01 * m_maxAngularRate)
 							.withVelocityX(-ControllerConstants.m_leftAxisY.getAsDouble() * m_maxSpeed)
 							.withVelocityY(-ControllerConstants.m_leftAxisX.getAsDouble() * m_maxSpeed)
+							.withRotationalRate(-ControllerConstants.m_rightAxisX.getAsDouble() * m_maxAngularRate)));
 
-							.withRotationalRate(
-									-ControllerConstants.m_rightAxisX.getAsDouble() * m_maxAngularRate)));
 			RobotModeTriggers.disabled().whileTrue(
 					m_drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+
+			ControllerConstants.goSteadyTrigger.whileTrue(
+					m_drivetrain.applyRequest(() -> new SwerveRequest.FieldCentric()
+							.withDriveRequestType(DriveRequestType.Velocity)
+							.withVelocityX(0.3 * m_maxSpeed)
+							.withVelocityY(0)
+							.withRotationalRate(0)));
+
+			ControllerConstants.goSteadyFullTrigger.whileTrue(
+					m_drivetrain.applyRequest(() -> new SwerveRequest.FieldCentric()
+							.withDriveRequestType(DriveRequestType.Velocity)
+							.withVelocityX(1 * m_maxSpeed)
+							.withVelocityY(0)
+							.withRotationalRate(0)));
 
 			ControllerConstants.trenchOrientation.whileTrue(
 					// Drivetrain will execute this command periodically
